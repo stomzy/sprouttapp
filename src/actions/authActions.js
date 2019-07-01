@@ -7,7 +7,7 @@ import { GET_ERRORS, SET_CURRENT_USER } from './types';
 export const loginUser = (loginData) => dispatch => {
     axios.post(`${url}/user/login`, loginData)
     .then((response) => {
-        console.log(response);
+        // console.log(response);
         const { token } = response.data
         if (response.status === 200) {
           localStorage.setItem('jwtToken', token); 
@@ -17,6 +17,7 @@ export const loginUser = (loginData) => dispatch => {
             const decoded = jwt_decode(token);
             // set current user
             dispatch(setCurrentUser(decoded));
+            window.location.reload();
         }
     })
     .catch((error) => {

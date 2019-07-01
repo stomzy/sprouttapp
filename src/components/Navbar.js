@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logoutUser } from '../actions/authActions';
+import { clearCurrentProfile } from '../actions/profileActions';
 import { withRouter} from 'react-router-dom';
 
 class Navbar extends Component {
     onLogout(e) {
         e.preventDefault();
+        this.props.clearCurrentProfile();
         this.props.logoutUser();
         this.props.history.push("/");
     }
@@ -69,7 +71,7 @@ class Navbar extends Component {
                                                     </a>
                                                 </li> */}
                                                 <li>
-                                                    <a href="">
+                                                    <a href="/profile">
                                                         <i className="feather icon-user"></i> Profile
                                                     </a>
                                                 </li>
@@ -100,5 +102,5 @@ const mapStateToProps = (state) => ({
     // errors: state.errors
 });
 
-export default connect(mapStateToProps, { logoutUser })(withRouter(Navbar));
+export default connect(mapStateToProps, { logoutUser, clearCurrentProfile })(withRouter(Navbar));
 // export default Navbar; 

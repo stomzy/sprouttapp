@@ -1,19 +1,20 @@
 import axios from 'axios';
+import { url } from '../config/config';
 
 import { GET_PROFILE, PROFILE_LOADING, GET_ERRORS, CLEAR_CURRENT_PROFILE } from './types';
 
 // get current profile
 export const getCurrentProfile = () => dispatch => {
     dispatch(setProfileLoading());
-    // axios.get('/api/url')
-    //     .then( res => dispatch({
-    //         type: GET_PROFILE,
-    //         paylaod: res.data
-    //     }))
-    //     .catch(err => dispatch({
-    //         type: GET_PROFILE,
-    //         paylaod: {}
-    //     }))
+    axios.get(`${url}/profile/query/`)
+        .then( res => dispatch({
+            type: GET_PROFILE,
+            paylaod: res.data
+        }))
+        .catch(err => dispatch({
+            type: GET_PROFILE,
+            paylaod: {}
+        }))
 }
 
 // profile loading

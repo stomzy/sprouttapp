@@ -3,11 +3,13 @@ import Login from './components/auth/Login';
 import Dashboard from './components/Dashboard';
 import SetupEvent from './components/setup/Event';
 import AppDesign from './components/setup/AppDesign';
+import UserProfile from './components/UserProfile';
 import {Switch, Route} from "react-router-dom";
 import jwt_decode from 'jwt-decode';
 import setAuthToken from './utils/setAuthToken';
 import {setCurrentUser, logoutUser} from './actions/authActions';
 import store from './store/Store';
+import { clearCurrentProfile } from './actions/profileActions';
 
 // check for token
 if (localStorage.jwtToken) {
@@ -24,6 +26,7 @@ if (localStorage.jwtToken) {
     // logout user
     store.dispatch(logoutUser());
     // clear current user
+    store.dispatch(clearCurrentProfile());
     // redirect to login
     window.location.href = '/login';
   }
@@ -38,6 +41,7 @@ function App() {
       <Route exact path="/dashboard" component={Dashboard}/>
       <Route exact path="/events-info" component={SetupEvent}/>
       <Route exact path="/app-design" component={AppDesign}/>
+      <Route exact path="/profile" component={UserProfile}/>
       {/* <Route component={NoMatch} /> */}
     </Switch>
   );
