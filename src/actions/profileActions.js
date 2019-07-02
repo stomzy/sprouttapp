@@ -1,12 +1,26 @@
 import axios from 'axios';
 import { url } from '../config/config';
+import { getJwt } from '../utils/getToken';
 
-import { GET_PROFILE, PROFILE_LOADING, GET_ERRORS, CLEAR_CURRENT_PROFILE } from './types';
+import { GET_PROFILE, PROFILE_LOADING, CLEAR_CURRENT_PROFILE } from './types';
 
 // get current profile
 export const getCurrentProfile = () => dispatch => {
     dispatch(setProfileLoading());
-    axios.get(`${url}/profile/query/`)
+
+    const jwt = getJwt();
+    if (!jwt) {
+    this.props.history.push('/');
+    }
+    
+    let query = {query:{"name": "victor"}}; 
+
+    const headers = {
+        'Content-Type': 'application/json',
+        'access_token': `JWT ${jwt}` 
+    }
+
+    axios.post(`${url}/profile/query/`, query, { headers: headers })
         .then( res => dispatch({
             type: GET_PROFILE,
             paylaod: res.data

@@ -21,13 +21,18 @@ export default function Sidebar() {
                         </a>
                         <ul className="pcoded-submenu">
                             <li className=" pcoded-hasmenu">
-                                <a href="/events-info" className="waves-effect waves-dark">
+                                <a href="#" className="waves-effect waves-dark">
                                     <span className="pcoded-mtext">Events Info</span>
                                 </a>
                                 <ul className="pcoded-submenu">
                                     <li className="">
                                         <a href="/events-info" className="waves-effect waves-dark">
                                             <span className="pcoded-mtext">Add Events</span>
+                                        </a>
+                                    </li>
+                                    <li className="">
+                                        <a href="/events-list" className="waves-effect waves-dark">
+                                            <span className="pcoded-mtext">All Events</span>
                                         </a>
                                     </li>
                                 </ul>

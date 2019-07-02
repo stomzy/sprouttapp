@@ -55,7 +55,7 @@ class Login extends Component {
           password
         }
 
-        console.log('data', data);
+        // console.log('data', data);
 
         this.props.loginUser(data);
     }
@@ -77,10 +77,10 @@ class Login extends Component {
 
         return (
             <div className="col-sm-4 margin-auto">
-                 { alert }
                  {/* {user ? user.email : null } */}
                 <form className="md-float-material form-material" onSubmit={this.handleSubmit}>
                     <div className="text-center">
+                    { alert }
                         {/* <img src="../files/assets/images/logo.png" alt="logo.png" /> */}
                     </div>
                     <br />

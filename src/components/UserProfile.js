@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getCurrentProfile } from '../actions/profileActions';
+import Spinner from '../common/Spinner';
 
 class UserProfile extends Component {
     componentDidMount() {
@@ -14,13 +15,26 @@ class UserProfile extends Component {
         const { user } = this.props.auth;
         const {profile, loading } = this.props.profile;
 
+        console.log(profile);
+
         let dashboardContent;
 
         if(profile === null || loading) {
-            dashboardContent = <h4>loading.....</h4>
+            dashboardContent = <Spinner />;
         }
         else {
-            dashboardContent = <h4>Login User Profile Dashboard</h4>
+            // check if user has profile data
+            // if (Object.keys(profile).length > 0) {
+            if (profile) {
+                dashboardContent = <h4>Login User Profile Dashboard</h4>
+            } else {
+                dashboardContent = (<div>
+                    <p>Hello {user.name},</p>
+                    <p>You have not setup a profile, please update your infos</p>
+                    {/* create profile form component */}
+                </div>)
+            }
+           
         }
 
         return (

@@ -2,6 +2,7 @@ import React from 'react';
 import Login from './components/auth/Login';
 import Dashboard from './components/Dashboard';
 import SetupEvent from './components/setup/Event';
+import EventList from './components/setup/EventList';
 import AppDesign from './components/setup/AppDesign';
 import UserProfile from './components/UserProfile';
 import {Switch, Route} from "react-router-dom";
@@ -40,6 +41,7 @@ function App() {
       <Route exact path="/" component={Login}/>
       <Route exact path="/dashboard" component={Dashboard}/>
       <Route exact path="/events-info" component={SetupEvent}/>
+      <Route exact path="/events-list" component={EventList}/>
       <Route exact path="/app-design" component={AppDesign}/>
       <Route exact path="/profile" component={UserProfile}/>
       {/* <Route component={NoMatch} /> */}
