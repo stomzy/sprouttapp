@@ -9,3 +9,5 @@ export const PROFILE_LOADING = 'PROFILE_LOADING';
 export const GET_ERRORS = 'GET_ERRORS';
 export const CREATE_EVENTS = 'CREATE_EVENTS';
 export const GET_EVENTS = 'GET_EVENTS';
+export const CREATE_PROGRAM = 'CREATE_PROGRAM';
+export const GET_PROGRAMS = 'GET_PROGRAMS';

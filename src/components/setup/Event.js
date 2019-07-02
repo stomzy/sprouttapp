@@ -40,8 +40,6 @@ class Event extends Component {
         const { title, description, category, venue, type, 
             start_date, end_date, time, time_zone, website, color  } = this.state;
     
-        // const token = getJwt();
-    
         const data = { title, description, category, venue, type, 
             start_date, end_date, time, time_zone, website, color}
         
@@ -240,8 +238,15 @@ class Event extends Component {
                                                                         <div className="col-md-4">
                                                                         <div className="form-group">
                                                                             <label className="form-label">Time Zone</label>
-                                                                            <input type="text" name="time_zone" placeholder="Enter Time Zone" 
-                                                                            onChange={this.handleChange} value={this.state.time_zone} className="form-control"/>
+                                                                            <select name="time_zone" className="form-control" onChange={this.handleChange} value={this.state.time_zone}>
+                                                                                <option value="">Select your time zone
+                                                                                </option>
+                                                                                <option value="GMT">GMT</option>
+                                                                                <option value="GMT+1">GMT + 1</option>
+                                                                                <option value="GMT+2">GMT + 2</option>
+                                                                            </select>
+                                                                            {/* <input type="text" name="time_zone" placeholder="Enter Time Zone" 
+                                                                            onChange={this.handleChange} value={this.state.time_zone} className="form-control"/> */}
                                                                         </div>
                                                                         </div> 
                                                                     </div>

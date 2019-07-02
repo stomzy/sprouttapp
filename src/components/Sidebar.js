@@ -43,7 +43,7 @@ export default function Sidebar() {
                                 </a>
                                 <ul className="pcoded-submenu">
                                     <li className="">
-                                        <a href="menu-horizontal-static.html" target="_blank"
+                                        <a href="menu-horizontal-static.html" 
                                             className="waves-effect waves-dark">
                                             <span className="pcoded-mtext">Static Layout</span>
                                         </a>
@@ -77,9 +77,15 @@ export default function Sidebar() {
                                 </a>
                                 <ul className="pcoded-submenu">
                                     <li className="">
-                                        <a href="menu-horizontal-static.html" target="_blank"
+                                        <a href="/program" 
                                             className="waves-effect waves-dark">
-                                            <span className="pcoded-mtext">Static Layout</span>
+                                            <span className="pcoded-mtext">Create a Program</span>
+                                        </a>
+                                    </li>
+                                    <li className="">
+                                        <a href="/program-list" 
+                                            className="waves-effect waves-dark">
+                                            <span className="pcoded-mtext">Program List</span>
                                         </a>
                                     </li>
                                 </ul>
@@ -102,7 +108,7 @@ export default function Sidebar() {
                                 </a>
                                 <ul className="pcoded-submenu">
                                     <li className="">
-                                        <a href="menu-horizontal-static.html" target="_blank"
+                                        <a href="menu-horizontal-static.html" 
                                             className="waves-effect waves-dark">
                                             <span className="pcoded-mtext">Static Layout</span>
                                         </a>

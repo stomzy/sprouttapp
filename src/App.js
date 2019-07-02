@@ -4,6 +4,8 @@ import Dashboard from './components/Dashboard';
 import SetupEvent from './components/setup/Event';
 import EventList from './components/setup/EventList';
 import AppDesign from './components/setup/AppDesign';
+import Program from './components/contents/Program';
+import ProgramList from './components/contents/ProgramList';
 import UserProfile from './components/UserProfile';
 import {Switch, Route} from "react-router-dom";
 import jwt_decode from 'jwt-decode';
@@ -44,6 +46,8 @@ function App() {
       <Route exact path="/events-list" component={EventList}/>
       <Route exact path="/app-design" component={AppDesign}/>
       <Route exact path="/profile" component={UserProfile}/>
+      <Route exact path="/program" component={Program}/>
+      <Route exact path="/program-list" component={ProgramList}/>
       {/* <Route component={NoMatch} /> */}
     </Switch>
   );

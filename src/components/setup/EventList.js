@@ -11,30 +11,6 @@ class EventList extends Component {
     }
 
     render() {
-        // const { events } = this.props.events;
-     
-        // let tableRow = events.forEach((data, i) => {
-        //     // return (
-        //     //   <tr key={i}>
-        //     //     <td>{i += 1}</td>
-        //     //     <td><b>{data.title}</b></td>
-        //     //     <td>{data.venue}</td>
-        //     //     <td>{data.start_date.replace(/T/, ' ').replace(/\..+/, '').slice(0,10)}</td>
-        //     //     <td>{data.end_date.replace(/T/, ' ').replace(/\..+/, '').slice(0,10)}</td>
-        //     //     <td><span className="btn btn-info btn-sm">{data.time}</span></td>
-        //     //     <td className="text-right">
-        //     //     <a  className="btn btn-secondary btn-sm">
-        //     //       Edit
-        //     //     </a>
-        //     //     <a  className="btn btn-secondary btn-sm">
-        //     //       Delete
-        //     //     </a>
-        //     //   </td>
-        //     // </tr>
-        //     // )
-        // });
-
-
 
         return (
             <React.Fragment>
@@ -119,6 +95,7 @@ class EventList extends Component {
                                                                         <thead>
                                                                             <tr>
                                                                             <th>S/N</th>
+                                                                            <th>Event Id</th>
                                                                             <th>Event Name</th>
                                                                             <th>Venue</th>
                                                                             <th>Start Date</th>
@@ -131,6 +108,7 @@ class EventList extends Component {
                                                                             {this.props.events.events.map((data, i) => 
                                                                                   <tr key={i}>
                                                                                     <td>{i += 1}</td>
+                                                                                    <td>{data._id}</td>
                                                                                     <td><b>{data.title}</b></td>
                                                                                     <td>{data.venue}</td>
                                                                                     <td>{data.start_date.replace(/T/, ' ').replace(/\..+/, '').slice(0,10)}</td>
