@@ -6,6 +6,9 @@ import EventList from './components/setup/EventList';
 import AppDesign from './components/setup/AppDesign';
 import Program from './components/contents/Program';
 import ProgramList from './components/contents/ProgramList';
+import Resources from './components/contents/Resources';
+import Activities from './components/contents/activity/Activities';
+import ActivityList from './components/contents/activity/ActivityList';
 import UserProfile from './components/UserProfile';
 import {Switch, Route} from "react-router-dom";
 import jwt_decode from 'jwt-decode';
@@ -48,6 +51,9 @@ function App() {
       <Route exact path="/profile" component={UserProfile}/>
       <Route exact path="/program" component={Program}/>
       <Route exact path="/program-list" component={ProgramList}/>
+      <Route exact path="/resource" component={Resources}/>
+      <Route exact path="/activities" component={Activities}/>
+      <Route exact path="/activities-list" component={ActivityList}/>
       {/* <Route component={NoMatch} /> */}
     </Switch>
   );

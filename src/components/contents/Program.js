@@ -137,7 +137,7 @@ class Program extends Component {
                                                                     <div className="col-md-6">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Program Title</label>
-                                                                        <input type="text" name="title" placeholder="Enter your Event Title" 
+                                                                        <input type="text" name="title" placeholder="Enter your Program Title" 
                                                                         onChange={this.handleChange} value={this.state.title} className="form-control" 
                                                                         />
                                                                     </div>
@@ -179,7 +179,7 @@ class Program extends Component {
                                                                     <div className="form-group">
                                                                         <label className="form-label">Description</label>
                                                                         <textarea name="description" rows="3" value={this.state.description} onChange={this.handleChange}
-                                                                        className="form-control" placeholder="Event Description">
+                                                                        className="form-control" placeholder="Program Description">
                                                                         </textarea>
                                                                     </div>
                                                                     </div> 

@@ -4,6 +4,8 @@ import profileReducer from './profileReducer';
 import errorReducer from './errorReducer';
 import eventReducer from './eventReducer';
 import programReducer from './programReducer';
+import resourceReducer from './resourceReducer';
+import activityReducer from './activityReducer';
 
 
 export default combineReducers({
@@ -11,5 +13,7 @@ export default combineReducers({
     profile: profileReducer, 
     errors: errorReducer,
     events: eventReducer,
-    programs: programReducer
+    programs: programReducer,
+    resources: resourceReducer,
+    activities: activityReducer
 });

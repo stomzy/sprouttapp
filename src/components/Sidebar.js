@@ -65,7 +65,7 @@ export default function Sidebar() {
                                 </a>
                                 <ul className="pcoded-submenu">
                                     <li className="">
-                                        <a href="menu-static.html" className="waves-effect waves-dark">
+                                        <a href="" className="waves-effect waves-dark">
                                             <span className="pcoded-mtext">Static Layout</span>
                                         </a>
                                     </li>
@@ -92,12 +92,36 @@ export default function Sidebar() {
                             </li>
                             <li className=" pcoded-hasmenu">
                                 <a href="#" className="waves-effect waves-dark">
-                                    <span className="pcoded-mtext">Activity/Feed</span>
+                                    <span className="pcoded-mtext">Resources</span>
                                 </a>
                                 <ul className="pcoded-submenu">
                                     <li className="">
-                                        <a href="menu-static.html" className="waves-effect waves-dark">
-                                            <span className="pcoded-mtext">Static Layout</span>
+                                        <a href="/resource" className="waves-effect waves-dark">
+                                            <span className="pcoded-mtext">Add Resource</span>
+                                        </a>
+                                    </li>
+                                    <li className="">
+                                        <a href="/resource" className="waves-effect waves-dark">
+                                            <span className="pcoded-mtext">Resources List</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li className=" pcoded-hasmenu">
+                                <a href="javascript:void(0)" className="waves-effect waves-dark">
+                                    <span className="pcoded-mtext">Activities</span>
+                                </a>
+                                <ul className="pcoded-submenu">
+                                    <li className="">
+                                        <a href="/activities" 
+                                            className="waves-effect waves-dark">
+                                            <span className="pcoded-mtext">Create an activity</span>
+                                        </a>
+                                    </li>
+                                    <li className="">
+                                        <a href="/activities-list" 
+                                            className="waves-effect waves-dark">
+                                            <span className="pcoded-mtext">Activity List</span>
                                         </a>
                                     </li>
                                 </ul>
@@ -108,7 +132,7 @@ export default function Sidebar() {
                                 </a>
                                 <ul className="pcoded-submenu">
                                     <li className="">
-                                        <a href="menu-horizontal-static.html" 
+                                        <a href="" 
                                             className="waves-effect waves-dark">
                                             <span className="pcoded-mtext">Static Layout</span>
                                         </a>

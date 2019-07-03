@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
-import Sidebar from '../Sidebar';
-import Navbar from '../Navbar';
+import Sidebar from '../../Sidebar';
+import Navbar from '../../Navbar';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { createResource } from '../../actions/resourceActions';
+import { createActivity } from '../../../actions/activityAction';
 
-
-class Resources extends Component {
+class Activities extends Component {
     constructor() {
         super();
         this.state = {
           eventid: "",
-          title: "",
-          description: "",
-          url: "",
+          content: "",
+          picture: "",
+          video: "",
+          time: "",
+          time_zone: "",
           success: null
         }
   
@@ -29,18 +30,18 @@ class Resources extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        const { title, description, eventid, url } = this.state;
+        const { content, picture, video, eventid, time, time_zone } = this.state;
     
-        const data = { title, description, eventid, url }
+        const data = { content, picture, video, eventid, time, time_zone }
         
         console.log('datad', data)
 
-        this.props.createResource(data);
+        this.props.createActivity(data);
 
-        this.setState({ title: "", description: "",  url: "", success: "Resource addeed Successfully"})
+        this.setState({ content: "",  time_zone: "", time: "", success: "Activity Created Successfully"})
     
     }
-
+    
     render() {
         let notification = "";
         if (this.state.success != null) {
@@ -81,8 +82,8 @@ class Resources extends Component {
                                             <div className="page-header-title">
                                                 <i className="feather icon-watch bg-c-blue"></i>
                                                 <div className="d-inline">
-                                                    <h5>Resource info</h5>
-                                                    <span>Setting up Resources</span>
+                                                    <h5>Activities info</h5>
+                                                    <span>Setting up Activity</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -93,7 +94,7 @@ class Resources extends Component {
                                                         <a href="index.html"><i className="feather icon-home"></i></a>
                                                     </li>
                                                     <li className="breadcrumb-item">
-                                                        <a href="#!">Resource info</a>
+                                                        <a href="#!">Activities info</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -110,7 +111,7 @@ class Resources extends Component {
                                                     <div className="col-sm-12">
                                                         <div className="card">
                                                             <div className="card-header">
-                                                                <h5>Add Resource</h5>
+                                                                <h5>Create an Activity</h5>
                                                                 <div className="card-header-right">
                                                                     <ul className="list-unstyled card-option">
                                                                         <li className="first-opt"><i
@@ -134,43 +135,70 @@ class Resources extends Component {
                                                                 <div className="card-body">
                                                                 {/* <h3 className="card-title">Create An Event</h3> */}
                                                                 <div className="row">
-                                                                    <div className="col-md-4">
+                                                                    <div className="col-md-6">
                                                                     <div className="form-group">
-                                                                        <label className="form-label">Resource Title</label>
-                                                                        <input type="text" name="title" placeholder="Enter your Resource Title" 
-                                                                        onChange={this.handleChange} value={this.state.title} className="form-control" 
+                                                                        <label className="form-label">Content</label>
+                                                                        <input type="text" name="content" placeholder="Enter your activity content" 
+                                                                        onChange={this.handleChange} value={this.state.content} className="form-control" 
                                                                         />
                                                                     </div>
                                                                     </div> 
                                                                 
-                                                                    <div className="col-md-4">
+                                                                    <div className="col-md-6">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Event Id</label>
                                                                         <input type="text" name="eventid" placeholder="Enter Event Id" 
                                                                         onChange={this.handleChange} value={this.state.eventid} className="form-control" />
                                                                     </div>
                                                                     </div> 
-
-                                                                    <div className="col-md-4">
-                                                                    <div className="form-group">
-                                                                        <label className="form-label">Resource Url</label>
-                                                                        <input type="text" name="url" placeholder="Enter Resource Url"
-                                                                         onChange={this.handleChange} value={this.state.url} className="form-control" />
-                                                                    </div>
-                                                                    </div> 
                                                                     
                                                                 </div>
-                                
+                                                             
                                                                 <div className="row">
+                                                                    <div className="col-md-6">
+                                                                    <div className="form-group">
+                                                                        <label className="form-label">Time</label>
+                                                                        <input type="time" name="time" placeholder="Enter Event Time"
+                                                                         onChange={this.handleChange} value={this.state.time} className="form-control" />
+                                                                    </div>
+                                                                    </div>  
+                                                                    <div className="col-md-6">
+                                                                    <div className="form-group">
+                                                                        <label className="form-label">Time Zone</label>
+                                                                        <select name="time_zone" className="form-control" onChange={this.handleChange} value={this.state.time_zone}>
+                                                                            <option value="">Select your time zone
+                                                                            </option>
+                                                                            <option value="GMT">GMT</option>
+                                                                            <option value="GMT+1">GMT + 1</option>
+                                                                            <option value="GMT+2">GMT + 2</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    </div> 
+                                                                </div>
+                                                                <div className="row">
+                                                                    <div className="col-md-6">
+                                                                    <div className="form-group">
+                                                                        <label className="form-label">picture</label>
+                                                                        <input type="file" class="form-control"/>
+                                                                    </div>
+                                                                    </div>
+                                                                    <div className="col-md-6">
+                                                                    <div className="form-group">
+                                                                        <label className="form-label">Video</label>
+                                                                        <input type="file" class="form-control" />
+                                                                    </div>
+                                                                    </div> 
+                                                                </div>
+                                                                {/* <div className="row">
                                                                     <div className="col-md-12">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Description</label>
                                                                         <textarea name="description" rows="3" value={this.state.description} onChange={this.handleChange}
-                                                                        className="form-control" placeholder="Resource Description">
+                                                                        className="form-control" placeholder="Program Description">
                                                                         </textarea>
                                                                     </div>
                                                                     </div> 
-                                                                </div>
+                                                                </div> */}
 
                                                                 </div>
                                                                 <div className="card-footer text-right">
@@ -200,13 +228,15 @@ class Resources extends Component {
     }
 }
 
+// export default Program;
 
-// export default Resources;
 const mapStateToProps = (state) => ({
     auth: state.auth,
+    errors: state.errors,
     events: state.events,
-    resources: state.resources
+    programs: state.programs
 });
 
 // export default Event;
-export default connect(mapStateToProps, { createResource })(Resources);
+export default connect(mapStateToProps, { createActivity })(Activities);
+
