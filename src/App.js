@@ -7,6 +7,7 @@ import AppDesign from './components/setup/AppDesign';
 import Program from './components/contents/Program';
 import ProgramList from './components/contents/ProgramList';
 import Resources from './components/contents/Resources';
+import ResourcesList from './components/contents/ResourcesList';
 import Activities from './components/contents/activity/Activities';
 import ActivityList from './components/contents/activity/ActivityList';
 import UserProfile from './components/UserProfile';
@@ -52,6 +53,7 @@ function App() {
       <Route exact path="/program" component={Program}/>
       <Route exact path="/program-list" component={ProgramList}/>
       <Route exact path="/resource" component={Resources}/>
+      <Route exact path="/resources-list" component={ResourcesList}/>
       <Route exact path="/activities" component={Activities}/>
       <Route exact path="/activities-list" component={ActivityList}/>
       {/* <Route component={NoMatch} /> */}

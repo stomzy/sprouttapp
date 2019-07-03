@@ -89,7 +89,7 @@ export default class AppDesign extends Component {
                                                                     <div className="col-md-6">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Theme</label>
-                                                                        <select name="select" class="form-control">
+                                                                        <select name="select" className="form-control">
                                                                             <option value="opt1">Select Customize Theme
                                                                             </option>
                                                                             <option value="opt2">Theme 2</option>
@@ -106,7 +106,7 @@ export default class AppDesign extends Component {
                                                                     <div className="col-md-6">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Color</label>
-                                                                        <select name="select" class="form-control">
+                                                                        <select name="select" className="form-control">
                                                                             <option value="opt1">Select Theme color
                                                                             </option>
                                                                             <option value="opt2">Red</option>
@@ -125,13 +125,13 @@ export default class AppDesign extends Component {
                                                                     <div className="col-md-6">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Logo</label>
-                                                                        <input type="file" class="form-control"/>
+                                                                        <input type="file" className="form-control"/>
                                                                     </div>
                                                                     </div>
                                                                     <div className="col-md-6">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Header Image</label>
-                                                                        <input type="file" class="form-control" />
+                                                                        <input type="file" className="form-control" />
                                                                     </div>
                                                                     </div> 
                                                                 </div>

@@ -101,7 +101,7 @@ export default function Sidebar() {
                                         </a>
                                     </li>
                                     <li className="">
-                                        <a href="/resource" className="waves-effect waves-dark">
+                                        <a href="/resources-list" className="waves-effect waves-dark">
                                             <span className="pcoded-mtext">Resources List</span>
                                         </a>
                                     </li>

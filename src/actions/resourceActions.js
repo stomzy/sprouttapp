@@ -2,7 +2,7 @@ import axios from 'axios';
 import { url } from '../config/config';
 import { headers } from '../utils/headerJWT'
 
-import { CREATE_RESOURCE } from './types';
+import { CREATE_RESOURCE, GET_RESOURCES } from './types';
 
 export const createResource = (resourceData) => dispatch => {
 
@@ -14,14 +14,14 @@ export const createResource = (resourceData) => dispatch => {
     .catch(err => console.log(err));
 }
 
-// export const getPrograms = () => dispatch => {
+export const getResources = () => dispatch => {
 
-//     axios.get(`${url}/program/`, { headers: headers })
-//     .then( res => 
-//         dispatch({
-//         type: GET_PROGRAMS,
-//         paylaod: res.data.data
-//     })
-//     )
-//     .catch(err => console.log(err));
-// }
+    axios.get(`${url}/resource/`, { headers: headers })
+    .then( res => 
+        dispatch({
+        type: GET_RESOURCES,
+        paylaod: res.data.data
+    })
+    )
+    .catch(err => console.log(err));
+}
