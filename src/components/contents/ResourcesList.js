@@ -90,11 +90,12 @@ class ResourcesList extends Component {
                                                             </div>
                                                             <div className="card-block">
                                                             <div className="table-responsive">
-                                                                        <table className="table table-hover table-outline card-table table-striped">
+                                                                        <table className="table table-xs table-hover table-outline card-table table-striped">
                                                                         <thead>
                                                                             <tr>
                                                                             <th>S/N</th>
                                                                             <th>Event Id</th>
+                                                                            <th>Program Id</th>
                                                                             <th>Resource Title</th>
                                                                             {/* <th>Venue</th>
                                                                             <th>Start Date</th>
@@ -107,9 +108,10 @@ class ResourcesList extends Component {
                                                                             {this.props.resources.resources.map((data, i) => 
                                                                                   <tr key={i}>
                                                                                     <td>{i += 1}</td>
-                                                                                    <td>{data._id}</td>
+                                                                                    <td>{data.eventid}</td>
+                                                                                    <td>{data.programid}</td>
                                                                                     <td><b>{data.title}</b></td>
-                                                                                    <td><span className="btn btn-info btn-sm">{data.url}</span></td>
+                                                                                    <td>{data.url}</td>
                                                                                     <td className="text-right">
                                                                                     <a  className="btn btn-secondary btn-sm">
                                                                                         Edit

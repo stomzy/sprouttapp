@@ -90,7 +90,7 @@ class ProgramList extends Component {
                                                             </div>
                                                             <div className="card-block">
                                                             <div className="table-responsive">
-                                                                        <table className="table table-hover table-outline card-table table-striped">
+                                                                        <table className="table table-xs table-hover table-outline card-table table-striped">
                                                                         <thead>
                                                                             <tr>
                                                                             <th>S/N</th>

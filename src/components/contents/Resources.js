@@ -11,6 +11,7 @@ class Resources extends Component {
         super();
         this.state = {
           eventid: "",
+          programid: "",
           title: "",
           description: "",
           url: "",
@@ -29,15 +30,15 @@ class Resources extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        const { title, description, eventid, url } = this.state;
+        const { title, programid, description, eventid, url } = this.state;
     
-        const data = { title, description, eventid, url }
+        const data = { title, programid, description, eventid, url }
         
         console.log('datad', data)
 
         this.props.createResource(data);
 
-        this.setState({ title: "", description: "",  url: "", success: "Resource addeed Successfully"})
+        this.setState({ title: "", description: "", eventid: "", programid: "",  url: "", success: "Resource addeed Successfully"})
     
     }
 
@@ -134,7 +135,7 @@ class Resources extends Component {
                                                                 <div className="card-body">
                                                                 {/* <h3 className="card-title">Create An Event</h3> */}
                                                                 <div className="row">
-                                                                    <div className="col-md-4">
+                                                                    <div className="col-md-6">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Resource Title</label>
                                                                         <input type="text" name="title" placeholder="Enter your Resource Title" 
@@ -142,8 +143,18 @@ class Resources extends Component {
                                                                         />
                                                                     </div>
                                                                     </div> 
-                                                                
-                                                                    <div className="col-md-4">
+                                                                    <div className="col-md-6">
+                                                                    <div className="form-group">
+                                                                        <label className="form-label">Resource Url</label>
+                                                                        <input type="text" name="url" placeholder="Enter Resource Url"
+                                                                         onChange={this.handleChange} value={this.state.url} className="form-control" />
+                                                                    </div>
+                                                                    </div> 
+                                                                    
+                                                                </div>
+                                                                <div className="row">
+                                                            
+                                                                    <div className="col-md-6">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Event Id</label>
                                                                         <input type="text" name="eventid" placeholder="Enter Event Id" 
@@ -151,11 +162,11 @@ class Resources extends Component {
                                                                     </div>
                                                                     </div> 
 
-                                                                    <div className="col-md-4">
+                                                                    <div className="col-md-6">
                                                                     <div className="form-group">
-                                                                        <label className="form-label">Resource Url</label>
-                                                                        <input type="text" name="url" placeholder="Enter Resource Url"
-                                                                         onChange={this.handleChange} value={this.state.url} className="form-control" />
+                                                                        <label className="form-label">Program Id</label>
+                                                                        <input type="text" name="programid" placeholder="Enter Resource Program Id"
+                                                                         onChange={this.handleChange} value={this.state.programid} className="form-control" />
                                                                     </div>
                                                                     </div> 
                                                                     

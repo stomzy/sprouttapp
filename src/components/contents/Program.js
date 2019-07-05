@@ -12,7 +12,9 @@ class Program extends Component {
           eventid: "",
           title: "",
           description: "",
-          time: "",
+          start_time: "",
+          end_time: "",
+          speakers: "",
           time_zone: "",
           success: null
         }
@@ -29,16 +31,15 @@ class Program extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        const { title, description, eventid, time, time_zone } = this.state;
+        const { title, description, eventid, speakers, start_time,  end_time, time_zone } = this.state;
     
-        const data = { title, description, eventid, time, time_zone }
+        const data = { title, description, eventid, speakers, start_time,  end_time, time_zone }
         
         console.log('datad', data)
-
         this.props.createProgram(data);
-
-        this.setState({ title: "", description: "",  time_zone: "", time: "", success: "Program Submitted Successfully"})
-    
+        // if (this.props.createProgram(data)) {
+        //     this.setState({ title: "", description: "",  time_zone: "", speakers: "", start_time: "",  end_time: "", success: "Program Submitted Successfully"})
+        // }
     }
     
     render() {
@@ -134,7 +135,7 @@ class Program extends Component {
                                                                 <div className="card-body">
                                                                 {/* <h3 className="card-title">Create An Event</h3> */}
                                                                 <div className="row">
-                                                                    <div className="col-md-6">
+                                                                    <div className="col-md-4">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Program Title</label>
                                                                         <input type="text" name="title" placeholder="Enter your Program Title" 
@@ -143,33 +144,69 @@ class Program extends Component {
                                                                     </div>
                                                                     </div> 
                                                                 
-                                                                    <div className="col-md-6">
+                                                                    <div className="col-md-4">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Event Id</label>
                                                                         <input type="text" name="eventid" placeholder="Enter Event Id" 
                                                                         onChange={this.handleChange} value={this.state.eventid} className="form-control" />
                                                                     </div>
                                                                     </div> 
+
+                                                                    <div className="col-md-4">
+                                                                    <div className="form-group">
+                                                                        <label className="form-label">Speakers</label>
+                                                                        <input type="text" name="speakers" placeholder="Enter Event Speakers" 
+                                                                        onChange={this.handleChange} value={this.state.speakers} className="form-control" />
+                                                                    </div>
+                                                                    </div> 
                                                                     
                                                                 </div>
                                                              
                                                                 <div className="row">
-                                                                    <div className="col-md-6">
+                                                                    <div className="col-md-4">
                                                                     <div className="form-group">
-                                                                        <label className="form-label">Time</label>
-                                                                        <input type="time" name="time" placeholder="Enter Event Time"
-                                                                         onChange={this.handleChange} value={this.state.time} className="form-control" />
+                                                                        <label className="form-label">Start Time</label>
+                                                                        <input type="time" name="start_time" placeholder="Enter Event Start Time"
+                                                                         onChange={this.handleChange} value={this.state.start_time} className="form-control" />
                                                                     </div>
                                                                     </div>  
-                                                                    <div className="col-md-6">
+                                                                    <div className="col-md-4">
+                                                                    <div className="form-group">
+                                                                        <label className="form-label">End Time</label>
+                                                                        <input type="time" name="end_time" placeholder="Enter Event end Time"
+                                                                         onChange={this.handleChange} value={this.state.end_time} className="form-control" />
+                                                                    </div>
+                                                                    </div>  
+                                                                    <div className="col-md-4">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Time Zone</label>
                                                                         <select name="time_zone" className="form-control" onChange={this.handleChange} value={this.state.time_zone}>
-                                                                            <option value="">Select your time zone
-                                                                            </option>
-                                                                            <option value="GMT">GMT</option>
-                                                                            <option value="GMT+1">GMT + 1</option>
-                                                                            <option value="GMT+2">GMT + 2</option>
+                                                                                <option value="">Select your time zone
+                                                                                </option>
+                                                                                <option value="GMT">GMT</option>
+                                                                                <option value="LINT">LINT</option>
+                                                                                <option value="TOT">TOT</option>
+                                                                                <option value="CHAST">CHAST</option>
+                                                                                <option value="ANAT">ANAT</option>
+                                                                                <option value="SBT">SBT</option>
+                                                                                <option value="LHST">LHST</option>
+                                                                                <option value="AEST">AEST</option>
+                                                                                <option value="ACST">ACST</option>
+                                                                                <option value="JST">JST</option>
+                                                                                <option value="ACWST">ACWST</option>
+                                                                                <option value="CST">CST</option>
+                                                                                <option value="WIB">WIB</option>
+                                                                                <option value="MMT">MMT</option>
+                                                                                <option value="BST">BST</option>
+                                                                                <option value="NPT">NPT</option>
+                                                                                <option value="IST">IST</option>
+                                                                                <option value="UZT">UZT</option>
+                                                                                <option value="IRDT">IRDT</option>
+                                                                                <option value="GST">GST</option>
+                                                                                <option value="MSK">MSK</option>
+                                                                                <option value="CEST">CEST</option>
+                                                                                <option value="BST">BST</option>
+                                                                                <option value="CVT">CVT</option>
                                                                         </select>
                                                                     </div>
                                                                     </div> 

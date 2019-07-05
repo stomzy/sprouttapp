@@ -10,6 +10,8 @@ import Resources from './components/contents/Resources';
 import ResourcesList from './components/contents/ResourcesList';
 import Activities from './components/contents/activity/Activities';
 import ActivityList from './components/contents/activity/ActivityList';
+import companyProfile from './components/settings/Profile';
+import companyProfileList from './components/settings/CompanyProfiles';
 import UserProfile from './components/UserProfile';
 import {Switch, Route} from "react-router-dom";
 import jwt_decode from 'jwt-decode';
@@ -56,6 +58,8 @@ function App() {
       <Route exact path="/resources-list" component={ResourcesList}/>
       <Route exact path="/activities" component={Activities}/>
       <Route exact path="/activities-list" component={ActivityList}/>
+      <Route exact path="/company-profile" component={companyProfile}/>
+      <Route exact path="/company-profile-list" component={companyProfileList}/>
       {/* <Route component={NoMatch} /> */}
     </Switch>
   );

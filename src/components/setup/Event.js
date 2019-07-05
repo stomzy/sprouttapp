@@ -4,25 +4,42 @@ import Navbar from '../Navbar';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createEvent } from '../../actions/eventsAction';
+import { getCompanyProfiles } from '../../actions/companyProfileAction';
 
 class Event extends Component {
     constructor() {
         super();
         this.state = {
+          eventCode: "",
           title: "",
           description: "",
-          category: "",
           venue: "",
           type: "",
+          facebook: "",
+          twitter: "",
+          instagram: "",
+          linkedin: "",
           start_date: "",
           end_date: "",
-          time: "",
+          start_time: "",
+          end_time: "",
           time_zone: "",
           website: "",
           color: "",
-          logo: "",
-          header_image: "",
-          success: null
+          address: "",
+          postcode: "",
+          state: "",
+          country: "",
+          company: "",
+          latitude: "",
+          longitude: "",
+          logo: null,
+          header_image: null,
+          success: null,
+          latitude: "",
+          longitude: "",
+          company: "",
+          tags: ""
         }
   
         this.handleChange = this.handleChange.bind(this);
@@ -37,31 +54,52 @@ class Event extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        const { title, description, category, venue, type, 
-            start_date, end_date, time, time_zone, website, color  } = this.state;
-    
-        const data = { title, description, category, venue, type, 
-            start_date, end_date, time, time_zone, website, color}
         
-        // console.log('datad', data)
+        const { title, description, venue, type, eventCode, tags, facebook, twitter, instagram, linkedin,
+            start_date, end_date, start_time, end_time, time_zone, website, color, header_image, logo, longitude, latitude,
+            address, postcode, state, country, company  } = this.state;
+        
+        let map =  `lat ${latitude} long ${longitude}`;
+        
+        const data = { title, tags, description, venue, type, eventCode, tags, facebook, twitter, instagram, linkedin,
+            location: {address, postcode, state, country}, map, company,
+            start_date, end_date, start_time, end_time, time_zone, website, color}
+        
+        console.log('datad', data)
 
-        this.props.createEvent(data);
-
-        this.setState({ title: "", description: "", category: "", venue: "", time_zone: "", website: "", color: "",
-              type: "", start_date: "", end_date: "", time: "", success: "Event Added Successfully"})
+        this.props.createEvent(data)
+        
+        this.setState({ title: "", tags: "", description: "",  venue: "", time_zone: "", website: "", color: "",
+        type: "", event_code: "",  facebook: "", twitter: "", instagram: "", linkedin: "", start_date: "", end_date: "", time: "", 
+        longitude: "", latitude: "", address: "", postcode: "", state: "", country: "", company: "", success: "Event Added Successfully"})
+       
     
     }
 
+    fileChangedHandler = event => {
+        const file = event.target.files[0];
+        this.setState({ logo: file });
+    }
+
+    imageChangedHandler = event => {
+        const file = event.target.files[0];
+        this.setState({ header_image: file });
+    }
+
+    componentDidMount() {
+        this.props.getCompanyProfiles();
+    }
+
     render() {
+
         let notification = "";
         if (this.state.success != null) {
-        notification = (
-            <div className="alert alert-success" role="alert">
-                { this.state.success }
-            </div>
-        );
+            notification = (
+                <div className="alert alert-success" role="alert">
+                    { this.state.success }
+                </div>
+            );
         }
-
 
         return (
             <React.Fragment>
@@ -172,51 +210,166 @@ class Event extends Component {
                                                                             onChange={this.handleChange} value={this.state.type} className="form-control"/>
                                                                         </div>
                                                                         </div>
-                                                                        <div className="col-md-6">
+                                                                        {/* <div className="col-md-4">
                                                                         <div className="form-group">
                                                                             <label className="form-label">Category</label>
                                                                             <input type="text" name="category" placeholder="Enter Event category" 
                                                                             onChange={this.handleChange} value={this.state.category} className="form-control"/>
                                                                         </div>
-                                                                        </div> 
+                                                                        </div>  */}
+                                                                        <div className="col-md-6">
+                                                                        <div className="form-group">
+                                                                            <label className="form-label">Tags</label>
+                                                                            <input type="text" name="tags" placeholder="Enter Event Tags" 
+                                                                            onChange={this.handleChange} value={this.state.tags} className="form-control"/>
+                                                                        </div>
+                                                                        </div>
                                                                     </div>
-                                                                    {/* <div className="row">
-                                                                        <div className="col-md-6">
-                                                                        <div className="form-group">
-                                                                            <label className="form-label">Event Logo</label>
-                                                                            <input type="text" name="logo" placeholder="Enter Event Logo" 
-                                                                            onChange={this.handleChange} value={this.state.logo} className="form-control"/>
-                                                                        </div>
-                                                                        </div>
-                                                                        <div className="col-md-6">
-                                                                        <div className="form-group">
-                                                                            <label className="form-label">Event Header Image</label>
-                                                                            <input type="text" name="header_image" placeholder="Enter Event Header Image" 
-                                                                            onChange={this.handleChange} value={this.state.header_image} className="form-control"/>
-                                                                        </div>
-                                                                        </div> 
-                                                                    </div> */}
                                                                     <div className="row">
-
                                                                         <div className="col-md-4">
                                                                         <div className="form-group">
+                                                                            <label className="form-label">Event Code</label>
+                                                                            <input type="text" name="eventCode" placeholder="Enter Event Code" 
+                                                                            onChange={this.handleChange} value={this.state.eventCode} className="form-control"/>
+                                                                        </div>
+                                                                        </div>
+                                                                        <div className="col-md-4">
+                                                                        <div className="form-group">
+                                                                            <label className="form-label">Map Latitude</label>
+                                                                            <input type="text" name="latitude" placeholder="Enter Event latitude" 
+                                                                            onChange={this.handleChange} value={this.state.latitude} className="form-control"/>
+                                                                        </div>
+                                                                        </div> 
+                                                                        <div className="col-md-4">
+                                                                        <div className="form-group">
+                                                                            <label className="form-label">Map Longitude</label>
+                                                                            <input type="text" name="longitude" placeholder="Enter Event longitude" 
+                                                                            onChange={this.handleChange} value={this.state.longitude} className="form-control"/>
+                                                                        </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="row">
+                                                                        <div className="col-md-4">
+                                                                        <div className="form-group">
+                                                                            <label className="form-label">Event Logo</label>
+                                                                            <input type="file" className="form-control" onChange={this.fileChangedHandler}/>
+                                                                        </div>
+                                                                        </div>
+                                                                        <div className="col-md-4">
+                                                                        <div className="form-group">
+                                                                            <label className="form-label">Event Header Image</label>
+                                                                            <input type="file" className="form-control" onChange={this.imageChangedHandler}/>
+                                                                        </div>
+                                                                        </div> 
+                                                                        <div className="col-md-4">
+                                                                        <div className="form-group">
+                                                                            <label className="form-label">Company</label>
+                                                                            <select name="company" className="form-control" onChange={this.handleChange} value={this.state.company}>
+                                                                                <option value="">Select a Company
+                                                                                </option>
+                                                                                {this.props.companyProfiles.companyProfiles.map((data, i) => <option value={data._id}>{data.company_name}</option> )}
+                                                                                {/* <option value="green">Abuja</option>
+                                                                                <option value="blue">Lagos</option> */}
+                                                                            </select>
+                                                                
+                                                                        </div>
+                                                                        </div> 
+                                                                    </div>
+                                                                    <div className="row">
+                                                                        <div className="col-md-3">
+                                                                        <div className="form-group">
+                                                                            <label className="form-label">Facebook</label>
+                                                                            <input type="text" name="facebook" placeholder="Enter your Facebook Link" 
+                                                                            onChange={this.handleChange} value={this.state.facebook} className="form-control"/>
+                                                                        </div>
+                                                                        </div> 
+                                                                        <div className="col-md-3">
+                                                                        <div className="form-group">
+                                                                            <label className="form-label">Twitter</label>
+                                                                            <input type="text" name="twitter" placeholder="Enter Event twitter link"
+                                                                             onChange={this.handleChange} value={this.state.twitter} className="form-control" />
+                                                                        </div>
+                                                                        </div>  
+                                                                        <div className="col-md-3">
+                                                                        <div className="form-group">
+                                                                            <label className="form-label">Instagram</label>
+                                                                            <input type="text" name="instagram" placeholder="Enter your instagram link" 
+                                                                            onChange={this.handleChange} value={this.state.instagram} className="form-control" />
+                                                                        </div>
+                                                                        </div> 
+                                                                        <div className="col-md-3">
+                                                                        <div className="form-group">
+                                                                            <label className="form-label">Linkedin</label>
+                                                                            <input type="text" name="linkedin" placeholder="Enter Event linkedin link"
+                                                                             onChange={this.handleChange} value={this.state.linkedin} className="form-control" />
+                                                                        </div>
+                                                                        </div>  
+                                                                    </div>
+                                                                    <div className="row">
+                                                                        <div className="col-md-3">
+                                                                        <div className="form-group">
+                                                                            <label className="form-label">Address</label>
+                                                                            <input type="text" name="address" placeholder="Enter your address" 
+                                                                            onChange={this.handleChange} value={this.state.location} className="form-control"/>
+                                                                        </div>
+                                                                        </div> 
+                                                                        <div className="col-md-3">
+                                                                        <div className="form-group">
+                                                                            <label className="form-label">Postcode</label>
+                                                                            <input type="text" name="postcode" placeholder="Enter Event postcode"
+                                                                             onChange={this.handleChange} value={this.state.location} className="form-control" />
+                                                                        </div>
+                                                                        </div>  
+                                                                        <div className="col-md-3">
+                                                                        <div className="form-group">
+                                                                            <label className="form-label">State</label>
+                                                                            <select name="color" className="form-control" onChange={this.handleChange} value={this.state.color}>
+                                                                                <option value="">Select your State
+                                                                                </option>
+                                                                                <option value="abuja">Abuja</option>
+                                                                                <option value="lagos">Lagos</option>
+                                                                            </select>
+                                                                        </div>
+                                                                        </div> 
+                                                                        <div className="col-md-3">
+                                                                        <div className="form-group">
+                                                                            <label className="form-label">Country</label>
+                                                                            <select name="color" className="form-control" onChange={this.handleChange} value={this.state.color}>
+                                                                                <option value="">Select your country
+                                                                                </option>
+                                                                                <option value="nigeria">Nigeria</option>
+                                                                                <option value="uk">UK</option>
+                                                                            </select>
+                                                                        </div>
+                                                                        </div>  
+                                                                    </div>
+                                                                    <div className="row">
+                                                                        <div className="col-md-3">
+                                                                        <div className="form-group">
                                                                             <label className="form-label">Start Date</label>
-                                                                            <input type="date" name="start_date" placeholder="Enter your Event Admin" 
+                                                                            <input type="date" name="start_date" placeholder="Enter your Start date" 
                                                                             onChange={this.handleChange} value={this.state.start_date} className="form-control"/>
                                                                         </div>
                                                                         </div> 
-                                                                        <div className="col-md-4">
+                                                                        <div className="col-md-3">
+                                                                        <div className="form-group">
+                                                                            <label className="form-label">Start Time</label>
+                                                                            <input type="time" name="start_time" placeholder="Enter Event start time"
+                                                                             onChange={this.handleChange} value={this.state.start_time} className="form-control" />
+                                                                        </div>
+                                                                        </div>  
+                                                                        <div className="col-md-3">
                                                                         <div className="form-group">
                                                                             <label className="form-label">End Date</label>
-                                                                            <input type="date" name="end_date" placeholder="Enter your Event Category" 
+                                                                            <input type="date" name="end_date" placeholder="Enter your end date" 
                                                                             onChange={this.handleChange} value={this.state.end_date} className="form-control" />
                                                                         </div>
                                                                         </div> 
-                                                                        <div className="col-md-4">
+                                                                        <div className="col-md-3">
                                                                         <div className="form-group">
-                                                                            <label className="form-label">Time</label>
-                                                                            <input type="time" name="time" placeholder="Enter Event venue"
-                                                                             onChange={this.handleChange} value={this.state.time} className="form-control" />
+                                                                            <label className="form-label">End Time</label>
+                                                                            <input type="time" name="end_time" placeholder="Enter Event End Time"
+                                                                             onChange={this.handleChange} value={this.state.end_time} className="form-control" />
                                                                         </div>
                                                                         </div>  
                                                                     </div>
@@ -231,8 +384,14 @@ class Event extends Component {
                                                                         <div className="col-md-4">
                                                                         <div className="form-group">
                                                                             <label className="form-label">Color</label>
-                                                                            <input type="text" name="color" placeholder="Enter Event color" 
-                                                                            onChange={this.handleChange} value={this.state.color} className="form-control"/>
+                                                                            <select name="color" className="form-control" onChange={this.handleChange} value={this.state.color}>
+                                                                                <option value="">Select your event color
+                                                                                </option>
+                                                                                <option value="green">Green</option>
+                                                                                <option value="blue">Blue</option>
+                                                                                <option value="red">Red</option>
+                                                                                <option value="yellow">Yellow</option>
+                                                                            </select>
                                                                         </div>
                                                                         </div> 
                                                                         <div className="col-md-4">
@@ -242,8 +401,29 @@ class Event extends Component {
                                                                                 <option value="">Select your time zone
                                                                                 </option>
                                                                                 <option value="GMT">GMT</option>
-                                                                                <option value="GMT+1">GMT + 1</option>
-                                                                                <option value="GMT+2">GMT + 2</option>
+                                                                                <option value="LINT">LINT</option>
+                                                                                <option value="TOT">TOT</option>
+                                                                                <option value="CHAST">CHAST</option>
+                                                                                <option value="ANAT">ANAT</option>
+                                                                                <option value="SBT">SBT</option>
+                                                                                <option value="LHST">LHST</option>
+                                                                                <option value="AEST">AEST</option>
+                                                                                <option value="ACST">ACST</option>
+                                                                                <option value="JST">JST</option>
+                                                                                <option value="ACWST">ACWST</option>
+                                                                                <option value="CST">CST</option>
+                                                                                <option value="WIB">WIB</option>
+                                                                                <option value="MMT">MMT</option>
+                                                                                <option value="BST">BST</option>
+                                                                                <option value="NPT">NPT</option>
+                                                                                <option value="IST">IST</option>
+                                                                                <option value="UZT">UZT</option>
+                                                                                <option value="IRDT">IRDT</option>
+                                                                                <option value="GST">GST</option>
+                                                                                <option value="MSK">MSK</option>
+                                                                                <option value="CEST">CEST</option>
+                                                                                <option value="BST">BST</option>
+                                                                                <option value="CVT">CVT</option>
                                                                             </select>
                                                                             {/* <input type="text" name="time_zone" placeholder="Enter Time Zone" 
                                                                             onChange={this.handleChange} value={this.state.time_zone} className="form-control"/> */}
@@ -292,8 +472,9 @@ class Event extends Component {
 const mapStateToProps = (state) => ({
     auth: state.auth,
     errors: state.errors,
-    events: state.events
+    events: state.events,
+    companyProfiles: state.companyProfiles
 });
 
 // export default Event;
-export default connect(mapStateToProps, { createEvent })(Event);
+export default connect(mapStateToProps, { createEvent, getCompanyProfiles })(Event);

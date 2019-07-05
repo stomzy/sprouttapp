@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import Sidebar from '../../Sidebar';
-import Navbar from '../../Navbar';
+import Sidebar from '../Sidebar';
+import Navbar from '../Navbar';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getActivities } from '../../../actions/activityAction';
+import { getCompanyProfiles } from '../../actions/companyProfileAction';
 
-class ActivityList extends Component {
+class CompanyProfiles extends Component {
     componentDidMount() {
-        this.props.getActivities();
+        this.props.getCompanyProfiles();
     }
 
     render() {
@@ -41,8 +41,8 @@ class ActivityList extends Component {
                                             <div className="page-header-title">
                                                 <i className="feather icon-watch bg-c-blue"></i>
                                                 <div className="d-inline">
-                                                    <h5>Activity info</h5>
-                                                    <span>Setting up Activity</span>
+                                                    <h5>Company profile info</h5>
+                                                    <span>Setting up Company info</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -53,7 +53,7 @@ class ActivityList extends Component {
                                                         <a href="index.html"><i className="feather icon-home"></i></a>
                                                     </li>
                                                     <li className="breadcrumb-item">
-                                                        <a href="#!">Activity info</a>
+                                                        <a href="#!">Company info</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -70,7 +70,7 @@ class ActivityList extends Component {
                                                     <div className="col-sm-12">
                                                         <div className="card">
                                                             <div className="card-header">
-                                                                <h5> Activity Lists</h5>
+                                                                <h5> Company Profile Lists</h5>
                                                                 <div className="card-header-right">
                                                                     <ul className="list-unstyled card-option">
                                                                         <li className="first-opt"><i
@@ -94,24 +94,24 @@ class ActivityList extends Component {
                                                                         <thead>
                                                                             <tr>
                                                                             <th>S/N</th>
-                                                                            <th>Activity Id</th>
-                                                                            <th>Event Id</th>
-                                                                            <th>Content</th>
+                                                                            <th>Profile Id</th>
+                                                                            <th>Email</th>
+                                                                            <th>Company Name</th>
                                                                             {/* <th>Venue</th>
                                                                             <th>Start Date</th>
                                                                             <th>End Date</th> */}
-                                                                            <th>Time</th>
+                                                                            <th>Address</th>
                                                                             <th></th>
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
-                                                                            {this.props.activities.activities.map((data, i) => 
+                                                                            {this.props.companyProfiles.companyProfiles.map((data, i) => 
                                                                                   <tr key={i}>
                                                                                     <td>{i += 1}</td>
                                                                                     <td>{data._id}</td>
-                                                                                    <td>{data.eventid}</td>
-                                                                                    <td><b>{data.content}</b></td>
-                                                                                    <td><span className="btn btn-info btn-sm">{data.time}</span></td>
+                                                                                    <td>{data.email}</td>
+                                                                                    <td><b>{data.company_name}</b></td>
+                                                                                    <td>{data.address}</td>
                                                                                     <td className="text-right">
                                                                                     <a  className="btn btn-secondary btn-sm">
                                                                                         Edit
@@ -152,7 +152,7 @@ const mapStateToProps = (state) => ({
     auth: state.auth,
     errors: state.errors,
     events: state.events,
-    activities: state.activities
+    companyProfiles: state.companyProfiles
 });
 
-export default connect(mapStateToProps, { getActivities })(ActivityList);
+export default connect(mapStateToProps, { getCompanyProfiles })(CompanyProfiles);

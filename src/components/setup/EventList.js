@@ -91,13 +91,14 @@ class EventList extends Component {
                                                                 </div>
                                                                 <div className="card-block">
                                                                     <div className="table-responsive">
-                                                                        <table className="table table-hover table-outline card-table table-striped">
+                                                                        <table className="table table-xs table-hover table-outline card-table table-striped">
                                                                         <thead>
                                                                             <tr>
                                                                             <th>S/N</th>
                                                                             <th>Event Id</th>
                                                                             <th>Event Name</th>
-                                                                            <th>Venue</th>
+                                                                            <th>Event Code</th>
+                                                                            <th>Website</th>
                                                                             <th>Start Date</th>
                                                                             <th>End Date</th>
                                                                             <th>Time</th>
@@ -110,10 +111,11 @@ class EventList extends Component {
                                                                                     <td>{i += 1}</td>
                                                                                     <td>{data._id}</td>
                                                                                     <td><b>{data.title}</b></td>
-                                                                                    <td>{data.venue}</td>
+                                                                                    <td>{data.eventCode}</td>
+                                                                                    <td>{data.website}</td>
                                                                                     <td>{data.start_date.replace(/T/, ' ').replace(/\..+/, '').slice(0,10)}</td>
                                                                                     <td>{data.end_date.replace(/T/, ' ').replace(/\..+/, '').slice(0,10)}</td>
-                                                                                    <td><span className="btn btn-info btn-sm">{data.time}</span></td>
+                                                                                    <td><span className="btn btn-info btn-sm">{data.start_time}</span></td>
                                                                                     <td className="text-right">
                                                                                     <a  className="btn btn-secondary btn-sm">
                                                                                         Edit

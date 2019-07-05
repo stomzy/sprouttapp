@@ -6,6 +6,7 @@ import eventReducer from './eventReducer';
 import programReducer from './programReducer';
 import resourceReducer from './resourceReducer';
 import activityReducer from './activityReducer';
+import companyProfileReducer from './companyProfileReducer';
 
 
 export default combineReducers({
@@ -15,5 +16,6 @@ export default combineReducers({
     events: eventReducer,
     programs: programReducer,
     resources: resourceReducer,
-    activities: activityReducer
+    activities: activityReducer,
+    companyProfiles: companyProfileReducer
 });

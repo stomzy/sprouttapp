@@ -17,7 +17,7 @@ export default function Sidebar() {
                         <a href="#" className="waves-effect waves-dark">
                             <span className="pcoded-micon"><i className="feather icon-sidebar"></i></span>
                             <span className="pcoded-mtext">SETUP</span>
-                            <span className="pcoded-badge label label-warning">2 sub-menus</span>
+                            <span className="pcoded-badge label label-warning">2 items</span>
                         </a>
                         <ul className="pcoded-submenu">
                             <li className=" pcoded-hasmenu">
@@ -56,12 +56,12 @@ export default function Sidebar() {
                         <a href="#" className="waves-effect waves-dark">
                             <span className="pcoded-micon"><i className="feather icon-sidebar"></i></span>
                             <span className="pcoded-mtext">CONTENT</span>
-                            <span className="pcoded-badge label label-success">4 sub-menus</span>
+                            <span className="pcoded-badge label label-success">6 items</span>
                         </a>
                         <ul className="pcoded-submenu">
                             <li className=" pcoded-hasmenu">
                                 <a href="#" className="waves-effect waves-dark">
-                                    <span className="pcoded-mtext">Speaker</span>
+                                    <span className="pcoded-mtext">People</span>
                                 </a>
                                 <ul className="pcoded-submenu">
                                     <li className="">
@@ -135,6 +135,58 @@ export default function Sidebar() {
                                         <a href="" 
                                             className="waves-effect waves-dark">
                                             <span className="pcoded-mtext">Static Layout</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li className="pcoded-hasmenu">
+                        <a href="#" className="waves-effect waves-dark">
+                            <span className="pcoded-micon"><i className="feather icon-sidebar"></i></span>
+                            <span className="pcoded-mtext">ATTENDEES</span>
+                            <span className="pcoded-badge label label-info">2 items</span>
+                        </a>
+                        <ul className="pcoded-submenu">
+                            <li className=" pcoded-hasmenu">
+                                <a href="#" className="waves-effect waves-dark">
+                                    <span className="pcoded-mtext">Attendees</span>
+                                </a>
+                                <ul className="pcoded-submenu">
+                                    <li className="">
+                                        <a href="/events-info" className="waves-effect waves-dark">
+                                            <span className="pcoded-mtext">Add Attendees</span>
+                                        </a>
+                                    </li>
+                                    <li className="">
+                                        <a href="/events-list" className="waves-effect waves-dark">
+                                            <span className="pcoded-mtext">All Attendees</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li className="pcoded-hasmenu">
+                        <a href="#" className="waves-effect waves-dark">
+                            <span className="pcoded-micon"><i className="feather icon-sidebar"></i></span>
+                            <span className="pcoded-mtext">SETTINGS</span>
+                            <span className="pcoded-badge label label-danger">2 items</span>
+                        </a>
+                        <ul className="pcoded-submenu">
+                            <li className=" pcoded-hasmenu">
+                                <a href="#" className="waves-effect waves-dark">
+                                    <span className="pcoded-mtext">Profiles</span>
+                                </a>
+                                <ul className="pcoded-submenu">
+                                    <li className="">
+                                        <a href="/company-profile" className="waves-effect waves-dark">
+                                            <span className="pcoded-mtext">Add Profile</span>
+                                        </a>
+                                    </li>
+                                    <li className="">
+                                        <a href="/company-profile-list" className="waves-effect waves-dark">
+                                            <span className="pcoded-mtext">Company Profiles</span>
                                         </a>
                                     </li>
                                 </ul>
