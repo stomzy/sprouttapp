@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Sidebar from '../../Sidebar';
 import Navbar from '../../Navbar';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createActivity } from '../../../actions/activityAction';
 
@@ -124,7 +123,7 @@ class Activities extends Component {
                                                                         </li>
                                                                         <li><i className="feather icon-trash close-card"></i></li>
                                                                         <li><i
-                                                                                className="feather icon-chevron-left open-card-option"></i>
+                                                                               className="feather icon-chevron-left open-card-option"></i>
                                                                         </li>
                                                                     </ul>
                                                                 </div>
@@ -179,13 +178,13 @@ class Activities extends Component {
                                                                     <div className="col-md-6">
                                                                     <div className="form-group">
                                                                         <label className="form-label">picture</label>
-                                                                        <input type="file" class="form-control"/>
+                                                                        <input type="file" className="form-control"/>
                                                                     </div>
                                                                     </div>
                                                                     <div className="col-md-6">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Video</label>
-                                                                        <input type="file" class="form-control" />
+                                                                        <input type="file" className="form-control" />
                                                                     </div>
                                                                     </div> 
                                                                 </div>

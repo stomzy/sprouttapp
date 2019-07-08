@@ -1,9 +1,80 @@
 import React, { Component } from 'react';
 import Sidebar from '../Sidebar';
 import Navbar from '../Navbar';
+import { ChromePicker } from 'react-color';
+import "./AppDesign.css";
 
 export default class AppDesign extends Component {
+    constructor() {
+        super();
+        this.state = {
+          theme: "",
+          logo: "",
+          header_image: "",
+          displayColorPicker: false,
+          background: ''
+        }
+  
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleChangeComplete = (color) => {
+        // console.log(color)
+        this.setState({ background: color.hex });
+      };
+
+    onHandleShowColorPicker = () => {
+        this.setState({displayColorPicker: true});
+    }
+
+    onHandleCloseColorPicker = () => {
+        this.setState({displayColorPicker: false});
+    }
+
+    handleChange(event) {
+        this.setState({
+          [event.target.name]: event.target.value
+        });
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
+        
+        const { theme, background, logo, header_image } = this.state;
+    
+        
+        const data = { theme, background, logo, header_image }
+        
+        console.log('datad', data)
+
+        // this.props.createEvent(data)
+        
+        this.setState({ theme: "", color: "", success: `App setup Completed..`})
+       
+    
+    }
+
+    fileChangedHandler = event => {
+        const file = event.target.files[0];
+        this.setState({ logo: file });
+    }
+
+    imageChangedHandler = event => {
+        const file = event.target.files[0];
+        this.setState({ header_image: file });
+    }
+
     render() {
+        let notification = "";
+        if (this.state.success != null) {
+            notification = (
+                <div className="alert alert-success" role="alert">
+                    { this.state.success }
+                </div>
+            );
+        }
+
         return (
             <React.Fragment>
             <div className="loader-bg">
@@ -82,19 +153,20 @@ export default class AppDesign extends Component {
                                                                 </div>
                                                             </div>
                                                             <div className="card-block">
-                                                            <form >
+                                                            { notification }
+                                                            <form onSubmit={this.handleSubmit}>
                                                                 <div className="card-body">
                                                                 {/* <h3 className="card-title">Create An Event</h3> */}
                                                                 <div className="row">
                                                                     <div className="col-md-6">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Theme</label>
-                                                                        <select name="select" className="form-control">
+                                                                        <select name="theme" className="form-control" onChange={this.handleChange} value={this.state.theme}>
                                                                             <option value="opt1">Select Customize Theme
                                                                             </option>
-                                                                            <option value="opt2">Theme 2</option>
-                                                                            <option value="opt3">Theme 3</option>
-                                                                            <option value="opt4">Theme 4</option>
+                                                                            <option value="theme2">Theme 2</option>
+                                                                            <option value="theme3">Theme 3</option>
+                                                                            <option value="theme4">Theme 4</option>
                                                                             {/* <option value="opt5">Type 5</option>
                                                                             <option value="opt6">Type 6</option>
                                                                             <option value="opt7">Type 7</option>
@@ -106,17 +178,23 @@ export default class AppDesign extends Component {
                                                                     <div className="col-md-6">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Color</label>
-                                                                        <select name="select" className="form-control">
-                                                                            <option value="opt1">Select Theme color
-                                                                            </option>
-                                                                            <option value="opt2">Red</option>
-                                                                            <option value="opt3">Green</option>
-                                                                            <option value="opt4">Blue</option>
-                                                                            <option value="opt5">Yellow</option>
-                                                                            <option value="opt6">Brown</option>
-                                                                            {/* <option value="opt7">Type 7</option>
-                                                                            <option value="opt8">Type 8</option> */}
-                                                                        </select>
+                                                                        
+                                                                        <input 
+                                                                            type="text" 
+                                                                            name="colorPickerText"
+                                                                            onClick={() => this.onHandleShowColorPicker()} 
+                                                                            className="form-control"
+                                                                            defaultValue={this.state.background}
+                                                                        />
+                                                                        
+                                                                        {this.state.displayColorPicker && (
+                                                                            <div className={"color-picker-palette"}>
+                                                                                <div className={"color-picker-cover"}
+                                                                                    onClick={() => this.onHandleCloseColorPicker()} 
+                                                                                />
+                                                                                <ChromePicker color={ this.state.background } 
+                                                                        onChangeComplete={ this.handleChangeComplete }/></div>)}
+                                                                        
                                                                     </div>
                                                                     </div> 
                                                                     
@@ -125,13 +203,13 @@ export default class AppDesign extends Component {
                                                                     <div className="col-md-6">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Logo</label>
-                                                                        <input type="file" className="form-control"/>
+                                                                        <input type="file" className="form-control"  onChange={this.fileChangedHandler}/>
                                                                     </div>
                                                                     </div>
                                                                     <div className="col-md-6">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Header Image</label>
-                                                                        <input type="file" className="form-control" />
+                                                                        <input type="file" className="form-control" onChange={this.imageChangedHandler}/>
                                                                     </div>
                                                                     </div> 
                                                                 </div>

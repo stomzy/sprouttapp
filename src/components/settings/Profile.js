@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Sidebar from '../Sidebar';
 import Navbar from '../Navbar';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createCompanyProfile } from '../../actions/companyProfileAction';
 
@@ -46,7 +45,7 @@ class Profile extends Component {
     handleSubmit(event) {
         event.preventDefault();
         const { title,email, name, phone, address, job_title, short_bio, interest, 
-            website, country, photo, company_name, facebook, facebook_visible,
+            website, country, company_name, facebook, facebook_visible,
             twitter, twitter_visible, linkedin, linkedin_visible, instagram, instagram_visible } = this.state;
     
         const data = { title, email, name, phone, address, job_title, short_bio, interest, 

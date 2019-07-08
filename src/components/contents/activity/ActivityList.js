@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
 import Sidebar from '../../Sidebar';
 import Navbar from '../../Navbar';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getActivities } from '../../../actions/activityAction';
+import $ from "jquery";
+$.DataTable = require('datatables.net');
 
 class ActivityList extends Component {
     componentDidMount() {
+
         this.props.getActivities();
+    }
+
+    componentWillUnmount() {
+        this.$el.DataTable.destroy(true)
     }
 
     render() {
@@ -90,7 +96,7 @@ class ActivityList extends Component {
                                                             </div>
                                                             <div className="card-block">
                                                             <div className="table-responsive">
-                                                                        <table className="table table-xs table-hover table-outline card-table table-striped">
+                                                                        <table ref={el => this.el = el } id="order-table" className="table table-xs table-hover table-outline card-table table-striped">
                                                                         <thead>
                                                                             <tr>
                                                                             <th>S/N</th>
@@ -112,13 +118,12 @@ class ActivityList extends Component {
                                                                                     <td>{data.eventid}</td>
                                                                                     <td><b>{data.content}</b></td>
                                                                                     <td><span className="btn btn-info btn-sm">{data.time}</span></td>
-                                                                                    <td className="text-right">
-                                                                                    <a  className="btn btn-secondary btn-sm">
-                                                                                        Edit
-                                                                                    </a>
-                                                                                    <a  className="btn btn-secondary btn-sm">
-                                                                                        Delete
-                                                                                    </a>
+                                                                                     <td><button className="btn btn-info btn-sm">
+                                                                                            <span className="glyphicon glyphicon-edit"></span> Edit
+                                                                                        </button>
+                                                                                        <button className="btn btn-danger btn-sm">
+                                                                                            <span className="glyphicon glyphicon-trash"></span> Edit
+                                                                                        </button>
                                                                                     </td>
                                                                                </tr>
                                                                             )}

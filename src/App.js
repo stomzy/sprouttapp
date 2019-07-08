@@ -19,6 +19,7 @@ import setAuthToken from './utils/setAuthToken';
 import {setCurrentUser, logoutUser} from './actions/authActions';
 import store from './store/Store';
 import { clearCurrentProfile } from './actions/profileActions';
+// import Table from './components/Tables';
 
 // check for token
 if (localStorage.jwtToken) {
@@ -60,6 +61,7 @@ function App() {
       <Route exact path="/activities-list" component={ActivityList}/>
       <Route exact path="/company-profile" component={companyProfile}/>
       <Route exact path="/company-profile-list" component={companyProfileList}/>
+      {/* <Route exact path="/table" component={Table}/> */}
       {/* <Route component={NoMatch} /> */}
     </Switch>
   );

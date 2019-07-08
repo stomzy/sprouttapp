@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Sidebar from '../Sidebar';
 import Navbar from '../Navbar';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createProgram } from '../../actions/programAction';
 

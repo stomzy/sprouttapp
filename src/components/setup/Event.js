@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Sidebar from '../Sidebar';
 import Navbar from '../Navbar';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createEvent } from '../../actions/eventsAction';
 import { getCompanyProfiles } from '../../actions/companyProfileAction';
@@ -10,7 +9,7 @@ class Event extends Component {
     constructor() {
         super();
         this.state = {
-          eventCode: "",
+        //   eventCode: null,
           title: "",
           description: "",
           venue: "",
@@ -25,7 +24,7 @@ class Event extends Component {
           end_time: "",
           time_zone: "",
           website: "",
-          color: "",
+        //   color: "",
           address: "",
           postcode: "",
           state: "",
@@ -34,12 +33,8 @@ class Event extends Component {
           latitude: "",
           longitude: "",
           logo: null,
-          header_image: null,
-          success: null,
-          latitude: "",
-          longitude: "",
-          company: "",
-          tags: ""
+        //   header_image: null,
+          success: null
         }
   
         this.handleChange = this.handleChange.bind(this);
@@ -55,23 +50,25 @@ class Event extends Component {
     handleSubmit(event) {
         event.preventDefault();
         
-        const { title, description, venue, type, eventCode, tags, facebook, twitter, instagram, linkedin,
-            start_date, end_date, start_time, end_time, time_zone, website, color, header_image, logo, longitude, latitude,
+        const { title, description, venue, type, tags, facebook, twitter, instagram, linkedin,
+            start_date, end_date, start_time, end_time, time_zone, website, color, longitude, latitude,
             address, postcode, state, country, company  } = this.state;
         
         let map =  `lat ${latitude} long ${longitude}`;
+        let rand =  Math.floor(100000 + Math.random() * 900000);
+        let eventCode = title.slice(0, 5) + rand;
         
-        const data = { title, tags, description, venue, type, eventCode, tags, facebook, twitter, instagram, linkedin,
+        const data = { title, tags, description, venue, type, eventCode, facebook, twitter, instagram, linkedin,
             location: {address, postcode, state, country}, map, company,
             start_date, end_date, start_time, end_time, time_zone, website, color}
         
         console.log('datad', data)
 
-        this.props.createEvent(data)
+        // this.props.createEvent(data)
         
-        this.setState({ title: "", tags: "", description: "",  venue: "", time_zone: "", website: "", color: "",
-        type: "", event_code: "",  facebook: "", twitter: "", instagram: "", linkedin: "", start_date: "", end_date: "", time: "", 
-        longitude: "", latitude: "", address: "", postcode: "", state: "", country: "", company: "", success: "Event Added Successfully"})
+        this.setState({ title: "", tags: "", description: "",  venue: "", time_zone: "", website: "",
+        type: "", facebook: "", twitter: "", instagram: "", linkedin: "", start_date: "", end_date: "", time: "", 
+        longitude: "", latitude: "", address: "", postcode: "", state: "", country: "", company: "", success: `Event created with event Code:  ${eventCode}`})
        
     
     }
@@ -81,10 +78,10 @@ class Event extends Component {
         this.setState({ logo: file });
     }
 
-    imageChangedHandler = event => {
-        const file = event.target.files[0];
-        this.setState({ header_image: file });
-    }
+    // imageChangedHandler = event => {
+    //     const file = event.target.files[0];
+    //     this.setState({ header_image: file });
+    // }
 
     componentDidMount() {
         this.props.getCompanyProfiles();
@@ -226,21 +223,21 @@ class Event extends Component {
                                                                         </div>
                                                                     </div>
                                                                     <div className="row">
-                                                                        <div className="col-md-4">
+                                                                        {/* <div className="col-md-4">
                                                                         <div className="form-group">
                                                                             <label className="form-label">Event Code</label>
                                                                             <input type="text" name="eventCode" placeholder="Enter Event Code" 
                                                                             onChange={this.handleChange} value={this.state.eventCode} className="form-control"/>
                                                                         </div>
-                                                                        </div>
-                                                                        <div className="col-md-4">
+                                                                        </div> */}
+                                                                        <div className="col-md-6">
                                                                         <div className="form-group">
                                                                             <label className="form-label">Map Latitude</label>
                                                                             <input type="text" name="latitude" placeholder="Enter Event latitude" 
                                                                             onChange={this.handleChange} value={this.state.latitude} className="form-control"/>
                                                                         </div>
                                                                         </div> 
-                                                                        <div className="col-md-4">
+                                                                        <div className="col-md-6">
                                                                         <div className="form-group">
                                                                             <label className="form-label">Map Longitude</label>
                                                                             <input type="text" name="longitude" placeholder="Enter Event longitude" 
@@ -249,25 +246,25 @@ class Event extends Component {
                                                                         </div>
                                                                     </div>
                                                                     <div className="row">
-                                                                        <div className="col-md-4">
+                                                                        <div className="col-md-6">
                                                                         <div className="form-group">
                                                                             <label className="form-label">Event Logo</label>
                                                                             <input type="file" className="form-control" onChange={this.fileChangedHandler}/>
                                                                         </div>
                                                                         </div>
-                                                                        <div className="col-md-4">
+                                                                        {/* <div className="col-md-4">
                                                                         <div className="form-group">
                                                                             <label className="form-label">Event Header Image</label>
                                                                             <input type="file" className="form-control" onChange={this.imageChangedHandler}/>
                                                                         </div>
-                                                                        </div> 
-                                                                        <div className="col-md-4">
+                                                                        </div>  */}
+                                                                        <div className="col-md-6">
                                                                         <div className="form-group">
                                                                             <label className="form-label">Company</label>
                                                                             <select name="company" className="form-control" onChange={this.handleChange} value={this.state.company}>
                                                                                 <option value="">Select a Company
                                                                                 </option>
-                                                                                {this.props.companyProfiles.companyProfiles.map((data, i) => <option value={data._id}>{data.company_name}</option> )}
+                                                                                {this.props.companyProfiles.companyProfiles.map((data, i) => <option key={i} value={data._id}>{data.company_name}</option> )}
                                                                                 {/* <option value="green">Abuja</option>
                                                                                 <option value="blue">Lagos</option> */}
                                                                             </select>
@@ -323,7 +320,7 @@ class Event extends Component {
                                                                         <div className="col-md-3">
                                                                         <div className="form-group">
                                                                             <label className="form-label">State</label>
-                                                                            <select name="color" className="form-control" onChange={this.handleChange} value={this.state.color}>
+                                                                            <select name="state" className="form-control" onChange={this.handleChange} value={this.state.state}>
                                                                                 <option value="">Select your State
                                                                                 </option>
                                                                                 <option value="abuja">Abuja</option>
@@ -334,7 +331,7 @@ class Event extends Component {
                                                                         <div className="col-md-3">
                                                                         <div className="form-group">
                                                                             <label className="form-label">Country</label>
-                                                                            <select name="color" className="form-control" onChange={this.handleChange} value={this.state.color}>
+                                                                            <select name="country" className="form-control" onChange={this.handleChange} value={this.state.country}>
                                                                                 <option value="">Select your country
                                                                                 </option>
                                                                                 <option value="nigeria">Nigeria</option>
@@ -374,14 +371,14 @@ class Event extends Component {
                                                                         </div>  
                                                                     </div>
                                                                     <div className="row">
-                                                                        <div className="col-md-4">
+                                                                        <div className="col-md-6">
                                                                         <div className="form-group">
                                                                             <label className="form-label">Website</label>
                                                                             <input type="text" name="website" placeholder="Enter Website url" 
                                                                             onChange={this.handleChange} value={this.state.website} className="form-control"/>
                                                                         </div>
                                                                         </div>
-                                                                        <div className="col-md-4">
+                                                                        {/* <div className="col-md-4">
                                                                         <div className="form-group">
                                                                             <label className="form-label">Color</label>
                                                                             <select name="color" className="form-control" onChange={this.handleChange} value={this.state.color}>
@@ -393,8 +390,8 @@ class Event extends Component {
                                                                                 <option value="yellow">Yellow</option>
                                                                             </select>
                                                                         </div>
-                                                                        </div> 
-                                                                        <div className="col-md-4">
+                                                                        </div>  */}
+                                                                        <div className="col-md-6">
                                                                         <div className="form-group">
                                                                             <label className="form-label">Time Zone</label>
                                                                             <select name="time_zone" className="form-control" onChange={this.handleChange} value={this.state.time_zone}>

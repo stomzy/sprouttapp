@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
 import Sidebar from '../Sidebar';
 import Navbar from '../Navbar';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getResources } from '../../actions/resourceActions';
 
 class ResourcesList extends Component {
     componentDidMount() {
+        const script = document.createElement("script");
+
+        script.src = 'js/content.js';
+        script.async = true;
+
+        document.body.appendChild(script);
+
         this.props.getResources();
     }
 
@@ -90,7 +96,7 @@ class ResourcesList extends Component {
                                                             </div>
                                                             <div className="card-block">
                                                             <div className="table-responsive">
-                                                                        <table className="table table-xs table-hover table-outline card-table table-striped">
+                                                                        <table id="order-table" className="table table-xs table-hover table-outline card-table table-striped">
                                                                         <thead>
                                                                             <tr>
                                                                             <th>S/N</th>
@@ -101,7 +107,7 @@ class ResourcesList extends Component {
                                                                             <th>Start Date</th>
                                                                             <th>End Date</th> */}
                                                                             <th>Url</th>
-                                                                            <th></th>
+                                                                            <th>Actions</th>
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
@@ -112,13 +118,12 @@ class ResourcesList extends Component {
                                                                                     <td>{data.programid}</td>
                                                                                     <td><b>{data.title}</b></td>
                                                                                     <td>{data.url}</td>
-                                                                                    <td className="text-right">
-                                                                                    <a  className="btn btn-secondary btn-sm">
-                                                                                        Edit
-                                                                                    </a>
-                                                                                    <a  className="btn btn-secondary btn-sm">
-                                                                                        Delete
-                                                                                    </a>
+                                                                                    <td><button className="btn btn-info btn-sm">
+                                                                                            <span className="glyphicon glyphicon-edit"></span> Edit
+                                                                                        </button>
+                                                                                        <button className="btn btn-danger btn-sm">
+                                                                                            <span className="glyphicon glyphicon-trash"></span> Edit
+                                                                                        </button>
                                                                                     </td>
                                                                                </tr>
                                                                             )}
