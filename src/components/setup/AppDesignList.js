@@ -1,27 +1,10 @@
 import React, { Component } from 'react';
 import Sidebar from '../Sidebar';
 import Navbar from '../Navbar';
-import { connect } from 'react-redux';
-import { getEvents } from '../../actions/eventsAction';
 import { Link } from "react-router-dom";
 
-class EventList extends Component {
-    constructor() {
-        super();
-        this.state = {}
-    }
-
-    componentDidMount() {
-        this.props.getEvents();
-    }
-
-    handleDelete(id, e) {
-        e.preventDefault();
-        console.log(id);
-    }   
-
+class AppDesignList extends Component {
     render() {
-
         return (
             <React.Fragment>
                 <div className="loader-bg">
@@ -52,8 +35,8 @@ class EventList extends Component {
                                                 <div className="page-header-title">
                                                     <i className="feather icon-watch bg-c-blue"></i>
                                                     <div className="d-inline">
-                                                        <h5>Event info</h5>
-                                                        <span>Setting up events Informations</span>
+                                                        <h5>App Design info</h5>
+                                                        <span>App Design Informations</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -64,7 +47,7 @@ class EventList extends Component {
                                                             <a href="index.html"><i className="feather icon-home"></i></a>
                                                         </li>
                                                         <li className="breadcrumb-item">
-                                                            <a href="#!">Event info</a>
+                                                            <a href="#!">App Design</a>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -81,10 +64,10 @@ class EventList extends Component {
                                                         <div className="col-sm-12">
                                                             <div className="card">
                                                                 <div className="card-header">
-                                                                    <h5>Registered Events</h5>
+                                                                    <h5>Registered App Design</h5>
                                                                     <div className="card-header-right">
-                                                                        <a href="/events-info">
-                                                                        <button className="btn btn-primary">Add Event</button>
+                                                                        <a href="/app-design">
+                                                                        <button className="btn btn-primary">Add App Design</button>
                                                                         </a>
                                                                     </div>
                                                                 </div>
@@ -105,28 +88,7 @@ class EventList extends Component {
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
-                                                                            {this.props.events.events.map((data, i) => 
-                                                                                  <tr key={i}>
-                                                                                    {/* <td>{i += 1}</td> */}
-                                                                                    <td>{data._id}</td>
-                                                                                    <td><b>{data.title}</b></td>
-                                                                                    <td>{data.eventCode}</td>
-                                                                                    {/* <td>{data.website}</td> */}
-                                                                                    <td>{data.start_date.replace(/T/, ' ').replace(/\..+/, '').slice(0,10)}</td>
-                                                                                    <td>{data.end_date.replace(/T/, ' ').replace(/\..+/, '').slice(0,10)}</td>
-                                                                                    <td><span className="alert-danger">{data.start_time}</span></td>
-                                                                                    <td className="text-right">
-                                                                                        <a href={`/events-edit/${data._id}`}>
-                                                                                            <button className="btn btn-info btn-sm">
-                                                                                                <span className="glyphicon glyphicon-edit"></span> Edit
-                                                                                            </button>
-                                                                                        </a>
-                                                                                        <button onClick={this.handleDelete.bind(this, data._id)} className="btn btn-danger btn-sm">
-                                                                                                <span className="glyphicon glyphicon-trash"></span> Delete
-                                                                                        </button>
-                                                                                    </td>
-                                                                               </tr>
-                                                                            )}
+                                                                      {/* display */}
                                                                         </tbody>
                                                                         </table>
                                                                     </div>
@@ -154,11 +116,4 @@ class EventList extends Component {
     }
 }
 
-const mapStateToProps = (state) => ({
-    auth: state.auth,
-    errors: state.errors,
-    events: state.events
-});
-
-// export default Event;
-export default connect(mapStateToProps, { getEvents })(EventList);
+export default AppDesignList;

@@ -175,9 +175,10 @@ class Resources extends Component {
                                                                     <div className="col-md-12">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Description</label>
-                                                                        <textarea name="description" rows="3" value={this.state.description} onChange={this.handleChange}
+                                                                        <textarea name="description" maxLength={500} rows="3" value={this.state.description} onChange={this.handleChange}
                                                                         className="form-control" placeholder="Resource Description">
                                                                         </textarea>
+                                                                        <span>{this.state.description.length}/500</span>
                                                                     </div>
                                                                     </div> 
                                                                 </div>

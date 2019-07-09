@@ -7,6 +7,7 @@ import programReducer from './programReducer';
 import resourceReducer from './resourceReducer';
 import activityReducer from './activityReducer';
 import companyProfileReducer from './companyProfileReducer';
+import uploadReducer from './uploadReducer';
 
 
 export default combineReducers({
@@ -17,5 +18,6 @@ export default combineReducers({
     programs: programReducer,
     resources: resourceReducer,
     activities: activityReducer,
-    companyProfiles: companyProfileReducer
+    companyProfiles: companyProfileReducer,
+    uploads: uploadReducer
 });

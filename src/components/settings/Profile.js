@@ -8,17 +8,17 @@ class Profile extends Component {
     constructor() {
         super();
         this.state = {
-          title: "",
+          industry: "",
           name: "",
           phone: "",
           address: "",
-          job_title: "",
+        //   job_title: "",
           short_bio: "",
-          interest: "",
+        //   interest: "",
           website: "",
           country: "",
           photo: "",
-          company_name: "",
+        //   company_name: "",
           facebook: "",
           facebook_visible: false,
           twitter: "",
@@ -27,7 +27,7 @@ class Profile extends Component {
           linkedin_visible: false,
           instagram: "",
           instagram_visible: false,
-          event: "",
+        //   event: "",
           email: "",
           success: null
         }
@@ -44,20 +44,20 @@ class Profile extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        const { title,email, name, phone, address, job_title, short_bio, interest, 
-            website, country, company_name, facebook, facebook_visible,
+        const { industry, email, name, phone, address, short_bio,
+            website, country, facebook, facebook_visible,
             twitter, twitter_visible, linkedin, linkedin_visible, instagram, instagram_visible } = this.state;
     
-        const data = { title, email, name, phone, address, job_title, short_bio, interest, 
-            website, country, company_name, facebook, facebook_visible,
+        const data = { industry, email, name, phone, address, short_bio,
+            website, country, facebook, facebook_visible,
             twitter, twitter_visible, linkedin, linkedin_visible, instagram, instagram_visible }
         
         console.log('datad', data)
 
         this.props.createCompanyProfile(data);
 
-        this.setState({ title: "", email: "", name: "", phone: "", address: "", job_title: "", short_bio: "", interest: "", 
-            website: "", country: "", photo: "", company_name: "", facebook: "", facebook_visible: "",
+        this.setState({ industry: "", email: "", name: "", phone: "", address: "", short_bio: "", 
+            website: "", country: "", photo: "", facebook: "", facebook_visible: "",
             twitter: "", twitter_visible: "", linkedin: "", linkedin_visible: "", instagram: "", instagram_visible: "", success: "Company Profile addeed Successfully"})
     
     }
@@ -162,9 +162,9 @@ class Profile extends Component {
                                                                 <div className="row">
                                                                     <div className="col-md-4">
                                                                     <div className="form-group">
-                                                                        <label className="form-label">Title</label>
-                                                                        <input type="text" name="title" placeholder="Enter your Resource Title" 
-                                                                        onChange={this.handleChange} value={this.state.title} className="form-control" 
+                                                                        <label className="form-label">industry</label>
+                                                                        <input type="text" name="industry" placeholder="Enter Industry" 
+                                                                        onChange={this.handleChange} value={this.state.industry} className="form-control" 
                                                                         />
                                                                     </div>
                                                                     </div> 
@@ -200,41 +200,7 @@ class Profile extends Component {
                                                                         <input type="text" name="email" placeholder="Enter Company Email"
                                                                          onChange={this.handleChange} value={this.state.email} className="form-control" />
                                                                     </div>
-                                                                    </div> 
-
-                                                                    <div className="col-md-4">
-                                                                    <div className="form-group">
-                                                                        <label className="form-label">Job Title</label>
-                                                                        <input type="text" name="job_title" placeholder="Enter Job Title"
-                                                                         onChange={this.handleChange} value={this.state.job_title} className="form-control" />
                                                                     </div>
-                                                                    </div> 
-                                                                    
-                                                                </div>
-
-                                                                <div className="row">
-                                                            
-                                                                    <div className="col-md-7">
-                                                                    <div className="form-group">
-                                                                        <label className="form-label">Short Bio</label>
-                                                                        <input type="text" name="short_bio" placeholder="Enter Short Bio" 
-                                                                        onChange={this.handleChange} value={this.state.short_bio} className="form-control" />
-                                                                    </div>
-                                                                    </div> 
-
-                                                                    <div className="col-md-5">
-                                                                    <div className="form-group">
-                                                                        <label className="form-label">Interest</label>
-                                                                        <input type="text" name="interest" placeholder="Enter interest"
-                                                                        onChange={this.handleChange} value={this.state.interest} className="form-control" />
-                                                                    </div>
-                                                                    </div> 
-                                                                    
-                                                                </div>
-
-
-                                                                <div className="row">
-                                                            
                                                                     <div className="col-md-4">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Website</label>
@@ -242,31 +208,42 @@ class Profile extends Component {
                                                                         onChange={this.handleChange} value={this.state.website} className="form-control" />
                                                                     </div>
                                                                     </div> 
-
-                                                                    <div className="col-md-4">
-                                                                    <div className="form-group">
-                                                                        <label className="form-label">Country</label>
-                                                                        <input type="text" name="country" placeholder="Enter country"
-                                                                        onChange={this.handleChange} value={this.state.country} className="form-control" />
-                                                                    </div>
-                                                                    </div> 
-
-                                                                    <div className="col-md-4">
-                                                                    <div className="form-group">
-                                                                        <label className="form-label">Photo</label>
-                                                                        <input type="file" className="form-control" onChange={this.imageChangedHandler}/>
-                                                                    </div>
-                                                                    </div> 
                                                                     
                                                                 </div>
 
                                                                 <div className="row">
                                                             
-                                                                    <div className="col-md-5">
+                                                                    <div className="col-md-12">
                                                                     <div className="form-group">
-                                                                        <label className="form-label">Company Name</label>
-                                                                        <input type="text" name="company_name" placeholder="Enter company name" 
-                                                                        onChange={this.handleChange} value={this.state.company_name} className="form-control" />
+                                                                        <label className="form-label">Short Bio</label>
+                                                                        <textarea name="short_bio" rows="3" maxLength={500} value={this.state.short_bio} onChange={this.handleChange}
+                                                                        className="form-control" placeholder="Resource Description">
+                                                                        </textarea>
+                                                                        <span>{this.state.short_bio.length}/500</span>
+                                                                    </div>
+                                                                    </div>
+                                                                    
+                                                                </div>
+
+
+                                                                <div className="row">
+
+                                                                    <div className="col-md-4">
+                                                                    <div className="form-group">
+                                                                            <label className="form-label">Country</label>
+                                                                            <select name="country" className="form-control" onChange={this.handleChange} value={this.state.country}>
+                                                                                <option value="">Select your country
+                                                                                </option>
+                                                                                <option value="nigeria">Nigeria</option>
+                                                                                <option value="uk">UK</option>
+                                                                            </select>
+                                                                    </div>
+                                                                    </div> 
+
+                                                                    <div className="col-md-3">
+                                                                    <div className="form-group">
+                                                                        <label className="form-label">Logo</label>
+                                                                        <input type="file" className="form-control" onChange={this.imageChangedHandler}/>
                                                                     </div>
                                                                     </div> 
 
@@ -277,8 +254,12 @@ class Profile extends Component {
                                                                         onChange={this.handleChange} value={this.state.facebook} className="form-control" />
                                                                     </div>
                                                                     </div> 
+                                                                    
+                                                                </div>
 
-                                                                    <div className="col-md-2">
+                                                                <div className="row">
+
+                                                                    <div className="col-md-3">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Facebook Visible</label>
                                                                         <select name="facebook_visible" className="form-control" onChange={this.handleChange} value={this.state.facebook_visible}>
@@ -289,12 +270,8 @@ class Profile extends Component {
                                                                         </select>
                                                                     </div>
                                                                     </div>  
-                                                                    
-                                                                </div>
 
-                                                                <div className="row">
-                                                                    
-                                                                    <div className="col-md-5">
+                                                                    <div className="col-md-6">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Twitter</label>
                                                                         <input type="text" name="twitter" placeholder="Enter Twitter" 
@@ -302,7 +279,7 @@ class Profile extends Component {
                                                                     </div>
                                                                     </div> 
 
-                                                                    <div className="col-md-2">
+                                                                    <div className="col-md-3">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Twitter Visible</label>
                                                                         <select name="twitter_visible" className="form-control" onChange={this.handleChange} value={this.state.twitter_visible}>
@@ -313,14 +290,6 @@ class Profile extends Component {
                                                                         </select>
                                                                     </div>
                                                                     </div> 
-
-                                                                    <div className="col-md-5">
-                                                                    <div className="form-group">
-                                                                        <label className="form-label">Linkedin</label>
-                                                                        <input type="text" name="linkedin" placeholder="Enter linkedin" 
-                                                                        onChange={this.handleChange} value={this.state.linkedin} className="form-control" />
-                                                                    </div>
-                                                                    </div>  
                                                                     
                                                                 </div>
 
@@ -328,11 +297,11 @@ class Profile extends Component {
                                                                     
                                                                     <div className="col-md-6">
                                                                     <div className="form-group">
-                                                                        <label className="form-label">Instagram</label>
-                                                                        <input type="text" name="instagram" placeholder="Enter instagram" 
-                                                                        onChange={this.handleChange} value={this.state.instagram} className="form-control" />
+                                                                        <label className="form-label">Linkedin</label>
+                                                                        <input type="text" name="linkedin" placeholder="Enter linkedin" 
+                                                                        onChange={this.handleChange} value={this.state.linkedin} className="form-control" />
                                                                     </div>
-                                                                    </div> 
+                                                                    </div>  
 
                                                                     <div className="col-md-3">
                                                                     <div className="form-group">
@@ -343,6 +312,18 @@ class Profile extends Component {
                                                                             <option value="false">False</option>
                                                                             <option value="true">True</option>
                                                                         </select>
+                                                                    </div>
+                                                                    </div> 
+                                                                    
+                                                                </div>
+
+                                                                <div className="row">
+                                                                    
+                                                                    <div className="col-md-6">
+                                                                    <div className="form-group">
+                                                                        <label className="form-label">Instagram</label>
+                                                                        <input type="text" name="instagram" placeholder="Enter instagram" 
+                                                                        onChange={this.handleChange} value={this.state.instagram} className="form-control" />
                                                                     </div>
                                                                     </div> 
 

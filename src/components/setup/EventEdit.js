@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
 import Sidebar from '../Sidebar';
 import Navbar from '../Navbar';
-import { connect } from 'react-redux';
-import { createEvent } from '../../actions/eventsAction';
-import { getCompanyProfiles } from '../../actions/companyProfileAction';
 
-class Event extends Component {
+class EventEdit extends Component {
     constructor() {
         super();
         this.state = {
-        //   eventCode: null,
+          eventCode: "",
           title: "",
           description: "",
           tags: "",
@@ -25,7 +22,6 @@ class Event extends Component {
           end_time: "",
           time_zone: "",
           website: "",
-        //   color: "",
           address: "",
           postcode: "",
           state: "",
@@ -34,7 +30,6 @@ class Event extends Component {
           latitude: "",
           longitude: "",
           logo: null,
-        //   header_image: null,
           success: null
         }
   
@@ -51,50 +46,21 @@ class Event extends Component {
     handleSubmit(event) {
         event.preventDefault();
         
-        const { title, description, venue, type, tags, facebook, twitter, instagram, linkedin,
+        const { title, eventCode, description, venue, type, tags, facebook, twitter, instagram, linkedin,
             start_date, end_date, start_time, end_time, time_zone, website, color, longitude, latitude,
             address, postcode, state, country, company  } = this.state;
         
         let map =  `lat ${latitude} long ${longitude}`;
-        let rand =  Math.floor(100000 + Math.random() * 900000);
-        let eventCode = title.slice(0, 5) + rand;
         
         const data = { title, tags, description, venue, type, eventCode, facebook, twitter, instagram, linkedin,
             location: {address, postcode, state, country}, map, company,
             start_date, end_date, start_time, end_time, time_zone, website, color}
         
         // console.log('datad', data)
-
-        this.props.createEvent(data)
-        
-        this.setState({ title: "", tags: "", description: "",  venue: "", time_zone: "", website: "",
-        type: "", facebook: "", twitter: "", instagram: "", linkedin: "", start_date: "", end_date: "", start_time: "", end_time: "", 
-        longitude: "", latitude: "", address: "", postcode: "", state: "", country: "", company: "", success: `Event created with event Code:  ${eventCode}`})
-       
     
     }
 
-    fileChangedHandler = event => {
-        const file = event.target.files[0];
-        this.setState({ logo: file });
-    }
-
-
-    componentDidMount() {
-        this.props.getCompanyProfiles();
-    }
-
     render() {
-
-        let notification = "";
-        if (this.state.success != null) {
-            notification = (
-                <div className="alert alert-success" role="alert">
-                    { this.state.success }
-                </div>
-            );
-        }
-
         return (
             <React.Fragment>
                 <div className="loader-bg">
@@ -125,8 +91,8 @@ class Event extends Component {
                                                 <div className="page-header-title">
                                                     <i className="feather icon-watch bg-c-blue"></i>
                                                     <div className="d-inline">
-                                                        <h5>Event info</h5>
-                                                        <span>Setting up events Informations</span>
+                                                        <h5>Edit Event</h5>
+                                                        <span>Edit events Informations</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -137,7 +103,7 @@ class Event extends Component {
                                                             <a href="index.html"><i className="feather icon-home"></i></a>
                                                         </li>
                                                         <li className="breadcrumb-item">
-                                                            <a href="#!">Event info</a>
+                                                            <a href="#!">Edit Event</a>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -154,7 +120,7 @@ class Event extends Component {
                                                         <div className="col-sm-12">
                                                             <div className="card">
                                                                 <div className="card-header">
-                                                                    <h5>Add Events Information</h5>
+                                                                    <h5>Edit Events Information</h5>
                                                                     <div className="card-header-right">
                                                                         <ul className="list-unstyled card-option">
                                                                             <li className="first-opt"><i
@@ -173,7 +139,7 @@ class Event extends Component {
                                                                     </div>
                                                                 </div>
                                                                 <div className="card-block">
-                                                                { notification }
+                                                                
                                                                 <form onSubmit={this.handleSubmit}>
                                                                     <div className="card-body">
                                                                     {/* <h3 className="card-title">Create An Event</h3> */}
@@ -235,7 +201,7 @@ class Event extends Component {
                                                                             <select name="company" className="form-control" onChange={this.handleChange} value={this.state.company}>
                                                                                 <option value="">Select a Company
                                                                                 </option>
-                                                                                {this.props.companyProfiles.companyProfiles.map((data, i) => <option key={i} value={data._id}>{data.company_name}</option> )}
+                                            
                                                                                 {/* <option value="green">Abuja</option>
                                                                                 <option value="blue">Lagos</option> */}
                                                                             </select>
@@ -243,21 +209,7 @@ class Event extends Component {
                                                                         </div>
                                                                         </div>
                                                                     </div>
-                                                                    {/* <div className="row">
-                                                                        <div className="col-md-6">
-                                                                        <div className="form-group">
-                                                                            <label className="form-label">Event Logo</label>
-                                                                            <input type="file" className="form-control" onChange={this.fileChangedHandler}/>
-                                                                        </div>
-                                                                        </div>
-                                                                        <div className="col-md-4">
-                                                                        <div className="form-group">
-                                                                            <label className="form-label">Event Header Image</label>
-                                                                            <input type="file" className="form-control" onChange={this.imageChangedHandler}/>
-                                                                        </div>
-                                                                        </div> 
-                                                                       
-                                                                    </div> */}
+                                        
                                                                     <div className="row">
                                                                         <div className="col-md-3">
                                                                         <div className="form-group">
@@ -364,19 +316,7 @@ class Event extends Component {
                                                                             onChange={this.handleChange} value={this.state.website} className="form-control"/>
                                                                         </div>
                                                                         </div>
-                                                                        {/* <div className="col-md-4">
-                                                                        <div className="form-group">
-                                                                            <label className="form-label">Color</label>
-                                                                            <select name="color" className="form-control" onChange={this.handleChange} value={this.state.color}>
-                                                                                <option value="">Select your event color
-                                                                                </option>
-                                                                                <option value="green">Green</option>
-                                                                                <option value="blue">Blue</option>
-                                                                                <option value="red">Red</option>
-                                                                                <option value="yellow">Yellow</option>
-                                                                            </select>
-                                                                        </div>
-                                                                        </div>  */}
+                                                         
                                                                         <div className="col-md-6">
                                                                         <div className="form-group">
                                                                             <label className="form-label">Time Zone</label>
@@ -408,8 +348,7 @@ class Event extends Component {
                                                                                 <option value="BST">BST</option>
                                                                                 <option value="CVT">CVT</option>
                                                                             </select>
-                                                                            {/* <input type="text" name="time_zone" placeholder="Enter Time Zone" 
-                                                                            onChange={this.handleChange} value={this.state.time_zone} className="form-control"/> */}
+
                                                                         </div>
                                                                         </div> 
                                                                     </div>
@@ -453,12 +392,4 @@ class Event extends Component {
     }
 }
 
-const mapStateToProps = (state) => ({
-    auth: state.auth,
-    errors: state.errors,
-    events: state.events,
-    companyProfiles: state.companyProfiles
-});
-
-// export default Event;
-export default connect(mapStateToProps, { createEvent, getCompanyProfiles })(Event);
+export default EventEdit;

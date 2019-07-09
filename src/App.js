@@ -3,7 +3,9 @@ import Login from './components/auth/Login';
 import Dashboard from './components/Dashboard';
 import SetupEvent from './components/setup/Event';
 import EventList from './components/setup/EventList';
+import EventEdit from './components/setup/EventEdit';
 import AppDesign from './components/setup/AppDesign';
+import AppDesignList from './components/setup/AppDesignList';
 import Program from './components/contents/Program';
 import ProgramList from './components/contents/ProgramList';
 import Resources from './components/contents/Resources';
@@ -13,13 +15,18 @@ import ActivityList from './components/contents/activity/ActivityList';
 import companyProfile from './components/settings/Profile';
 import companyProfileList from './components/settings/CompanyProfiles';
 import UserProfile from './components/UserProfile';
+import people from './components/people/ListPeople';
+import floorplan from './components/floorPlan/AddFloorPlan';
 import {Switch, Route} from "react-router-dom";
 import jwt_decode from 'jwt-decode';
 import setAuthToken from './utils/setAuthToken';
 import {setCurrentUser, logoutUser} from './actions/authActions';
 import store from './store/Store';
 import { clearCurrentProfile } from './actions/profileActions';
+
 // import Table from './components/Tables';
+
+import PrivateRoute from './common/PrivateRoute';
 
 // check for token
 if (localStorage.jwtToken) {
@@ -48,19 +55,23 @@ function App() {
   return (
     <Switch>
       <Route exact path="/" component={Login}/>
-      <Route exact path="/dashboard" component={Dashboard}/>
-      <Route exact path="/events-info" component={SetupEvent}/>
-      <Route exact path="/events-list" component={EventList}/>
-      <Route exact path="/app-design" component={AppDesign}/>
-      <Route exact path="/profile" component={UserProfile}/>
-      <Route exact path="/program" component={Program}/>
-      <Route exact path="/program-list" component={ProgramList}/>
-      <Route exact path="/resource" component={Resources}/>
-      <Route exact path="/resources-list" component={ResourcesList}/>
-      <Route exact path="/activities" component={Activities}/>
-      <Route exact path="/activities-list" component={ActivityList}/>
-      <Route exact path="/company-profile" component={companyProfile}/>
-      <Route exact path="/company-profile-list" component={companyProfileList}/>
+      <PrivateRoute exact path="/dashboard" component={Dashboard}/>
+      <PrivateRoute exact path="/events-info" component={SetupEvent}/>
+      <PrivateRoute exact path="/events-list" component={EventList}/>
+      <PrivateRoute exact path="/events-edit/:id" component={EventEdit}/>
+      <PrivateRoute exact path="/app-design" component={AppDesign}/>
+      <PrivateRoute exact path="/app-design-list" component={AppDesignList}/>
+      <PrivateRoute exact path="/profile" component={UserProfile}/>
+      <PrivateRoute exact path="/program" component={Program}/>
+      <PrivateRoute exact path="/program-list" component={ProgramList}/>
+      <PrivateRoute exact path="/resource" component={Resources}/>
+      <PrivateRoute exact path="/resources-list" component={ResourcesList}/>
+      <PrivateRoute exact path="/activities" component={Activities}/>
+      <PrivateRoute exact path="/activities-list" component={ActivityList}/>
+      <PrivateRoute exact path="/company" component={companyProfile}/>
+      <PrivateRoute exact path="/company-profile-list" component={companyProfileList}/>
+      <PrivateRoute exact path="/people" component={people}/>
+      <PrivateRoute exact path="/floor-plan" component={floorplan}/>
       {/* <Route exact path="/table" component={Table}/> */}
       {/* <Route component={NoMatch} /> */}
     </Switch>

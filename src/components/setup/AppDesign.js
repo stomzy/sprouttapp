@@ -3,14 +3,16 @@ import Sidebar from '../Sidebar';
 import Navbar from '../Navbar';
 import { ChromePicker } from 'react-color';
 import "./AppDesign.css";
+import { connect } from 'react-redux';
+import { uploads } from '../../actions/uploads';
 
-export default class AppDesign extends Component {
+class AppDesign extends Component {
     constructor() {
         super();
         this.state = {
           theme: "",
-          logo: "",
-          header_image: "",
+          logo: null,
+          header_image: null,
           displayColorPicker: false,
           background: ''
         }
@@ -42,11 +44,22 @@ export default class AppDesign extends Component {
         event.preventDefault();
         
         const { theme, background, logo, header_image } = this.state;
-    
+
+        let type = logo.slice(5, 14);
+        let photo = logo.slice(22, logo.length);
+        
+        const dataImage = {
+            name: theme,
+            photo: photo,
+            type: type
+        }
+        console.log('datad', dataImage)
+
+        this.props.uploads(dataImage);
         
         const data = { theme, background, logo, header_image }
         
-        console.log('datad', data)
+        // console.log('datad', data)
 
         // this.props.createEvent(data)
         
@@ -56,8 +69,17 @@ export default class AppDesign extends Component {
     }
 
     fileChangedHandler = event => {
+        let self = this;
+        let reader = new FileReader();
         const file = event.target.files[0];
-        this.setState({ logo: file });
+        
+        reader.onload = function(upload) {
+            // console.log(upload.target);
+            self.setState({ logo: upload.target.result });
+        };
+
+        reader.readAsDataURL(file);  
+
     }
 
     imageChangedHandler = event => {
@@ -202,6 +224,7 @@ export default class AppDesign extends Component {
                                                                 <div className="row">
                                                                     <div className="col-md-6">
                                                                     <div className="form-group">
+                                                                        <img src={this.state.logo} />
                                                                         <label className="form-label">Logo</label>
                                                                         <input type="file" className="form-control"  onChange={this.fileChangedHandler}/>
                                                                     </div>
@@ -241,3 +264,10 @@ export default class AppDesign extends Component {
         )
     }
 }
+
+const mapStateToProps = (state) => ({
+    auth: state.auth
+});
+
+// export default Event;
+export default connect(mapStateToProps, { uploads })(AppDesign);

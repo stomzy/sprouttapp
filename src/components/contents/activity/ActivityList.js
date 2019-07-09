@@ -3,10 +3,28 @@ import Sidebar from '../../Sidebar';
 import Navbar from '../../Navbar';
 import { connect } from 'react-redux';
 import { getActivities } from '../../../actions/activityAction';
-import $ from "jquery";
-$.DataTable = require('datatables.net');
+import { ClipLoader } from 'react-spinners';
 
 class ActivityList extends Component {
+    constructor() {
+        super();
+        this.state = {
+            from :'',
+            per_page :'',
+            last_page:'',
+            current_page:'',
+            next_page_url:'',
+            first_page_url:'',
+            last_page_url:'',
+            prev_page_url:'',
+            searchQuery:'',
+            test_type:'',
+            sortColumn:'',
+            sortOrder:'',
+            loading:true
+        };
+    }
+
     componentDidMount() {
 
         this.props.getActivities();
@@ -17,6 +35,38 @@ class ActivityList extends Component {
     }
 
     render() {
+        let table_row;
+         
+        if (this.props.activities.activities.length > 0) {
+            let tr;
+            table_row =  this.props.activities.activities.map((data, i) => {
+                return (  
+                    <tr key={i}>
+                        <td>{i += 1}</td>
+                        <td>{data._id}</td>
+                        <td>{data.eventid}</td>
+                        <td><b>{data.content}</b></td>
+                        <td><span className="btn btn-info btn-sm">{data.time}</span></td>
+                            <td><button className="btn btn-info btn-sm">
+                                <span className="glyphicon glyphicon-edit"></span> Edit
+                            </button>
+                            <button className="btn btn-danger btn-sm">
+                                <span className="glyphicon glyphicon-trash"></span> Edit
+                            </button>
+                        </td>
+                    </tr>
+                )
+            });
+            
+        }else {
+            table_row = null;
+        }
+
+        let rows = [];
+        for (let i = 1; i <= this.state.last_page; i++ ) {
+            rows.push(<li className="page-item" key={i}><a className="page-link" href="#" onClick={(e)=>this.pagination('btn-click',e,i)}>{i}</a></li>);
+        }
+
         return (
             <React.Fragment>
             <div className="loader-bg">
@@ -96,7 +146,8 @@ class ActivityList extends Component {
                                                             </div>
                                                             <div className="card-block">
                                                             <div className="table-responsive">
-                                                                        <table ref={el => this.el = el } id="order-table" className="table table-xs table-hover table-outline card-table table-striped">
+                                                         
+                                                                        <table className="table table-xs table-hover table-outline card-table table-striped">
                                                                         <thead>
                                                                             <tr>
                                                                             <th>S/N</th>
@@ -111,25 +162,19 @@ class ActivityList extends Component {
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
-                                                                            {this.props.activities.activities.map((data, i) => 
-                                                                                  <tr key={i}>
-                                                                                    <td>{i += 1}</td>
-                                                                                    <td>{data._id}</td>
-                                                                                    <td>{data.eventid}</td>
-                                                                                    <td><b>{data.content}</b></td>
-                                                                                    <td><span className="btn btn-info btn-sm">{data.time}</span></td>
-                                                                                     <td><button className="btn btn-info btn-sm">
-                                                                                            <span className="glyphicon glyphicon-edit"></span> Edit
-                                                                                        </button>
-                                                                                        <button className="btn btn-danger btn-sm">
-                                                                                            <span className="glyphicon glyphicon-trash"></span> Edit
-                                                                                        </button>
-                                                                                    </td>
-                                                                               </tr>
-                                                                            )}
+                                                                        {table_row}
                                                                         </tbody>
                                                                         </table>
+                                                                        {/* pagination */}
+                                                                        <div className="dataTables_paginate paging_simple_numbers" id="example23_paginate">
+                                                                            <ul className="pagination justify-content-end">
+                                                                            <li className="page-item"><a className="page-link" href="#" onClick={(e)=>this.pagination('pre',e)}>Previous</a></li>
+                                                                            {rows}
+                                                                            <li className="page-item"><a className="page-link" href="#" onClick={(e)=>this.pagination('next',e)}>Next</a></li>
+                                                                            </ul>
+                                                                        </div>
                                                                     </div>
+                                                           
                                                             </div>
                                                         </div>
                                                     </div>

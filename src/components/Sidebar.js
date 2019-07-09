@@ -21,10 +21,10 @@ export default function Sidebar() {
                         </a>
                         <ul className="pcoded-submenu">
                             <li className=" pcoded-hasmenu">
-                                <a href="#" className="waves-effect waves-dark">
+                                <a href="/events-list" className="waves-effect waves-dark">
                                     <span className="pcoded-mtext">Events Info</span>
                                 </a>
-                                <ul className="pcoded-submenu">
+                                {/* <ul className="pcoded-submenu">
                                     <li className="">
                                         <a href="/events-info" className="waves-effect waves-dark">
                                             <span className="pcoded-mtext">Add Events</span>
@@ -35,20 +35,46 @@ export default function Sidebar() {
                                             <span className="pcoded-mtext">All Events</span>
                                         </a>
                                     </li>
-                                </ul>
+                                </ul> */}
                             </li>
                             <li className=" pcoded-hasmenu">
-                                <a href="/app-design" className="waves-effect waves-dark">
+                                <a href="/app-design-list" className="waves-effect waves-dark">
                                     <span className="pcoded-mtext">App Design</span>
                                 </a>
-                                <ul className="pcoded-submenu">
+                                {/* <ul className="pcoded-submenu">
                                     <li className="">
                                         <a href="menu-horizontal-static.html" 
                                             className="waves-effect waves-dark">
                                             <span className="pcoded-mtext">Static Layout</span>
                                         </a>
                                     </li>
-                                </ul>
+                                </ul> */}
+                            </li>
+                        </ul>
+                    </li>
+                    <li className="pcoded-hasmenu">
+                        <a href="#" className="waves-effect waves-dark">
+                            <span className="pcoded-micon"><i className="feather icon-sidebar"></i></span>
+                            <span className="pcoded-mtext">PEOPLE</span>
+                            <span className="pcoded-badge label label-info">2 items</span>
+                        </a>
+                        <ul className="pcoded-submenu">
+                            <li className=" pcoded-hasmenu">
+                                <a href="#" className="waves-effect waves-dark">
+                                    <span className="pcoded-mtext">List People</span>
+                                </a>
+                                {/* <ul className="pcoded-submenu">
+                                    <li className="">
+                                        <a href="/events-info" className="waves-effect waves-dark">
+                                            <span className="pcoded-mtext">Add Attendees</span>
+                                        </a>
+                                    </li>
+                                    <li className="">
+                                        <a href="/events-list" className="waves-effect waves-dark">
+                                            <span className="pcoded-mtext">All Attendees</span>
+                                        </a>
+                                    </li>
+                                </ul> */}
                             </li>
                         </ul>
                     </li>
@@ -61,12 +87,12 @@ export default function Sidebar() {
                         <ul className="pcoded-submenu">
                             <li className=" pcoded-hasmenu">
                                 <a href="#" className="waves-effect waves-dark">
-                                    <span className="pcoded-mtext">People</span>
+                                    <span className="pcoded-mtext">Floor Plan</span>
                                 </a>
                                 <ul className="pcoded-submenu">
                                     <li className="">
-                                        <a href="" className="waves-effect waves-dark">
-                                            <span className="pcoded-mtext">Static Layout</span>
+                                        <a href="/floor-plan" className="waves-effect waves-dark">
+                                            <span className="pcoded-mtext">Add Floor Plan</span>
                                         </a>
                                     </li>
                                 </ul>
@@ -144,15 +170,15 @@ export default function Sidebar() {
                     <li className="pcoded-hasmenu">
                         <a href="#" className="waves-effect waves-dark">
                             <span className="pcoded-micon"><i className="feather icon-sidebar"></i></span>
-                            <span className="pcoded-mtext">ATTENDEES</span>
+                            <span className="pcoded-mtext">COMPANIES</span>
                             <span className="pcoded-badge label label-info">2 items</span>
                         </a>
                         <ul className="pcoded-submenu">
                             <li className=" pcoded-hasmenu">
-                                <a href="#" className="waves-effect waves-dark">
-                                    <span className="pcoded-mtext">Attendees</span>
+                                <a href="/company" className="waves-effect waves-dark">
+                                    <span className="pcoded-mtext">Add Company</span>
                                 </a>
-                                <ul className="pcoded-submenu">
+                                {/* <ul className="pcoded-submenu">
                                     <li className="">
                                         <a href="/events-info" className="waves-effect waves-dark">
                                             <span className="pcoded-mtext">Add Attendees</span>
@@ -163,7 +189,7 @@ export default function Sidebar() {
                                             <span className="pcoded-mtext">All Attendees</span>
                                         </a>
                                     </li>
-                                </ul>
+                                </ul> */}
                             </li>
                         </ul>
                     </li>
@@ -180,7 +206,7 @@ export default function Sidebar() {
                                 </a>
                                 <ul className="pcoded-submenu">
                                     <li className="">
-                                        <a href="/company-profile" className="waves-effect waves-dark">
+                                        <a href="/company" className="waves-effect waves-dark">
                                             <span className="pcoded-mtext">Add Profile</span>
                                         </a>
                                     </li>
