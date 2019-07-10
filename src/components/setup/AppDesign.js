@@ -47,17 +47,26 @@ class AppDesign extends Component {
 
         let type = logo.slice(5, 14);
         let photo = logo.slice(22, logo.length);
+
+        let imageType = header_image.slice(5, 14);
+        let imagePhoto = header_image.slice(22, header_image.length);
         
         const dataImage = {
             name: theme,
             photo: photo,
             type: type
         }
-        console.log('datad', dataImage)
+
+        const headImage = {
+            name: theme,
+            photo: imagePhoto,
+            type: imageType
+        }
 
         this.props.uploads(dataImage);
+        this.props.uploads(headImage);
         
-        const data = { theme, background, logo, header_image }
+        const data = { theme, background }
         
         // console.log('datad', data)
 
@@ -83,8 +92,15 @@ class AppDesign extends Component {
     }
 
     imageChangedHandler = event => {
+        let self = this;
+        let reader = new FileReader();
         const file = event.target.files[0];
-        this.setState({ header_image: file });
+        
+        reader.onload = function(upload) {
+            self.setState({ header_image: upload.target.result });
+        };
+
+        reader.readAsDataURL(file); 
     }
 
     render() {
@@ -224,14 +240,24 @@ class AppDesign extends Component {
                                                                 <div className="row">
                                                                     <div className="col-md-6">
                                                                     <div className="form-group">
-                                                                        <img src={this.state.logo} />
+                                                                    {this.state.logo === null ? null : (
+                                                                            <div class="card" style={{width: '20rem', height: '20rem'}}>
+                                                                                 <img src={this.state.logo} />
+                                                                             </div>
+                                                                    )}
+                                                                       
                                                                         <label className="form-label">Logo</label>
                                                                         <input type="file" className="form-control"  onChange={this.fileChangedHandler}/>
                                                                     </div>
                                                                     </div>
                                                                     <div className="col-md-6">
                                                                     <div className="form-group">
-                                                                        <label className="form-label">Header Image</label>
+                                                                        {this.state.header_image === null ? null : (
+                                                                                <div class="card" style={{width: '20rem', height: '20rem'}}>
+                                                                                    <img src={this.state.header_image} />
+                                                                                </div>
+                                                                        )}
+                                                                            <label className="form-label">Header Image</label>
                                                                         <input type="file" className="form-control" onChange={this.imageChangedHandler}/>
                                                                     </div>
                                                                     </div> 

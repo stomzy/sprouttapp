@@ -15,7 +15,7 @@ export default function(state = initialState, action) {
         case GET_PROGRAMS:
             return {
                 ...state,
-                programs: action.paylaod,
+                programs: action.payload,
             }
         default:
             return state;

@@ -23,11 +23,11 @@ export const getCurrentProfile = () => dispatch => {
     axios.post(`${url}/profile/query/`, query, { headers: headers })
         .then( res => dispatch({
             type: GET_PROFILE,
-            paylaod: res.data
+            payload: res.data
         }))
         .catch(err => dispatch({
             type: GET_PROFILE,
-            paylaod: {}
+            payload: {}
         }))
 }
 

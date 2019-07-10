@@ -10,7 +10,7 @@ export const uploads = (image) => dispatch => {
     .then( res => 
         dispatch({
             type: UPLOADS,
-            paylaod: res.data.Location
+            payload: res.data.Location
         })
     )
     .catch(err => dispatch({

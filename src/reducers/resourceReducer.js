@@ -15,7 +15,7 @@ export default function(state = initialState, action) {
         case GET_RESOURCES:
             return {
                 ...state,
-                resources: action.paylaod,
+                resources: action.payload,
             }
         default:
             return state;

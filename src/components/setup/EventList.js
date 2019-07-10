@@ -3,7 +3,6 @@ import Sidebar from '../Sidebar';
 import Navbar from '../Navbar';
 import { connect } from 'react-redux';
 import { getEvents } from '../../actions/eventsAction';
-import { Link } from "react-router-dom";
 
 class EventList extends Component {
     constructor() {

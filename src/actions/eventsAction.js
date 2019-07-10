@@ -2,14 +2,14 @@ import axios from 'axios';
 import { url } from '../config/config';
 import { headers } from '../utils/headerJWT'
 
-import { CREATE_EVENTS, GET_EVENTS } from './types';
+import { CREATE_EVENTS, GET_EVENTS, FIND_EVENT } from './types';
 
 export const createEvent = (eventData) => dispatch => {
 
     axios.post(`${url}/event/create`, eventData, { headers: headers })
     .then( res => dispatch({
         type: CREATE_EVENTS,
-        paylaod: "Event Created Successfully..."
+        payload: "Event Created Successfully..."
     }))
     .catch(err => console.log(err));
 }
@@ -20,7 +20,19 @@ export const getEvents = () => dispatch => {
     .then( res => 
         dispatch({
         type: GET_EVENTS,
-        paylaod: res.data.data
+        payload: res.data.data
+    })
+    )
+    .catch(err => console.log(err));
+}
+
+export const findEvent = (query) => dispatch => {
+  
+    axios.post(`${url}/event/query/`, query, { headers: headers })
+    .then( res => 
+        dispatch({
+        type: FIND_EVENT,
+        payload: res.data.data[0]
     })
     )
     .catch(err => console.log(err));

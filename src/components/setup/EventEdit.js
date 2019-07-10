@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Sidebar from '../Sidebar';
 import Navbar from '../Navbar';
+import { connect } from 'react-redux';
+import { findEvent } from '../../actions/eventsAction';
 
 class EventEdit extends Component {
     constructor() {
@@ -34,7 +36,14 @@ class EventEdit extends Component {
         }
   
         this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        // this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    componentDidMount() {
+        const { id } = this.props.match.params;
+        let query = {query:{"_id": id}}; 
+
+        this.props.findEvent(query);
     }
 
     handleChange(event) {
@@ -43,24 +52,37 @@ class EventEdit extends Component {
         });
     }
 
-    handleSubmit(event) {
-        event.preventDefault();
-        
-        const { title, eventCode, description, venue, type, tags, facebook, twitter, instagram, linkedin,
-            start_date, end_date, start_time, end_time, time_zone, website, color, longitude, latitude,
-            address, postcode, state, country, company  } = this.state;
-        
-        let map =  `lat ${latitude} long ${longitude}`;
-        
-        const data = { title, tags, description, venue, type, eventCode, facebook, twitter, instagram, linkedin,
-            location: {address, postcode, state, country}, map, company,
-            start_date, end_date, start_time, end_time, time_zone, website, color}
-        
-        // console.log('datad', data)
-    
+    handleEdit(id, e) {
+        e.preventDefault();
+
+        let query = {query:{"_id": id}}; 
     }
 
+    componentWillReceiveProps(NextProps) {
+      
+        let data = NextProps.events.event;
+        console.log(data.company);
+    }
+
+    // handleSubmit(event) {
+    //     event.preventDefault();
+        
+    //     const { title, eventCode, description, venue, type, tags, facebook, twitter, instagram, linkedin,
+    //         start_date, end_date, start_time, end_time, time_zone, website, color, longitude, latitude,
+    //         address, postcode, state, country, company  } = this.state;
+        
+    //     let map =  `lat ${latitude} long ${longitude}`;
+        
+    //     const data = { title, tags, description, venue, type, eventCode, facebook, twitter, instagram, linkedin,
+    //         location: {address, postcode, state, country}, map, company,
+    //         start_date, end_date, start_time, end_time, time_zone, website, color}
+        
+    //     // console.log('datad', data)
+    
+    // }
+
     render() {
+  
         return (
             <React.Fragment>
                 <div className="loader-bg">
@@ -392,4 +414,11 @@ class EventEdit extends Component {
     }
 }
 
-export default EventEdit;
+const mapStateToProps = (state) => ({
+    auth: state.auth,
+    errors: state.errors,
+    events: state.events,
+});
+
+// export default Event;
+export default connect(mapStateToProps, { findEvent })(EventEdit);

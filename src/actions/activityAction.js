@@ -9,7 +9,7 @@ export const createActivity = (activityData) => dispatch => {
     axios.post(`${url}/activity/create`, activityData, { headers: headers })
     .then( res => dispatch({
         type: CREATE_ACTIVITY,
-        paylaod: "Activity Created Successfully..."
+        payload: "Activity Created Successfully..."
     }))
     .catch(err => console.log(err));
 }
@@ -20,7 +20,7 @@ export const getActivities = () => dispatch => {
     .then( res => 
         dispatch({
         type: GET_ACTIVITIES,
-        paylaod: res.data.data
+        payload: res.data.data
     })
     )
     .catch(err => console.log(err));

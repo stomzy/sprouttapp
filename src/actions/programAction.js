@@ -9,7 +9,7 @@ export const createProgram = (programData) => dispatch => {
     axios.post(`${url}/program/create`, programData, { headers: headers })
     .then( res => dispatch({
         type: CREATE_PROGRAM,
-        paylaod: "Program Created Successfully..."
+        payload: "Program Created Successfully..."
     }))
     .catch(err => console.log(err));
 }
@@ -20,7 +20,7 @@ export const getPrograms = () => dispatch => {
     .then( res => 
         dispatch({
         type: GET_PROGRAMS,
-        paylaod: res.data.data
+        payload: res.data.data
     })
     )
     .catch(err => console.log(err));

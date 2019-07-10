@@ -9,7 +9,7 @@ export const createCompanyProfile = (profileData) => dispatch => {
     axios.post(`${url}/profile/create`, profileData, { headers: headers })
     .then( res => dispatch({
         type: CREATE_COMPANY_PROFILE,
-        paylaod: "Company Profile Created Successfully.."
+        payload: "Company Profile Created Successfully.."
     }))
     .catch(err => console.log(err.message));
 }
@@ -20,7 +20,7 @@ export const getCompanyProfiles = () => dispatch => {
     .then( res => 
         dispatch({
         type: GET_COMPANY_PROFILES,
-        paylaod: res.data.data
+        payload: res.data.data
     })
     )
     .catch(err => console.log(err));

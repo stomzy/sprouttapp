@@ -15,7 +15,7 @@ export default function(state = initialState, action) {
         case GET_COMPANY_PROFILES:
             return {
                 ...state,
-                companyProfiles: action.paylaod,
+                companyProfiles: action.payload,
             }
         default:
             return state;
