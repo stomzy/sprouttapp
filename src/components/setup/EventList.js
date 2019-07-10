@@ -63,7 +63,7 @@ class EventList extends Component {
                                                             <a href="index.html"><i className="feather icon-home"></i></a>
                                                         </li>
                                                         <li className="breadcrumb-item">
-                                                            <a href="#!">Event info</a>
+                                                            <a href="/events-info">Add Event</a>
                                                         </li>
                                                     </ul>
                                                 </div>

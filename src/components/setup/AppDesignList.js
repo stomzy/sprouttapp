@@ -47,7 +47,7 @@ class AppDesignList extends Component {
                                                             <a href="index.html"><i className="feather icon-home"></i></a>
                                                         </li>
                                                         <li className="breadcrumb-item">
-                                                            <a href="#!">App Design</a>
+                                                            <a href="/app-design">Add App Design</a>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -77,13 +77,13 @@ class AppDesignList extends Component {
                                                                         <thead>
                                                                             <tr>
                                                                             {/* <th>S/N</th> */}
-                                                                            <th>Event Id</th>
-                                                                            <th>Event Name</th>
-                                                                            <th>Event Code</th>
+                                                                            {/* <th>Event Id</th> */}
+                                                                            <th>App Name</th>
+                                                                            <th>Logo Url</th>
                                                                             {/* <th>Website</th> */}
-                                                                            <th>Start Date</th>
-                                                                            <th>End Date</th>
-                                                                            <th>Time</th>
+                                                                            <th>Image 1</th>
+                                                                            <th>Image 2</th>
+                                                                            <th>Image 3</th>
                                                                             <th></th>
                                                                             </tr>
                                                                         </thead>

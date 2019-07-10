@@ -196,7 +196,7 @@ class AppDesign extends Component {
                                                                 <div className="card-body">
                                                                 {/* <h3 className="card-title">Create An Event</h3> */}
                                                                 <div className="row">
-                                                                    <div className="col-md-6">
+                                                                    <div className="col-md-4">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Theme</label>
                                                                         <select name="theme" className="form-control" onChange={this.handleChange} value={this.state.theme}>
@@ -212,8 +212,15 @@ class AppDesign extends Component {
                                                                         </select>
                                                                     </div>
                                                                     </div> 
+                                                                    <div className="col-md-4">
+                                                                    <div className="form-group">
+                                                    
+                                                                        <label className="form-label">App Name</label>
+                                                                        <input type="text" className="form-control" />
+                                                                    </div>
+                                                                    </div> 
                                                                 
-                                                                    <div className="col-md-6">
+                                                                    <div className="col-md-4">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Color</label>
                                                                         
@@ -238,7 +245,7 @@ class AppDesign extends Component {
                                                                     
                                                                 </div>
                                                                 <div className="row">
-                                                                    <div className="col-md-6">
+                                                                    <div className="col-md-4">
                                                                     <div className="form-group">
                                                                     {this.state.logo === null ? null : (
                                                                             <div class="card" style={{width: '20rem', height: '20rem'}}>
@@ -250,15 +257,60 @@ class AppDesign extends Component {
                                                                         <input type="file" className="form-control"  onChange={this.fileChangedHandler}/>
                                                                     </div>
                                                                     </div>
-                                                                    <div className="col-md-6">
+                                                                    <div className="col-md-4">
                                                                     <div className="form-group">
                                                                         {this.state.header_image === null ? null : (
                                                                                 <div class="card" style={{width: '20rem', height: '20rem'}}>
                                                                                     <img src={this.state.header_image} />
                                                                                 </div>
                                                                         )}
-                                                                            <label className="form-label">Header Image</label>
+                                                                            <label className="form-label">Homepage Image 1</label>
                                                                         <input type="file" className="form-control" onChange={this.imageChangedHandler}/>
+                                                                    </div>
+                                                                    </div> 
+                                                                    <div className="col-md-4">
+                                                                    <div className="form-group">
+                                                    
+                                                                        <label className="form-label">Caption</label>
+                                                                        <input type="text" className="form-control" />
+                                                                    </div>
+                                                                    </div> 
+                                                                </div>
+                                                                <div className="row">
+                                                                <div className="col-md-3">
+                                                                    <div className="form-group">
+                                                                        {this.state.header_image === null ? null : (
+                                                                                <div class="card" style={{width: '20rem', height: '20rem'}}>
+                                                                                    <img src={this.state.header_image} />
+                                                                                </div>
+                                                                        )}
+                                                                            <label className="form-label">Homepage Image 2</label>
+                                                                        <input type="file" className="form-control" onChange={this.imageChangedHandler}/>
+                                                                    </div>
+                                                                    </div> 
+                                                                    <div className="col-md-3">
+                                                                    <div className="form-group">
+                                                    
+                                                                        <label className="form-label">Caption</label>
+                                                                        <input type="text" className="form-control" />
+                                                                    </div>
+                                                                    </div>
+                                                                    <div className="col-md-3">
+                                                                    <div className="form-group">
+                                                                        {this.state.header_image === null ? null : (
+                                                                                <div class="card" style={{width: '20rem', height: '20rem'}}>
+                                                                                    <img src={this.state.header_image} />
+                                                                                </div>
+                                                                        )}
+                                                                            <label className="form-label">Homepage Image 3</label>
+                                                                        <input type="file" className="form-control" onChange={this.imageChangedHandler}/>
+                                                                    </div>
+                                                                    </div> 
+                                                                    <div className="col-md-3">
+                                                                    <div className="form-group">
+                                                    
+                                                                        <label className="form-label">Caption</label>
+                                                                        <input type="text" className="form-control" />
                                                                     </div>
                                                                     </div> 
                                                                 </div>
