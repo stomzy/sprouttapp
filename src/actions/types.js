@@ -21,3 +21,5 @@ export const GET_COMPANY_PROFILES = 'GET_COMPANY_PROFILES';
 export const UPLOADS = 'UPLOADS';
 export const CREATE_APP_DESIGN = 'CREATE_APP_DESIGN';
 export const GET_APP_DESIGN = 'GET_APP_DESIGN';
+export const CREATE_PEOPLE = 'CREATE_PEOPLE';
+export const GET_PEOPLE = 'GET_PEOPLE';

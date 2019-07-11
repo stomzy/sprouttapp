@@ -1,16 +1,16 @@
 import { UPLOADS } from '../actions/types';
 
-const initialState = [
-    {uploads: null}
-]
+const initialState = {
+    uploads: []
+}
 
 export default function(state = initialState, action) {
     switch(action.type) {
         case UPLOADS:
-            return [
+            return {
                 ...state,
-                {uploads: action.payload},
-            ]
+                uploads: [...state.uploads, action.payload]
+            }
         default:
             return state;
     }

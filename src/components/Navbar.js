@@ -70,11 +70,11 @@ class Navbar extends Component {
                                                         <i className="feather icon-settings"></i> Settings
                                                     </a>
                                                 </li> */}
-                                                <li>
+                                                {/* <li>
                                                     <a href="/profile">
                                                         <i className="feather icon-user"></i> Profile
                                                     </a>
-                                                </li>
+                                                </li> */}
                                                 <li>
                                                     <a href="" onClick={this.onLogout.bind(this)}>
                                                         <i className="feather icon-log-out"></i> Logout

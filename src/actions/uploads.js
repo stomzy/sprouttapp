@@ -18,3 +18,4 @@ export const uploads = (image) => dispatch => {
         paylaod: {}
     }))
 }
+

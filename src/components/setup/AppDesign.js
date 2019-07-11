@@ -12,9 +12,19 @@ class AppDesign extends Component {
         this.state = {
           theme: "",
           logo: null,
-          header_image: null,
+          header_image1: null,
+          header_image2: null,
+          header_image3: null,
           displayColorPicker: false,
-          background: ''
+          background: '',
+          caption1: '',
+          caption2: '',
+          caption3: '',
+          appName: '',
+          logoUrl: '',
+          header_image1_Url: '',
+          header_image2_Url: '',
+          header_image3_Url: ''
         }
   
         this.handleChange = this.handleChange.bind(this);
@@ -40,41 +50,92 @@ class AppDesign extends Component {
         });
     }
 
+    componentWillReceiveProps(NextProps) {
+      
+        // let data = NextProps.events.event;
+        console.log(NextProps);
+    }
+
     handleSubmit(event) {
         event.preventDefault();
-        
-        const { theme, background, logo, header_image } = this.state;
+        this.uploadLogo();
+        this.uploadHeader1();
+        this.uploadHeader2();
+        this.uploadHeader3();
 
+        
+        
+        const { theme, background, logoUrl, header_image1_Url, header_image2_Url, header_image3_Url } = this.state;
+        
+        const data = { theme, background, logoUrl, header_image1_Url, header_image2_Url, header_image3_Url }
+        
+        // console.log('datad', data)
+
+        // this.props.createEvent(data)
+
+        const imagesUploaded = this.props;
+
+        console.log(imagesUploaded);
+        
+        this.setState({ theme: "", color: "", success: `App setup Completed..`})
+       
+    
+    }
+
+    uploadLogo = () => {
+        let { logo, theme } = this.state;
         let type = logo.slice(5, 14);
         let photo = logo.slice(22, logo.length);
 
-        let imageType = header_image.slice(5, 14);
-        let imagePhoto = header_image.slice(22, header_image.length);
-        
         const dataImage = {
             name: theme,
             photo: photo,
             type: type
         }
 
+        this.props.uploads(dataImage);
+    }
+
+    uploadHeader1 = () => {
+        let { header_image1, caption1 } = this.state;
+        let imageType = header_image1.slice(5, 14);
+        let imagePhoto = header_image1.slice(22, header_image1.length);
+
         const headImage = {
-            name: theme,
+            name: caption1,
             photo: imagePhoto,
             type: imageType
         }
 
-        this.props.uploads(dataImage);
         this.props.uploads(headImage);
-        
-        const data = { theme, background }
-        
-        // console.log('datad', data)
+    }
 
-        // this.props.createEvent(data)
-        
-        this.setState({ theme: "", color: "", success: `App setup Completed..`})
-       
-    
+    uploadHeader2 = () => {
+        let { header_image2, caption2 } = this.state;
+        let imageType = header_image2.slice(5, 14);
+        let imagePhoto = header_image2.slice(22, header_image2.length);
+
+        const headImage = {
+            name: caption2,
+            photo: imagePhoto,
+            type: imageType
+        }
+
+        this.props.uploads(headImage);
+    }
+
+    uploadHeader3 = () => {
+        let { header_image3, caption3 } = this.state;
+        let imageType = header_image3.slice(5, 14);
+        let imagePhoto = header_image3.slice(22, header_image3.length);
+
+        const headImage = {
+            name: caption3,
+            photo: imagePhoto,
+            type: imageType
+        }
+
+        this.props.uploads(headImage);
     }
 
     fileChangedHandler = event => {
@@ -88,16 +149,39 @@ class AppDesign extends Component {
         };
 
         reader.readAsDataURL(file);  
-
     }
 
-    imageChangedHandler = event => {
+    imageChangedHandler1 = event => {
         let self = this;
         let reader = new FileReader();
         const file = event.target.files[0];
         
         reader.onload = function(upload) {
-            self.setState({ header_image: upload.target.result });
+            self.setState({ header_image1: upload.target.result });
+        };
+
+        reader.readAsDataURL(file); 
+    }
+
+    imageChangedHandler2 = event => {
+        let self = this;
+        let reader = new FileReader();
+        const file = event.target.files[0];
+        
+        reader.onload = function(upload) {
+            self.setState({ header_image2: upload.target.result });
+        };
+
+        reader.readAsDataURL(file); 
+    }
+
+    imageChangedHandler3 = event => {
+        let self = this;
+        let reader = new FileReader();
+        const file = event.target.files[0];
+        
+        reader.onload = function(upload) {
+            self.setState({ header_image3: upload.target.result });
         };
 
         reader.readAsDataURL(file); 
@@ -202,9 +286,10 @@ class AppDesign extends Component {
                                                                         <select name="theme" className="form-control" onChange={this.handleChange} value={this.state.theme}>
                                                                             <option value="opt1">Select Customize Theme
                                                                             </option>
-                                                                            <option value="theme2">Theme 2</option>
+                                                                            <option value="theme2">Theme 1</option>
+                                                                            {/* <option value="theme2">Theme 2</option>
                                                                             <option value="theme3">Theme 3</option>
-                                                                            <option value="theme4">Theme 4</option>
+                                                                            <option value="theme4">Theme 4</option> */}
                                                                             {/* <option value="opt5">Type 5</option>
                                                                             <option value="opt6">Type 6</option>
                                                                             <option value="opt7">Type 7</option>
@@ -216,7 +301,7 @@ class AppDesign extends Component {
                                                                     <div className="form-group">
                                                     
                                                                         <label className="form-label">App Name</label>
-                                                                        <input type="text" className="form-control" />
+                                                                        <input type="text" name="appName" onChange={this.handleChange} value={this.state.appName} className="form-control" />
                                                                     </div>
                                                                     </div> 
                                                                 
@@ -247,11 +332,11 @@ class AppDesign extends Component {
                                                                 <div className="row">
                                                                     <div className="col-md-4">
                                                                     <div className="form-group">
-                                                                    {this.state.logo === null ? null : (
-                                                                            <div class="card" style={{width: '20rem', height: '20rem'}}>
-                                                                                 <img src={this.state.logo} />
+                                                                    {/* {this.state.logo === null ? null : (
+                                                                            <div className="card" style={{width: '20rem', height: '20rem'}}>
+                                                                                 <img src={this.state.logo}/>
                                                                              </div>
-                                                                    )}
+                                                                    )} */}
                                                                        
                                                                         <label className="form-label">Logo</label>
                                                                         <input type="file" className="form-control"  onChange={this.fileChangedHandler}/>
@@ -259,58 +344,61 @@ class AppDesign extends Component {
                                                                     </div>
                                                                     <div className="col-md-4">
                                                                     <div className="form-group">
-                                                                        {this.state.header_image === null ? null : (
+                                                                        {/* {this.state.header_image === null ? null : (
                                                                                 <div class="card" style={{width: '20rem', height: '20rem'}}>
-                                                                                    <img src={this.state.header_image} />
+                                                                                    <img src={this.state.header_image1} />
                                                                                 </div>
-                                                                        )}
+                                                                        )} */}
                                                                             <label className="form-label">Homepage Image 1</label>
-                                                                        <input type="file" className="form-control" onChange={this.imageChangedHandler}/>
+                                                                        <input type="file" className="form-control" onChange={this.imageChangedHandler1}/>
                                                                     </div>
                                                                     </div> 
                                                                     <div className="col-md-4">
                                                                     <div className="form-group">
                                                     
                                                                         <label className="form-label">Caption</label>
-                                                                        <input type="text" className="form-control" />
+                                                                        <input type="text" className="form-control" name="caption1"
+                                                                         onChange={this.handleChange} value={this.state.caption1} />
                                                                     </div>
                                                                     </div> 
                                                                 </div>
                                                                 <div className="row">
                                                                 <div className="col-md-3">
                                                                     <div className="form-group">
-                                                                        {this.state.header_image === null ? null : (
+                                                                        {/* {this.state.header_image === null ? null : (
                                                                                 <div class="card" style={{width: '20rem', height: '20rem'}}>
-                                                                                    <img src={this.state.header_image} />
+                                                                                    <img src={this.state.header_image2}/>
                                                                                 </div>
-                                                                        )}
+                                                                        )} */}
                                                                             <label className="form-label">Homepage Image 2</label>
-                                                                        <input type="file" className="form-control" onChange={this.imageChangedHandler}/>
+                                                                        <input type="file" className="form-control" onChange={this.imageChangedHandler2}/>
                                                                     </div>
                                                                     </div> 
                                                                     <div className="col-md-3">
                                                                     <div className="form-group">
                                                     
                                                                         <label className="form-label">Caption</label>
-                                                                        <input type="text" className="form-control" />
+                                                                        <input type="text" className="form-control" name="caption2" 
+                                                                        onChange={this.handleChange} value={this.state.caption2}/>
                                                                     </div>
                                                                     </div>
                                                                     <div className="col-md-3">
                                                                     <div className="form-group">
-                                                                        {this.state.header_image === null ? null : (
+                                                                        {/* {this.state.header_image === null ? null : (
                                                                                 <div class="card" style={{width: '20rem', height: '20rem'}}>
-                                                                                    <img src={this.state.header_image} />
+                                                                                    <img src={this.state.header_image3}/>
                                                                                 </div>
-                                                                        )}
+                                                                        )} */}
                                                                             <label className="form-label">Homepage Image 3</label>
-                                                                        <input type="file" className="form-control" onChange={this.imageChangedHandler}/>
+                                                                        <input type="file" className="form-control" onChange={this.imageChangedHandler3}/>
                                                                     </div>
                                                                     </div> 
                                                                     <div className="col-md-3">
                                                                     <div className="form-group">
                                                     
                                                                         <label className="form-label">Caption</label>
-                                                                        <input type="text" className="form-control" />
+                                                                        <input type="text" className="form-control" name="caption3"
+                                                                        onChange={this.handleChange} value={this.state.caption3}/>
                                                                     </div>
                                                                     </div> 
                                                                 </div>
@@ -344,7 +432,8 @@ class AppDesign extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    auth: state.auth
+    auth: state.auth,
+    uploads: state.uploads
 });
 
 // export default Event;

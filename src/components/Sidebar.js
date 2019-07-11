@@ -60,7 +60,7 @@ export default function Sidebar() {
                         </a>
                         <ul className="pcoded-submenu">
                             <li className=" pcoded-hasmenu">
-                                <a href="#" className="waves-effect waves-dark">
+                                <a href="/people-list" className="waves-effect waves-dark">
                                     <span className="pcoded-mtext">List People</span>
                                 </a>
                                 {/* <ul className="pcoded-submenu">

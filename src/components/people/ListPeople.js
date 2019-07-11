@@ -1,8 +1,19 @@
 import React, { Component } from 'react';
 import Sidebar from '../Sidebar';
 import Navbar from '../Navbar';
+import { connect } from 'react-redux';
+import { getPeople } from '../../actions/peopleAction';
 
 class People extends Component {
+    componentDidMount() {
+        this.props.getPeople();
+    }
+
+    handleDelete(id, e) {
+        e.preventDefault();
+        console.log(id);
+    } 
+
     render() {
         return (
             <React.Fragment>
@@ -34,8 +45,8 @@ class People extends Component {
                                             <div className="page-header-title">
                                                 <i className="feather icon-watch bg-c-blue"></i>
                                                 <div className="d-inline">
-                                                    <h5>Activities info</h5>
-                                                    <span>Setting up Activity</span>
+                                                    <h5>Peoples info</h5>
+                                                    <span>List People's information</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -46,7 +57,7 @@ class People extends Component {
                                                         <a href="index.html"><i className="feather icon-home"></i></a>
                                                     </li>
                                                     <li className="breadcrumb-item">
-                                                        <a href="#!">Activities info</a>
+                                                        <a href="/people">Add People</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -63,27 +74,49 @@ class People extends Component {
                                                     <div className="col-sm-12">
                                                         <div className="card">
                                                             <div className="card-header">
-                                                                <h5>Create an Activity</h5>
+                                                                <h5>Add People</h5>
                                                                 <div className="card-header-right">
-                                                                    <ul className="list-unstyled card-option">
-                                                                        <li className="first-opt"><i
-                                                                                className="feather icon-chevron-left open-card-option"></i>
-                                                                        </li>
-                                                                        <li><i className="feather icon-maximize full-card"></i></li>
-                                                                        <li><i className="feather icon-minus minimize-card"></i>
-                                                                        </li>
-                                                                        <li><i className="feather icon-refresh-cw reload-card"></i>
-                                                                        </li>
-                                                                        <li><i className="feather icon-trash close-card"></i></li>
-                                                                        <li><i
-                                                                               className="feather icon-chevron-left open-card-option"></i>
-                                                                        </li>
-                                                                    </ul>
+                                                                    <a href="/people">
+                                                                    <button className="btn btn-primary">Add People</button>
+                                                                    </a>
                                                                 </div>
                                                             </div>
                                                             <div className="card-block">
-                                                            {/* { notification } */}
-                                                            <p>People List Table</p>
+                                                            <div className="table-responsive">
+                                                                    <table className="table table-xs table-hover table-outline card-table table-striped">
+                                                                    <thead>
+                                                                        <tr>
+                                                                      
+                                                                        <th>Title</th>
+                                                                        <th>First Name</th>
+                                                                        <th>Phone</th>
+                                                                        <th>Email</th>
+                                                                        <th></th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    {this.props.peopleProfile.peoples.map((data, i) => 
+                                                                                  <tr key={i}>
+                                                                                    {/* <td>{i += 1}</td> */}
+                                                                                    <td>{data.title}</td>
+                                                                                    <td><b>{data.name}</b></td>
+                                                                                    <td>{data.phone}</td>
+                                                                                    <td>{data.email}</td>
+                                                                                    <td className="text-right">
+                                                                                        <a href={`/events-edit/${data._id}`}>
+                                                                                            <button className="btn btn-info btn-sm">
+                                                                                                <span className="glyphicon glyphicon-edit"></span> Edit
+                                                                                            </button>
+                                                                                        </a>
+                                                                                        <button onClick={this.handleDelete.bind(this, data._id)} className="btn btn-danger btn-sm">
+                                                                                                <span className="glyphicon glyphicon-trash"></span> Delete
+                                                                                        </button>
+                                                                                    </td>
+                                                                               </tr>
+                                                                            )}
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -107,4 +140,10 @@ class People extends Component {
     }
 }
 
-export default People;
+const mapStateToProps = (state) => ({
+    auth: state.auth,
+    errors: state.errors,
+    peopleProfile: state.peopleProfile
+});
+
+export default connect(mapStateToProps, { getPeople })(People);
