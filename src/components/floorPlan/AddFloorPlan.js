@@ -1,8 +1,42 @@
 import React, { Component } from 'react';
 import Sidebar from '../Sidebar';
 import Navbar from '../Navbar';
+import { connect } from 'react-redux';
+import { createFloor } from '../../actions/floorPlanAction';
 
 class AddFloorPlan extends Component {
+    constructor() {
+        super();
+        this.state = {
+          eventid: "",
+          title: "",
+          image: "",
+          coordinates: "",
+          success: null
+        }
+  
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleChange(event) {
+        this.setState({
+          [event.target.name]: event.target.value
+        });
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
+        const { title, coordinates, eventid } = this.state;
+    
+        const data = { title, coordinates, eventid }
+        
+        console.log('datad', data)
+        this.props.createFloor(data);
+
+        this.setState({ title: "", eventid: "", coordinates: "", success: "Floor Plan Submitted Successfully"})
+    }
+
     render() {
         return (
             <React.Fragment>
@@ -46,7 +80,7 @@ class AddFloorPlan extends Component {
                                                         <a href="index.html"><i className="feather icon-home"></i></a>
                                                     </li>
                                                     <li className="breadcrumb-item">
-                                                        <a href="#!">Floor Plan info</a>
+                                                        <a href="/floor-plan-list">Floor Plan info</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -83,7 +117,53 @@ class AddFloorPlan extends Component {
                                                             </div>
                                                             <div className="card-block">
                                                             {/* { notification } */}
-                                                            <p>Floor Plan</p>
+                                                            <form onSubmit={this.handleSubmit}>
+                                                                <div className="card-body">
+                                                                {/* <h3 className="card-title">Create An Event</h3> */}
+                                                                <div className="row">
+                                                                    <div className="col-md-6">
+                                                                    <div className="form-group">
+                                                                        <label className="form-label">Title</label>
+                                                                        <input type="text" name="title" placeholder="Enter your Program Title" 
+                                                                        onChange={this.handleChange} value={this.state.title} className="form-control" 
+                                                                        />
+                                                                    </div>
+                                                                    </div> 
+                                                                
+                                                                    <div className="col-md-6">
+                                                                    <div className="form-group">
+                                                                        <label className="form-label">Event Id</label>
+                                                                        <input type="text" name="eventid" placeholder="Enter Event Id" 
+                                                                        onChange={this.handleChange} value={this.state.eventid} className="form-control" required/>
+                                                                    </div>
+                                                                    </div> 
+                                                                    
+                                                                </div>
+                                                             
+                                                                <div className="row">
+                                                                   
+                                                                    <div className="col-md-6">
+                                                                    <div className="form-group">
+                                                                        <label className="form-label">Image</label>
+                                                                        <input type="file" className="form-control" onChange={this.fileChangedHandler}/>
+                                                                    </div>
+                                                                    </div>
+
+                                                                    <div className="col-md-6">
+                                                                    <div className="form-group">
+                                                                        <label className="form-label">Coordinates</label>
+                                                                        <input type="text" name="coordinates" placeholder="Enter Coordinates"
+                                                                         onChange={this.handleChange} value={this.state.coordinates} className="form-control"/>
+                                                                    </div>
+                                                                    </div>  
+                                                                   
+                                                                </div>
+
+                                                                </div>
+                                                                <div className="card-footer text-right">
+                                                                <button type="submit" className="btn btn-primary">Submit</button>
+                                                                </div>
+                                                            </form>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -106,4 +186,10 @@ class AddFloorPlan extends Component {
         )
     }
 }
-export default AddFloorPlan;
+
+const mapStateToProps = (state) => ({
+    auth: state.auth,
+    errors: state.errors,
+});
+
+export default connect(mapStateToProps, { createFloor })(AddFloorPlan);

@@ -18,6 +18,7 @@ import UserProfile from './components/UserProfile';
 import people from './components/people/ListPeople';
 import addPeople from './components/people/AddPeople';
 import floorplan from './components/floorPlan/AddFloorPlan';
+import floorplanList from './components/floorPlan/ListFloorPlan';
 import {Switch, Route} from "react-router-dom";
 import jwt_decode from 'jwt-decode';
 import setAuthToken from './utils/setAuthToken';
@@ -74,6 +75,7 @@ function App() {
       <PrivateRoute exact path="/people-list" component={people}/>
       <PrivateRoute exact path="/people" component={addPeople}/>
       <PrivateRoute exact path="/floor-plan" component={floorplan}/>
+      <PrivateRoute exact path="/floor-plan-list" component={floorplanList}/>
       {/* <Route exact path="/table" component={Table}/> */}
       {/* <Route component={NoMatch} /> */}
     </Switch>

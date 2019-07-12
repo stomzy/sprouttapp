@@ -2,13 +2,12 @@ import React, { Component } from 'react';
 import Sidebar from '../Sidebar';
 import Navbar from '../Navbar';
 import { connect } from 'react-redux';
-import { getPrograms } from '../../actions/programAction';
+import { getFloors } from '../../actions/floorPlanAction';
 
-class ProgramList extends Component {
+class ListFloorPlan extends Component {
     componentDidMount() {
-        this.props.getPrograms();
+        this.props.getFloors();
     }
-
     render() {
         return (
             <React.Fragment>
@@ -40,8 +39,8 @@ class ProgramList extends Component {
                                             <div className="page-header-title">
                                                 <i className="feather icon-watch bg-c-blue"></i>
                                                 <div className="d-inline">
-                                                    <h5>Program info</h5>
-                                                    <span>Setting up Program Informations</span>
+                                                    <h5>Floor Plan info</h5>
+                                                    <span>Setting up Floor Plan</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -52,7 +51,7 @@ class ProgramList extends Component {
                                                         <a href="index.html"><i className="feather icon-home"></i></a>
                                                     </li>
                                                     <li className="breadcrumb-item">
-                                                        <a href="/program"> Add Program info</a>
+                                                        <a href="/floor-plan"> Add Floor Plan</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -82,24 +81,21 @@ class ProgramList extends Component {
                                                                         <thead>
                                                                             <tr>
                                                                             <th>S/N</th>
-                                                                            <th>Program Id</th>
-                                                                            <th>Program Title</th>
-                                                                            {/* <th>Venue</th>
-                                                                            <th>Start Date</th>
-                                                                            <th>End Date</th> */}
-                                                                            <th>Start Time</th>
-                                                                            <th>End Time</th>
+                                                                            <th>Floor Id</th>
+                                                                            <th>Floor Title</th>
+                                                                            <th>Image Url</th>
+                                                                            <th>Coordinates</th>
                                                                             <th>Actions</th>
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
-                                                                            {this.props.programs.programs.map((data, i) => 
+                                                                            {this.props.floorPlans.floors.map((data, i) => 
                                                                                   <tr key={i}>
                                                                                     <td>{i += 1}</td>
                                                                                     <td>{data._id}</td>
                                                                                     <td><b>{data.title}</b></td>
-                                                                                    <td><span className="alert-danger">{data.start_time}</span></td>
-                                                                                    <td><span className="alert-danger">{data.end_time}</span></td>
+                                                                                    <td>{data.image}</td>
+                                                                                    <td>{data.coordinates}</td>
                                                                                     <td><button className="btn btn-info btn-sm">
                                                                                             <span className="glyphicon glyphicon-edit"></span> Edit
                                                                                         </button>
@@ -135,13 +131,12 @@ class ProgramList extends Component {
     }
 }
 
-// export default ProgramList;
 const mapStateToProps = (state) => ({
     auth: state.auth,
     errors: state.errors,
     events: state.events,
-    programs: state.programs
+    floorPlans: state.floorPlans
 });
 
 // export default Event;
-export default connect(mapStateToProps, { getPrograms })(ProgramList);
+export default connect(mapStateToProps, { getFloors })(ListFloorPlan);

@@ -86,35 +86,14 @@ export default function Sidebar() {
                         </a>
                         <ul className="pcoded-submenu">
                             <li className=" pcoded-hasmenu">
-                                <a href="#" className="waves-effect waves-dark">
+                                <a href="/floor-plan-list" className="waves-effect waves-dark">
                                     <span className="pcoded-mtext">Floor Plan</span>
                                 </a>
-                                <ul className="pcoded-submenu">
-                                    <li className="">
-                                        <a href="/floor-plan" className="waves-effect waves-dark">
-                                            <span className="pcoded-mtext">Add Floor Plan</span>
-                                        </a>
-                                    </li>
-                                </ul>
                             </li>
                             <li className=" pcoded-hasmenu">
-                                <a href="javascript:void(0)" className="waves-effect waves-dark">
+                                <a href="/program-list" className="waves-effect waves-dark">
                                     <span className="pcoded-mtext">Program</span>
                                 </a>
-                                <ul className="pcoded-submenu">
-                                    <li className="">
-                                        <a href="/program" 
-                                            className="waves-effect waves-dark">
-                                            <span className="pcoded-mtext">Create a Program</span>
-                                        </a>
-                                    </li>
-                                    <li className="">
-                                        <a href="/program-list" 
-                                            className="waves-effect waves-dark">
-                                            <span className="pcoded-mtext">Program List</span>
-                                        </a>
-                                    </li>
-                                </ul>
                             </li>
                             <li className=" pcoded-hasmenu">
                                 <a href="#" className="waves-effect waves-dark">

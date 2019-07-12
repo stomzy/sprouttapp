@@ -9,6 +9,7 @@ import activityReducer from './activityReducer';
 import companyProfileReducer from './companyProfileReducer';
 import uploadReducer from './uploadReducer';
 import peopleReducer from './peopleReducer';
+import floorPlanReducer from './floorPlanReducer';
 
 
 export default combineReducers({
@@ -21,5 +22,6 @@ export default combineReducers({
     activities: activityReducer,
     companyProfiles: companyProfileReducer,
     uploads: uploadReducer,
-    peopleProfile: peopleReducer
+    peopleProfile: peopleReducer,
+    floorPlans: floorPlanReducer
 });
