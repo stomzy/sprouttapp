@@ -1,24 +1,36 @@
 import React, { Component } from 'react';
-import Sidebar from '../../Sidebar';
-import Navbar from '../../Navbar';
+import Sidebar from '../Sidebar';
+import Navbar from '../Navbar';
 import { connect } from 'react-redux';
-import { createActivity } from '../../../actions/activityAction';
+import { findPrograms, updateProgram } from '../../actions/programAction';
 
-class Activities extends Component {
+class ProgramEdit extends Component {
     constructor() {
         super();
         this.state = {
           eventid: "",
-          content: "",
-          picture: "",
-          video: "",
-          time: "",
+          title: "",
+          description: "",
+          start_time: "",
+          end_time: "",
+          speakers: [],
           time_zone: "",
-          success: null
+          success: null,
+          type: "",
+          date: "",
+          venue: "",
+          tags: ""
         }
   
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    componentDidMount() {
+        const { id } = this.props.match.params;
+        let query = {query:{"_id": id}}; 
+
+        this.props.findPrograms(query);    
     }
 
     handleChange(event) {
@@ -27,20 +39,40 @@ class Activities extends Component {
         });
     }
 
+    componentWillReceiveProps(NextProps) {
+      
+        let data = NextProps.programs.programs[0];
+ 
+        this.setState({
+            title: data.title, eventid: data.eventid, description: data.description, time_zone: data.time_zone,
+            type: data.type, speakers: data.speakers, venue: data.venue, tags: data.tags
+        })
+    }
+
     handleSubmit(event) {
         event.preventDefault();
-        const { content, picture, video, eventid, time, time_zone } = this.state;
+        const { title, type, description, eventid, speakers, start_time,  end_time, time_zone, date, venue, tags } = this.state;
     
-        const data = { content, picture, video, eventid, time, time_zone }
+        const data = { title, type, description, eventid, speakers, start_time,  end_time, time_zone, date, venue, tags}
         
         console.log('datad', data)
 
-        this.props.createActivity(data);
+        const { id } = this.props.match.params;
+    
+        let query = { 
+            query: {"_id": id},
+            update: data
+        }
+        this.props.updateProgram(query);
 
-        this.setState({ content: "",  time_zone: "", time: "", success: "Activity Created Successfully"})
-    
+        this.setState({ success: "Program Updated Successfully"})
     }
-    
+
+    fileChangedHandler = event => {
+        const file = event.target.files[0];
+        this.setState({ logo: file });
+    }
+
     render() {
         let notification = "";
         if (this.state.success != null) {
@@ -50,7 +82,7 @@ class Activities extends Component {
                 </div>
             );
         }
-
+        
         return (
             <React.Fragment>
             <div className="loader-bg">
@@ -81,8 +113,8 @@ class Activities extends Component {
                                             <div className="page-header-title">
                                                 <i className="feather icon-watch bg-c-blue"></i>
                                                 <div className="d-inline">
-                                                    <h5>Activities info</h5>
-                                                    <span>Setting up Activity</span>
+                                                    <h5>Edit Program</h5>
+                                                    <span>Edit Program Informations</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -93,7 +125,7 @@ class Activities extends Component {
                                                         <a href="index.html"><i className="feather icon-home"></i></a>
                                                     </li>
                                                     <li className="breadcrumb-item">
-                                                        <a href="/activities-list">Activities List</a>
+                                                        <a href="/program-list">Program List</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -110,7 +142,7 @@ class Activities extends Component {
                                                     <div className="col-sm-12">
                                                         <div className="card">
                                                             <div className="card-header">
-                                                                <h5>Create an Activity</h5>
+                                                                <h5>Edit a Program</h5>
                                                                 <div className="card-header-right">
                                                                     <ul className="list-unstyled card-option">
                                                                         <li className="first-opt"><i
@@ -123,7 +155,7 @@ class Activities extends Component {
                                                                         </li>
                                                                         <li><i className="feather icon-trash close-card"></i></li>
                                                                         <li><i
-                                                                               className="feather icon-chevron-left open-card-option"></i>
+                                                                                className="feather icon-chevron-left open-card-option"></i>
                                                                         </li>
                                                                     </ul>
                                                                 </div>
@@ -134,44 +166,88 @@ class Activities extends Component {
                                                                 <div className="card-body">
                                                                 {/* <h3 className="card-title">Create An Event</h3> */}
                                                                 <div className="row">
-                                                                    <div className="col-md-12">
+                                                                    <div className="col-md-4">
                                                                     <div className="form-group">
-                                                                        <label className="form-label">Content</label>
-                                                                        <input type="text" name="content" placeholder="Enter your activity content" 
-                                                                        onChange={this.handleChange} value={this.state.content} className="form-control" 
+                                                                        <label className="form-label">Program Title</label>
+                                                                        <input type="text" name="title" placeholder="Enter your Program Title" 
+                                                                        onChange={this.handleChange} value={this.state.title} className="form-control" 
                                                                         required/>
                                                                     </div>
                                                                     </div> 
                                                                 
-                                                                  
-                                                                    
-                                                                </div>
-                                                             
-                                                                <div className="row">
-                                                                    <div className="col-md-6">
+                                                                    <div className="col-md-4">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Event Id</label>
                                                                         <input type="text" name="eventid" placeholder="Enter Event Id" 
-                                                                        onChange={this.handleChange} value={this.state.eventid} className="form-control" 
-                                                                        required/>
+                                                                        onChange={this.handleChange} value={this.state.eventid} className="form-control" required/>
+                                                                    </div>
+                                                                    </div> 
+
+                                                                    <div className="col-md-4">
+                                                                    <div className="form-group">
+                                                                        <label className="form-label">Speakers</label>
+                                                                        <input type="text" name="speakers" placeholder="Enter Event Speakers" 
+                                                                        onChange={this.handleChange} value={this.state.speakers} className="form-control" />
+                                                                    </div>
+                                                                    </div> 
+                                                                    
+                                                                </div>
+
+                                                                <div className="row">
+                                                                    <div className="col-md-5">
+                                                                    <div className="form-group">
+                                                                        <label className="form-label">Venue</label>
+                                                                        <input type="text" name="venue" placeholder="Enter Program Venue"
+                                                                         onChange={this.handleChange} value={this.state.venue} className="form-control" required/>
                                                                     </div>
                                                                     </div> 
 
                                                                     <div className="col-md-3">
                                                                     <div className="form-group">
-                                                                        <label className="form-label">Time</label>
-                                                                        <input type="time" name="time" placeholder="Enter Event Time"
-                                                                         onChange={this.handleChange} value={this.state.time} className="form-control" 
-                                                                         required/>
+                                                                        <label className="form-label">Program Date</label>
+                                                                        <input type="date" name="date" placeholder="Enter Program Date"
+                                                                         onChange={this.handleChange} value={this.state.date} className="form-control" required/>
+                                                                    </div>
+                                                                    </div> 
+                                                                    <div className="col-md-4">
+                                                                    <div className="form-group">
+                                                                        <label className="form-label">Tags</label>
+                                                                        <input type="text" name="tags" placeholder="Enter Program Tags"
+                                                                         onChange={this.handleChange} value={this.state.tags} className="form-control" required/>
+                                                                    </div>
+                                                                    </div> 
+                                                                </div>
+                                                             
+                                                                <div className="row">
+                                                                    <div className="col-md-3">
+                                                                    <div className="form-group">
+                                                                        <label className="form-label">Type</label>
+                                                                        <input type="text" name="type" placeholder="Enter Program Type"
+                                                                         onChange={this.handleChange} value={this.state.type} className="form-control" required/>
+                                                                    </div>
+                                                                    </div> 
+
+                                                                    <div className="col-md-3">
+                                                                    <div className="form-group">
+                                                                        <label className="form-label">Start Time</label>
+                                                                        <input type="time" name="start_time" placeholder="Enter Event Start Time"
+                                                                         onChange={this.handleChange} value={this.state.start_time} className="form-control" required/>
+                                                                    </div>
+                                                                    </div>  
+                                                                    <div className="col-md-3">
+                                                                    <div className="form-group">
+                                                                        <label className="form-label">End Time</label>
+                                                                        <input type="time" name="end_time" placeholder="Enter Event end Time"
+                                                                         onChange={this.handleChange} value={this.state.end_time} className="form-control" required/>
                                                                     </div>
                                                                     </div>  
                                                                     <div className="col-md-3">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Time Zone</label>
-                                                                        <select name="time_zone" className="form-control" onChange={this.handleChange} value={this.state.time_zone}>
-                                                                            <option value="">Select your time zone
-                                                                            </option>
-                                                                            <option value="GMT-1">GMT-1</option>
+                                                                        <select name="time_zone" className="form-control" onChange={this.handleChange} value={this.state.time_zone} required>
+                                                                                <option value="">Select your time zone
+                                                                                </option>
+                                                                                <option value="GMT-1">GMT-1</option>
                                                                                 <option value="GMT-2">GMT-2</option>
                                                                                 <option value="GMT-3">GMT-3</option>
                                                                                 <option value="GMT-4">GMT-4</option>
@@ -200,29 +276,16 @@ class Activities extends Component {
                                                                     </div> 
                                                                 </div>
                                                                 <div className="row">
-                                                                    <div className="col-md-6">
-                                                                    <div className="form-group">
-                                                                        <label className="form-label">picture</label>
-                                                                        <input type="file" className="form-control"/>
-                                                                    </div>
-                                                                    </div>
-                                                                    <div className="col-md-6">
-                                                                    <div className="form-group">
-                                                                        <label className="form-label">Video</label>
-                                                                        <input type="file" className="form-control" />
-                                                                    </div>
-                                                                    </div> 
-                                                                </div>
-                                                                {/* <div className="row">
                                                                     <div className="col-md-12">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Description</label>
-                                                                        <textarea name="description" rows="3" value={this.state.description} onChange={this.handleChange}
+                                                                        <textarea name="description"  maxLength={500} rows="3" value={this.state.description} onChange={this.handleChange}
                                                                         className="form-control" placeholder="Program Description">
                                                                         </textarea>
+                                                                        <span>{this.state.description.length}/500</span>
                                                                     </div>
                                                                     </div> 
-                                                                </div> */}
+                                                                </div>
 
                                                                 </div>
                                                                 <div className="card-footer text-right">
@@ -252,15 +315,11 @@ class Activities extends Component {
     }
 }
 
-// export default Program;
-
 const mapStateToProps = (state) => ({
     auth: state.auth,
     errors: state.errors,
-    events: state.events,
     programs: state.programs
 });
 
-// export default Event;
-export default connect(mapStateToProps, { createActivity })(Activities);
+export default connect(mapStateToProps, { findPrograms, updateProgram })(ProgramEdit);
 

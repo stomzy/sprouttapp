@@ -20,8 +20,6 @@ class AddPeople extends Component {
             country: "",
             photo: "",
             interest: "",
-            website: "",
-            country: "",
             company_name: "",
             facebook: "",
             facebook_visible: false,
@@ -31,7 +29,7 @@ class AddPeople extends Component {
             linkedin_visible: false,
             instagram: "",
             instagram_visible: false,
-            event: "",
+            role: "",
             success: null
         }
   
@@ -57,13 +55,20 @@ class AddPeople extends Component {
         reader.readAsDataURL(file); 
     }
 
-    handleSubmit(event) {
-        event.preventDefault();
-        const { interest, email, name, phone, address, job_title, short_bio, website, country, facebook, facebook_visible,
-            twitter, twitter_visible, linkedin, linkedin_visible, instagram, instagram_visible } = this.state;
-
-        let data = { interest, email, name, phone, address, job_title, short_bio, website, country, facebook, facebook_visible,
-            twitter, twitter_visible, linkedin, linkedin_visible, instagram, instagram_visible }
+    handleSubmit(e) {
+        e.preventDefault();
+        const { interest, email, company_name, name, phone, address, job_title, short_bio, website, country, facebook, facebook_visible,
+            twitter, twitter_visible, linkedin, linkedin_visible, instagram, instagram_visible, role } = this.state;
+        
+        let event = {
+            event:{
+                event_id: "",
+                event_role: role
+            }
+        }
+        
+        let data = { interest, email, company_name, name, phone, address, job_title, short_bio, website, country, facebook, facebook_visible,
+            twitter, twitter_visible, linkedin, linkedin_visible, instagram, instagram_visible, event }
 
         console.log(data);
 
@@ -360,11 +365,13 @@ class AddPeople extends Component {
                                                                     <div className="col-md-6">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Event Role</label>
-                                                                        <select name="event" className="form-control" onChange={this.handleChange} value={this.state.event}>
+                                                                        <select name="role" className="form-control" onChange={this.handleChange} value={this.state.role}>
                                                                             <option value="">Select Event Role
                                                                             </option>
-                                                                            {/* <option value="false">False</option>
-                                                                            <option value="true">True</option> */}
+                                                                            <option value="attendees">Attendees</option>
+                                                                                <option value="sponsors">Sponsors</option>
+                                                                                <option value="speakers">Speakers</option>
+                                                                                <option value="organisers">Organisers</option>
                                                                         </select>
                                                                     </div>
                                                                     </div>

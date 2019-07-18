@@ -3,26 +3,12 @@ import Sidebar from '../../Sidebar';
 import Navbar from '../../Navbar';
 import { connect } from 'react-redux';
 import { getActivities } from '../../../actions/activityAction';
-import { ClipLoader } from 'react-spinners';
+
 
 class ActivityList extends Component {
     constructor() {
         super();
-        this.state = {
-            from :'',
-            per_page :'',
-            last_page:'',
-            current_page:'',
-            next_page_url:'',
-            first_page_url:'',
-            last_page_url:'',
-            prev_page_url:'',
-            searchQuery:'',
-            test_type:'',
-            sortColumn:'',
-            sortOrder:'',
-            loading:true
-        };
+        this.state = {};
     }
 
     componentDidMount() {
@@ -35,37 +21,25 @@ class ActivityList extends Component {
     }
 
     render() {
-        let table_row;
          
-        if (this.props.activities.activities.length > 0) {
-            let tr;
-            table_row =  this.props.activities.activities.map((data, i) => {
+           let table_row =  this.props.activities.activities.map((data, i) => {
                 return (  
                     <tr key={i}>
                         <td>{i += 1}</td>
                         <td>{data._id}</td>
                         <td>{data.eventid}</td>
                         <td><b>{data.content}</b></td>
-                        <td><span className="btn btn-info btn-sm">{data.time}</span></td>
+                        <td><span className="alert-danger">{data.time}</span></td>
                             <td><button className="btn btn-info btn-sm">
                                 <span className="glyphicon glyphicon-edit"></span> Edit
                             </button>
                             <button className="btn btn-danger btn-sm">
-                                <span className="glyphicon glyphicon-trash"></span> Edit
+                                <span className="glyphicon glyphicon-trash"></span> Delete
                             </button>
                         </td>
                     </tr>
                 )
             });
-            
-        }else {
-            table_row = null;
-        }
-
-        let rows = [];
-        for (let i = 1; i <= this.state.last_page; i++ ) {
-            rows.push(<li className="page-item" key={i}><a className="page-link" href="#" onClick={(e)=>this.pagination('btn-click',e,i)}>{i}</a></li>);
-        }
 
         return (
             <React.Fragment>
@@ -128,20 +102,9 @@ class ActivityList extends Component {
                                                             <div className="card-header">
                                                                 <h5> Activity Lists</h5>
                                                                 <div className="card-header-right">
-                                                                    <ul className="list-unstyled card-option">
-                                                                        <li className="first-opt"><i
-                                                                                className="feather icon-chevron-left open-card-option"></i>
-                                                                        </li>
-                                                                        <li><i className="feather icon-maximize full-card"></i></li>
-                                                                        <li><i className="feather icon-minus minimize-card"></i>
-                                                                        </li>
-                                                                        <li><i className="feather icon-refresh-cw reload-card"></i>
-                                                                        </li>
-                                                                        <li><i className="feather icon-trash close-card"></i></li>
-                                                                        <li><i
-                                                                                className="feather icon-chevron-left open-card-option"></i>
-                                                                        </li>
-                                                                    </ul>
+                                                                    <a href="/activities">
+                                                                    <button className="btn btn-primary">Create Activity</button>
+                                                                    </a>
                                                                 </div>
                                                             </div>
                                                             <div className="card-block">
@@ -165,14 +128,7 @@ class ActivityList extends Component {
                                                                         {table_row}
                                                                         </tbody>
                                                                         </table>
-                                                                        {/* pagination */}
-                                                                        <div className="dataTables_paginate paging_simple_numbers" id="example23_paginate">
-                                                                            <ul className="pagination justify-content-end">
-                                                                            <li className="page-item"><a className="page-link" href="#" onClick={(e)=>this.pagination('pre',e)}>Previous</a></li>
-                                                                            {rows}
-                                                                            <li className="page-item"><a className="page-link" href="#" onClick={(e)=>this.pagination('next',e)}>Next</a></li>
-                                                                            </ul>
-                                                                        </div>
+                                                            
                                                                     </div>
                                                            
                                                             </div>

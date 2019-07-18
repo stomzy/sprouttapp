@@ -10,6 +10,7 @@ import companyProfileReducer from './companyProfileReducer';
 import uploadReducer from './uploadReducer';
 import peopleReducer from './peopleReducer';
 import floorPlanReducer from './floorPlanReducer';
+import participantReducer from './participantReducer';
 
 
 export default combineReducers({
@@ -23,5 +24,6 @@ export default combineReducers({
     companyProfiles: companyProfileReducer,
     uploads: uploadReducer,
     peopleProfile: peopleReducer,
-    floorPlans: floorPlanReducer
+    floorPlans: floorPlanReducer,
+    participants: participantReducer
 });

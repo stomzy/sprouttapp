@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import Sidebar from '../Sidebar';
 import Navbar from '../Navbar';
 import { connect } from 'react-redux';
-import { findEvent } from '../../actions/eventsAction';
+import { findEvent, updateEvent } from '../../actions/eventsAction';
+import { getCompanyProfiles } from '../../actions/companyProfileAction';
 import {countries} from '../../common/country';
 
 class EventEdit extends Component {
@@ -12,7 +13,7 @@ class EventEdit extends Component {
           eventCode: "",
           title: "",
           description: "",
-          tags: "",
+          tags: [],
           venue: "",
           type: "",
           facebook: "",
@@ -39,14 +40,16 @@ class EventEdit extends Component {
         }
   
         this.handleChange = this.handleChange.bind(this);
-        // this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
         const { id } = this.props.match.params;
         let query = {query:{"_id": id}}; 
 
+      
         this.props.findEvent(query);
+        this.props.getCompanyProfiles();
     }
 
     handleChange(event) {
@@ -55,36 +58,58 @@ class EventEdit extends Component {
         });
     }
 
-    handleEdit(id, e) {
-        e.preventDefault();
-
-        let query = {query:{"_id": id}}; 
-    }
-
     componentWillReceiveProps(NextProps) {
       
         let data = NextProps.events.event;
-        console.log(data.company);
+        console.log(data);
+        let add = data.location.address;
+        this.setState({
+            title: data.title, type: data.type, venue: data.venue, facebook: data.facebook, twitter: data.twitter, country: data.country
+            ,instagram: data.instagram, linkedin: data.linkedin, website: data.website, description: data.description,
+            latitude: data.map.slice(4, 10), longitude: data.map.slice(15, 20), address: add, postcode: data.location.postcode,
+            state: data.location.state, eventCode: data.eventCode, location_name: data.location.name, location_description: data.location.description
+        })
     }
 
-    // handleSubmit(event) {
-    //     event.preventDefault();
+    handleSubmit(event) {
+        event.preventDefault();
         
-    //     const { title, eventCode, description, venue, type, tags, facebook, twitter, instagram, linkedin,
-    //         start_date, end_date, start_time, end_time, time_zone, website, color, longitude, latitude,
-    //         address, postcode, state, country, company  } = this.state;
+        const { title, eventCode, description, venue, type, tags, facebook, twitter, instagram, linkedin,
+            start_date, end_date, start_time, end_time, time_zone, website, longitude, latitude,
+            address, postcode, state, country, company  } = this.state;
         
-    //     let map =  `lat ${latitude} long ${longitude}`;
+        let map =  `lat ${latitude} long ${longitude}`;
+        let tagArray = tags.split(',');
         
-    //     const data = { title, tags, description, venue, type, eventCode, facebook, twitter, instagram, linkedin,
-    //         location: {address, postcode, state, country}, map, company,
-    //         start_date, end_date, start_time, end_time, time_zone, website, color}
+        const data = { title, tags: tagArray, description, venue, type, eventCode, facebook, twitter, instagram, linkedin,
+            location: {address, postcode, state, country, name: this.state.location_name, description: this.state.location_description}, map, company,
+            start_date, end_date, start_time, end_time, time_zone, website}
+
+            console.log('datad', data)
         
-    //     // console.log('datad', data)
+        const { id } = this.props.match.params;
+        
+        let query = { 
+            query: {"_id": id},
+            update: data
+        }
+
+        this.props.updateEvent(query);
+
+        this.setState({ success: `Event updated with event Code:  ${eventCode} <a href="/events-list">Click Event Listing</a>`})
     
-    // }
+    }
 
     render() {
+        let notification = "";
+        if (this.state.success != null) {
+            notification = (
+                <div className="alert alert-success" role="alert">
+                    { this.state.success }
+                </div>
+            );
+        }
+
         let countryArray = Object.keys(countries); 
         return (
             <React.Fragment>
@@ -109,7 +134,7 @@ class EventEdit extends Component {
                                             <div className="page-header-title">
                                                 <i className="feather icon-watch bg-c-blue"></i>
                                                 <div className="d-inline">
-                                                    <h5>Event info</h5>
+                                                    <h5>Edit Event info</h5>
                                                     <span>Setting up events Informations</span>
                                                 </div>
                                             </div>
@@ -118,10 +143,10 @@ class EventEdit extends Component {
                                             <div className="page-header-breadcrumb">
                                                 <ul className=" breadcrumb breadcrumb-title">
                                                     <li className="breadcrumb-item">
-                                                        <a href="index.html"><i className="feather icon-home"></i></a>
+                                                        <a href="#"><i className="feather icon-home"></i></a>
                                                     </li>
                                                     <li className="breadcrumb-item">
-                                                        <a href="#!">Event info</a>
+                                                        <a href="/events-list">Event List</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -157,10 +182,10 @@ class EventEdit extends Component {
                                                                 </div>
                                                             </div>
                                                             <div className="card-block">
-                                                        
+                                                            { notification }
                                                             <form onSubmit={this.handleSubmit}>
                                                                 <div className="card-body">
-                                                                {/* <h3 className="card-title">Create An Event</h3> */}
+                                                                <h4 className="card-title">Event Code: {this.state.eventCode}</h4>
                                                                 <div className="row">
                                                                     <div className="col-md-6">
                                                                     <div className="form-group">
@@ -186,7 +211,7 @@ class EventEdit extends Component {
                                                                         <label className="form-label">Tags</label>
                                                                         
                                                                         <input type="text" name="tags" placeholder="Enter Event Tags" 
-                                                                        onChange={this.handleChange} value={this.state.tags} className="form-control"/>
+                                                                        onChange={this.handleChange} value={this.state.tags} className="form-control" required/>
                                                                         <em style={{ color: 'blue' }}>Tags are sepereted by commas</em>
                                                                     </div>
                                                                     </div>
@@ -208,10 +233,10 @@ class EventEdit extends Component {
                                                                     <div className="form-group">
                                                                         <label className="form-label">Company</label>
                                                                         <select name="company" className="form-control" onChange={this.handleChange} value={this.state.company} required>
-                                                                            <option value="">Select a Company
-                                                                            </option>
-                                                                            {/* {this.props.companyProfiles.companyProfiles.map((data, i) => <option key={i} value={data._id}>{data.company_name}</option> )} */}
-                                                                        </select>
+                                                                                <option value="">Select a Company
+                                                                                </option>
+                                                                                {this.props.companyProfiles.companyProfiles.map((data, i) => <option key={i} value={data._id}>{data.name}</option> )}
+                                                                            </select>
                                                             
                                                                     </div>
                                                                     </div>
@@ -223,21 +248,6 @@ class EventEdit extends Component {
                                                                     </div>
                                                                     </div> 
                                                                 </div>
-                                                                {/* <div className="row">
-                                                                    <div className="col-md-6">
-                                                                    <div className="form-group">
-                                                                        <label className="form-label">Event Logo</label>
-                                                                        <input type="file" className="form-control" onChange={this.fileChangedHandler}/>
-                                                                    </div>
-                                                                    </div>
-                                                                    <div className="col-md-4">
-                                                                    <div className="form-group">
-                                                                        <label className="form-label">Event Header Image</label>
-                                                                        <input type="file" className="form-control" onChange={this.imageChangedHandler}/>
-                                                                    </div>
-                                                                    </div> 
-                                                                   
-                                                                </div> */}
                                                                 <div className="row">
                                                                     <div className="col-md-3">
                                                                     <div className="form-group">
@@ -291,14 +301,14 @@ class EventEdit extends Component {
                                                                     <div className="form-group">
                                                                         <label className="form-label">Address</label>
                                                                         <input type="text" name="address" placeholder="Enter your address" 
-                                                                        onChange={this.handleChange} value={this.state.location} className="form-control"/>
+                                                                        onChange={this.handleChange} value={this.state.address} className="form-control"/>
                                                                     </div>
                                                                     </div> 
                                                                     <div className="col-md-3">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Postcode</label>
                                                                         <input type="text" name="postcode" placeholder="Enter Event postcode"
-                                                                         onChange={this.handleChange} value={this.state.location} className="form-control" />
+                                                                         onChange={this.handleChange} value={this.state.postcode} className="form-control" />
                                                                     </div>
                                                                     </div>  
                                                                    
@@ -411,12 +421,13 @@ class EventEdit extends Component {
                                                                         <label className="form-label">Description</label>
                                                                         <textarea name="description"  maxLength={500} rows="3" value={this.state.description} onChange={this.handleChange}
                                                                         className="form-control" placeholder="Event Description">
+                                                                        {this.state.description}
                                                                         </textarea>
                                                                         <span>{this.state.description.length}/500</span>
                                                                     </div>
                                                                     </div> 
                                                                 </div>
-                                                               
+                                                                { notification }
                                                                 </div>
                                                                 <div className="card-footer text-right">
                                                                 <button type="submit" className="btn btn-primary">Submit</button>
@@ -449,7 +460,8 @@ const mapStateToProps = (state) => ({
     auth: state.auth,
     errors: state.errors,
     events: state.events,
+    companyProfiles: state.companyProfiles
 });
 
 // export default Event;
-export default connect(mapStateToProps, { findEvent })(EventEdit);
+export default connect(mapStateToProps, { findEvent, updateEvent, getCompanyProfiles })(EventEdit);

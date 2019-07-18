@@ -69,7 +69,7 @@ class AppDesign extends Component {
         
         const data = { theme, background, logoUrl, header_image1_Url, header_image2_Url, header_image3_Url }
         
-        // console.log('datad', data)
+        console.log('datad', data)
 
         // this.props.createEvent(data)
 

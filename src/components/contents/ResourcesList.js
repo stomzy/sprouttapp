@@ -78,20 +78,9 @@ class ResourcesList extends Component {
                                                             <div className="card-header">
                                                                 <h5> Resources Lists</h5>
                                                                 <div className="card-header-right">
-                                                                    <ul className="list-unstyled card-option">
-                                                                        <li className="first-opt"><i
-                                                                                className="feather icon-chevron-left open-card-option"></i>
-                                                                        </li>
-                                                                        <li><i className="feather icon-maximize full-card"></i></li>
-                                                                        <li><i className="feather icon-minus minimize-card"></i>
-                                                                        </li>
-                                                                        <li><i className="feather icon-refresh-cw reload-card"></i>
-                                                                        </li>
-                                                                        <li><i className="feather icon-trash close-card"></i></li>
-                                                                        <li><i
-                                                                                className="feather icon-chevron-left open-card-option"></i>
-                                                                        </li>
-                                                                    </ul>
+                                                                    <a href="/resource">
+                                                                    <button className="btn btn-primary">Add Resource</button>
+                                                                    </a>
                                                                 </div>
                                                             </div>
                                                             <div className="card-block">

@@ -52,7 +52,7 @@ class CompanyProfiles extends Component {
                                                         <a href="index.html"><i className="feather icon-home"></i></a>
                                                     </li>
                                                     <li className="breadcrumb-item">
-                                                        <a href="#!">Company info</a>
+                                                        <a href="/company">Company info</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -71,20 +71,9 @@ class CompanyProfiles extends Component {
                                                             <div className="card-header">
                                                                 <h5> Company Profile Lists</h5>
                                                                 <div className="card-header-right">
-                                                                    <ul className="list-unstyled card-option">
-                                                                        <li className="first-opt"><i
-                                                                                className="feather icon-chevron-left open-card-option"></i>
-                                                                        </li>
-                                                                        <li><i className="feather icon-maximize full-card"></i></li>
-                                                                        <li><i className="feather icon-minus minimize-card"></i>
-                                                                        </li>
-                                                                        <li><i className="feather icon-refresh-cw reload-card"></i>
-                                                                        </li>
-                                                                        <li><i className="feather icon-trash close-card"></i></li>
-                                                                        <li><i
-                                                                                className="feather icon-chevron-left open-card-option"></i>
-                                                                        </li>
-                                                                    </ul>
+                                                                    <a href="/company">
+                                                                    <button className="btn btn-primary">Add Company</button>
+                                                                    </a>
                                                                 </div>
                                                             </div>
                                                             <div className="card-block">
@@ -92,13 +81,10 @@ class CompanyProfiles extends Component {
                                                                         <table className="table table-xs table-hover table-outline card-table table-striped">
                                                                         <thead>
                                                                             <tr>
-                                                                            <th>S/N</th>
+                                                                            {/* <th>S/N</th> */}
                                                                             <th>Profile Id</th>
-                                                                            <th>Email</th>
                                                                             <th>Company Name</th>
-                                                                            {/* <th>Venue</th>
-                                                                            <th>Start Date</th>
-                                                                            <th>End Date</th> */}
+                                                                            <th>Email</th>
                                                                             <th>Address</th>
                                                                             <th></th>
                                                                             </tr>
@@ -106,19 +92,18 @@ class CompanyProfiles extends Component {
                                                                         <tbody>
                                                                             {this.props.companyProfiles.companyProfiles.map((data, i) => 
                                                                                   <tr key={i}>
-                                                                                    <td>{i += 1}</td>
+                                                                                    {/* <td>{i += 1}</td> */}
                                                                                     <td>{data._id}</td>
+                                                                                    <td><b>{data.name}</b></td>
                                                                                     <td>{data.email}</td>
-                                                                                    <td><b>{data.company_name}</b></td>
                                                                                     <td>{data.address}</td>
-                                                                                    <td className="text-right">
-                                                                                    <a  className="btn btn-secondary btn-sm">
-                                                                                        Edit
-                                                                                    </a>
-                                                                                    <a  className="btn btn-secondary btn-sm">
-                                                                                        Delete
-                                                                                    </a>
-                                                                                    </td>
+                                                                                    <td><button className="btn btn-info btn-sm">
+                                                                                        <span className="glyphicon glyphicon-edit"></span> Edit
+                                                                                    </button>
+                                                                                    <button className="btn btn-danger btn-sm">
+                                                                                        <span className="glyphicon glyphicon-trash"></span> Delete
+                                                                                    </button>
+                                                                                </td>
                                                                                </tr>
                                                                             )}
                                                                         </tbody>

@@ -2,7 +2,7 @@ import axios from 'axios';
 import { url } from '../config/config';
 import { headers } from '../utils/headerJWT'
 
-import { CREATE_PROGRAM, GET_PROGRAMS } from './types';
+import { CREATE_PROGRAM, GET_PROGRAMS, FIND_PROGRAMS, UPDATE_PROGRAM } from './types';
 
 export const createProgram = (programData) => dispatch => {
 
@@ -20,6 +20,30 @@ export const getPrograms = () => dispatch => {
     .then( res => 
         dispatch({
         type: GET_PROGRAMS,
+        payload: res.data.data
+    })
+    )
+    .catch(err => console.log(err));
+}
+
+export const findPrograms = (query) => dispatch => {
+
+    axios.post(`${url}/program/query/`, query, { headers: headers })
+    .then( res => 
+        dispatch({
+        type: FIND_PROGRAMS,
+        payload: res.data.data
+    })
+    )
+    .catch(err => console.log(err));
+}
+
+export const updateProgram = (query) => dispatch => {
+
+    axios.put(`${url}/program/`, query, { headers: headers })
+    .then( res => 
+        dispatch({
+        type: UPDATE_PROGRAM,
         payload: res.data.data
     })
     )

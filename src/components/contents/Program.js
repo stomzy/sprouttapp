@@ -3,6 +3,8 @@ import Sidebar from '../Sidebar';
 import Navbar from '../Navbar';
 import { connect } from 'react-redux';
 import { createProgram } from '../../actions/programAction';
+import { getPeople } from '../../actions/peopleAction';
+import { getEvents } from '../../actions/eventsAction';
 
 class Program extends Component {
     constructor() {
@@ -16,11 +18,20 @@ class Program extends Component {
           speakers: [],
           time_zone: "",
           success: null,
-          type: ""
+          type: "",
+          date: "",
+          venue: "",
+          tags: ""
         }
   
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleMultiple = this.handleMultiple.bind(this);
+    }
+
+    componentDidMount() {
+        this.props.getPeople();
+        this.props.getEvents();
     }
 
     handleChange(event) {
@@ -29,23 +40,26 @@ class Program extends Component {
         });
     }
 
+    handleMultiple(event) {
+        let array = []
+        array.push(event.target.value)
+        this.setState({
+            speakers: array
+        })
+    }
+
     handleSubmit(event) {
         event.preventDefault();
-        const { title, type, description, eventid, speakers, start_time,  end_time, time_zone } = this.state;
+        const { title, type, description, eventid, speakers, start_time, date, venue, tags,  end_time, time_zone } = this.state;
     
-        const data = { title, type, description, eventid, speakers, start_time,  end_time, time_zone }
+        const data = { title, type, description, eventid, speakers, date, venue, tags, start_time,  end_time, time_zone }
         
-        // console.log('datad', data)
+        console.log('datad', data)
         this.props.createProgram(data);
 
-        this.setState({ title: "", eventid: "", description: "",  time_zone: "", type: "", speakers: "", start_time: "",  end_time: "", success: "Program Submitted Successfully"})
+        this.setState({ title: "", eventid: "", date: "", venue: "", tags: "", description: "",  time_zone: "", type: "", speakers: "", start_time: "",  end_time: "", success: "Program Submitted Successfully"})
     }
-
-    fileChangedHandler = event => {
-        const file = event.target.files[0];
-        this.setState({ logo: file });
-    }
-    
+   
     render() {
         let notification = "";
         if (this.state.success != null) {
@@ -55,7 +69,7 @@ class Program extends Component {
                 </div>
             );
         }
-
+        // console.log('datad', this.state.speakers)
         return (
             <React.Fragment>
             <div className="loader-bg">
@@ -68,8 +82,6 @@ class Program extends Component {
 
                      {/* navbar */}
                         <Navbar />
-
-
 
                     <div className="pcoded-main-container">
                         <div className="pcoded-wrapper">
@@ -98,7 +110,7 @@ class Program extends Component {
                                                         <a href="index.html"><i className="feather icon-home"></i></a>
                                                     </li>
                                                     <li className="breadcrumb-item">
-                                                        <a href="#!">Program info</a>
+                                                        <a href="/program-list">Program List</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -150,20 +162,51 @@ class Program extends Component {
                                                                 
                                                                     <div className="col-md-4">
                                                                     <div className="form-group">
-                                                                        <label className="form-label">Event Id</label>
-                                                                        <input type="text" name="eventid" placeholder="Enter Event Id" 
-                                                                        onChange={this.handleChange} value={this.state.eventid} className="form-control" required/>
+                                                                        <label className="form-label">Event</label>
+                                                                        <select name="eventid" className="form-control" onChange={this.handleChange} value={this.state.eventid} required>
+                                                                            <option value="">Select Event
+                                                                            </option>
+                                                                            {this.props.events.events.map((data, i) => <option key={i} value={data._id}>{data.title}</option> )}
+                                                                        </select>
                                                                     </div>
                                                                     </div> 
 
                                                                     <div className="col-md-4">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Speakers</label>
-                                                                        <input type="text" name="speakers" placeholder="Enter Event Speakers" 
-                                                                        onChange={this.handleChange} value={this.state.speakers} className="form-control" />
+                                            
+                                                                        <select name="speakers" className="form-control" onChange={this.handleMultiple} value={this.state.speakers} required>
+                                                                            <option value="">Select Speakers
+                                                                            </option>
+                                                                            {this.props.peopleProfile.peoples.map((data, i) => <option key={i} value={data._id}>{data.name}</option> )}
+                                                                        </select>
                                                                     </div>
                                                                     </div> 
                                                                     
+                                                                </div>
+                                                                <div className="row">
+                                                                    <div className="col-md-5">
+                                                                    <div className="form-group">
+                                                                        <label className="form-label">Venue</label>
+                                                                        <input type="text" name="venue" placeholder="Enter Program Venue"
+                                                                         onChange={this.handleChange} value={this.state.venue} className="form-control" required/>
+                                                                    </div>
+                                                                    </div> 
+
+                                                                    <div className="col-md-3">
+                                                                    <div className="form-group">
+                                                                        <label className="form-label">Date</label>
+                                                                        <input type="date" name="date" placeholder="Enter Program Date"
+                                                                         onChange={this.handleChange} value={this.state.date} className="form-control" required/>
+                                                                    </div>
+                                                                    </div> 
+                                                                    <div className="col-md-4">
+                                                                    <div className="form-group">
+                                                                        <label className="form-label">Tags</label>
+                                                                        <input type="text" name="tags" placeholder="Enter Program Tags"
+                                                                         onChange={this.handleChange} value={this.state.tags} className="form-control" required/>
+                                                                    </div>
+                                                                    </div> 
                                                                 </div>
                                                              
                                                                 <div className="row">
@@ -269,8 +312,10 @@ const mapStateToProps = (state) => ({
     auth: state.auth,
     errors: state.errors,
     events: state.events,
-    programs: state.programs
+    programs: state.programs,
+    peopleProfile: state.peopleProfile,
+    events: state.events
 });
 
 // export default Event;
-export default connect(mapStateToProps, { createProgram })(Program);
+export default connect(mapStateToProps, { createProgram, getPeople, getEvents })(Program);

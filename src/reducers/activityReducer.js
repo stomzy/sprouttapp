@@ -15,7 +15,7 @@ export default function(state = initialState, action) {
         case GET_ACTIVITIES:
             return {
                 ...state,
-                activities: action.paylaod,
+                activities: action.payload,
             }
         default:
             return state;

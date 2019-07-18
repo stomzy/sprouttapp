@@ -1,40 +1,58 @@
 import React, { Component } from 'react';
 import Sidebar from '../Sidebar';
 import Navbar from '../Navbar';
-import { connect } from 'react-redux';
-import { createCompanyProfile } from '../../actions/companyProfileAction';
 import {countries} from '../../common/country';
+import { connect } from 'react-redux';
+import { findPeople, updatePeople } from '../../actions/peopleAction';
 
-class Profile extends Component {
+class EditPeople extends Component {
     constructor() {
         super();
         this.state = {
-          industry: "",
-          name: "",
-          phone: "",
-          address: "",
-        //   job_title: "",
-          short_bio: "",
-        //   interest: "",
-          website: "",
-          country: "",
-          photo: "",
-        //   company_name: "",
-          facebook: "",
-          facebook_visible: false,
-          twitter: "",
-          twitter_visible: false,
-          linkedin: "",
-          linkedin_visible: false,
-          instagram: "",
-          instagram_visible: false,
-        //   event: "",
-          email: "",
-          success: null
+            email: "",
+            name: "",
+            phone: "",
+            address: "",
+            title: "",
+            short_bio: "",
+            job_title: "",
+            website: "",
+            country: "",
+            photo: "",
+            interest: "",
+            company_name: "",
+            facebook: "",
+            facebook_visible: false,
+            twitter: "",
+            twitter_visible: false,
+            linkedin: "",
+            linkedin_visible: false,
+            instagram: "",
+            instagram_visible: false,
+            role: "",
+            success: null
         }
   
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    componentDidMount() {
+        const { id } = this.props.match.params;
+        let query = {query:{"_id": id}}; 
+        this.props.findPeople(query);
+    }
+
+    componentWillReceiveProps(NextProps) {
+      
+        let data = NextProps.peopleProfile.people;
+ 
+        this.setState({
+            email: data.email, name: data.name, phone: data.phone, address: data.address, interest: data.interest, company_name: data.company_name,
+            short_bio: data.short_bio, website: data.website, facebook: data.facebook, twitter: data.twitter, country: data.country,
+            linkedin: data.linkedin, instagram: data.instagram, facebook_visible: data.facebook_visible, twitter_visible: data.twitter_visible,
+            linkedin_visible: data.linkedin_visible, instagram_visible: data.instagram_visible, job_title: data.job_title
+        })
     }
 
     handleChange(event) {
@@ -43,41 +61,50 @@ class Profile extends Component {
         });
     }
 
-    handleSubmit(event) {
-        event.preventDefault();
-        const { industry, email, name, phone, address, short_bio,
-            website, country, facebook, facebook_visible,
-            twitter, twitter_visible, linkedin, linkedin_visible, instagram, instagram_visible } = this.state;
-    
-        const data = { industry, email, name, phone, address, short_bio,
-            website, country, facebook, facebook_visible,
-            twitter, twitter_visible, linkedin, linkedin_visible, instagram, instagram_visible }
+    fileChangedHandler = event => {
+        let self = this;
+        let reader = new FileReader();
+        const file = event.target.files[0];
         
-        console.log('datad', data)
+        reader.onload = function(upload) {
+            self.setState({ photo: upload.target.result });
+        };
 
-        this.props.createCompanyProfile(data);
-
-        this.setState({ industry: "", email: "", name: "", phone: "", address: "", short_bio: "", 
-            website: "", country: "", photo: "", facebook: "", facebook_visible: "",
-            twitter: "", twitter_visible: "", linkedin: "", linkedin_visible: "", instagram: "", instagram_visible: "", success: "Company Profile addeed Successfully"})
-    
+        reader.readAsDataURL(file); 
     }
 
-    imageChangedHandler = event => {
-        const file = event.target.files[0];
-        this.setState({ photo: file });
+    handleSubmit(e) {
+        e.preventDefault();
+        const { interest, role, company_name, email, name, phone, address, job_title, short_bio, website, country, facebook, facebook_visible,
+            twitter, twitter_visible, linkedin, linkedin_visible, instagram, instagram_visible } = this.state;
+        
+        let event = {
+            event:{
+                event_id: "",
+                event_role: role
+            }
+        }
+
+        let data = { interest, company_name, email, name, phone, address, job_title, short_bio, website, country, facebook, facebook_visible,
+            twitter, twitter_visible, linkedin, linkedin_visible, instagram, instagram_visible, event }
+
+        const { id } = this.props.match.params;
+    
+        let query = { 
+            query: {"_id": id},
+            update: data
+        }
+
+        console.log(query);
+
+        this.props.updatePeople(query);
+
+        this.props.history.push('/people-list');
+    
     }
 
     render() {
-        let notification = "";
-        if (this.state.success != null) {
-        notification = (
-            <div className="alert alert-success" role="alert">
-                { this.state.success }
-            </div>
-        );
-        }
-        let countryArray = Object.keys(countries);   
+        let countryArray = Object.keys(countries); 
         return (
             <React.Fragment>
             <div className="loader-bg">
@@ -108,8 +135,8 @@ class Profile extends Component {
                                             <div className="page-header-title">
                                                 <i className="feather icon-watch bg-c-blue"></i>
                                                 <div className="d-inline">
-                                                    <h5>Company Profile info</h5>
-                                                    <span>Setting up company Profile</span>
+                                                    <h5>Edit People</h5>
+                                                    <span>Edit Peoples information</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -120,7 +147,7 @@ class Profile extends Component {
                                                         <a href="index.html"><i className="feather icon-home"></i></a>
                                                     </li>
                                                     <li className="breadcrumb-item">
-                                                        <a href="/company-list">Company List</a>
+                                                        <a href="/people-list">People profile list</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -137,7 +164,7 @@ class Profile extends Component {
                                                     <div className="col-sm-12">
                                                         <div className="card">
                                                             <div className="card-header">
-                                                                <h5>Add Company Profile</h5>
+                                                                <h5>Edit People Profile</h5>
                                                                 <div className="card-header-right">
                                                                     <ul className="list-unstyled card-option">
                                                                         <li className="first-opt"><i
@@ -150,51 +177,48 @@ class Profile extends Component {
                                                                         </li>
                                                                         <li><i className="feather icon-trash close-card"></i></li>
                                                                         <li><i
-                                                                                className="feather icon-chevron-left open-card-option"></i>
+                                                                               className="feather icon-chevron-left open-card-option"></i>
                                                                         </li>
                                                                     </ul>
                                                                 </div>
                                                             </div>
                                                             <div className="card-block">
-                                                            { notification }
+                                                            {/* { notification } */}
                                                             <form onSubmit={this.handleSubmit}>
                                                                 <div className="card-body">
                                                                 {/* <h3 className="card-title">Create An Event</h3> */}
                                                                 <div className="row">
-                                                                    <div className="col-md-4">
-                                                                    <div className="form-group">
-                                                                        <label className="form-label">Industry</label>
-                                                                        {/* <input type="text" name="industry" placeholder="Enter Industry" 
-                                                                        onChange={this.handleChange} value={this.state.industry} className="form-control" 
-                                                                        /> */}
-                                                                        <select name="industry" className="form-control" onChange={this.handleChange} value={this.state.industry}>
-                                                                                <option value="">Select your Industry
-                                                                                </option>
-                                                                                <option value="agriculture">Agriculture</option>
-                                                                                <option value="construction/real-estate">Construction/Real Estate</option>
-                                                                                <option value="consumer-goods">Consumer Goods</option>
-                                                                                <option value="health-care">Health Care</option>
-                                                                                <option value="industrial_goods">Industrial Goods</option>
-                                                                                <option value="ICT">Information & Communication Technology (ICT)</option>
-                                                                                <option value="natural_resources">Natural Resource</option>
-                                                                                <option value="oil/gas">Oil & Gas</option>
-                                                                                <option value="services">Services</option>
-                                                                                <option value="utilities">Utilities</option>
-                                                                        </select>
-                                                                    </div>
-                                                                    </div> 
-                                                                    <div className="col-md-4">
+                                                                    
+                                                                    <div className="col-md-6">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Name</label>
                                                                         <input type="text" name="name" placeholder="Enter Name"
                                                                          onChange={this.handleChange} value={this.state.name} className="form-control" />
                                                                     </div>
                                                                     </div> 
-                                                                    <div className="col-md-4">
+                                                                    <div className="col-md-6">
                                                                     <div className="form-group">
                                                                         <label className="form-label">phone</label>
                                                                         <input type="number" name="phone" placeholder="Enter Phone number"
                                                                          onChange={this.handleChange} value={this.state.phone} className="form-control" />
+                                                                    </div>
+                                                                    </div> 
+                                                                    
+                                                                </div>
+                                                                <div className="row">
+                                                                    
+                                                                    <div className="col-md-6">
+                                                                    <div className="form-group">
+                                                                        <label className="form-label">Job Title</label>
+                                                                        <input type="text" name="job_title" placeholder="Enter Your Job title"
+                                                                         onChange={this.handleChange} value={this.state.job_title} className="form-control" />
+                                                                    </div>
+                                                                    </div> 
+                                                                    <div className="col-md-6">
+                                                                    <div className="form-group">
+                                                                        <label className="form-label">Interest</label>
+                                                                        <input type="text" name="interest" placeholder="Enter Interedt"
+                                                                         onChange={this.handleChange} value={this.state.interest} className="form-control" />
                                                                     </div>
                                                                     </div> 
                                                                     
@@ -234,7 +258,7 @@ class Profile extends Component {
                                                                         <textarea name="short_bio" rows="3" maxLength={500} value={this.state.short_bio} onChange={this.handleChange}
                                                                         className="form-control" placeholder="Resource Description">
                                                                         </textarea>
-                                                                        <span>{this.state.short_bio.length}/500</span>
+                                                                        <span>{this.state.short_bio.length }/500</span>
                                                                     </div>
                                                                     </div>
                                                                     
@@ -243,21 +267,21 @@ class Profile extends Component {
 
                                                                 <div className="row">
 
-                                                                    <div className="col-md-4">
+                                                                   <div className="col-md-3">
                                                                     <div className="form-group">
-                                                                            <label className="form-label">Country</label>
-                                                                            <select name="country" className="form-control" onChange={this.handleChange} value={this.state.country}>
-                                                                                <option value="">Select your country
-                                                                                </option>
-                                                                                { countryArray.map((data, i) => <option key={i} value={data}>{countries[data]}</option>)}
-                                                                            </select>
+                                                                        <label className="form-label">Country</label>
+                                                                        <select name="country" className="form-control" onChange={this.handleChange} value={this.state.country}>
+                                                                            <option value="">Select your country
+                                                                            </option>
+                                                                            { countryArray.map((data, i) => <option key={i} value={data}>{countries[data]}</option>)}
+                                                                        </select>
                                                                     </div>
                                                                     </div> 
 
-                                                                    <div className="col-md-3">
+                                                                    <div className="col-md-4">
                                                                     <div className="form-group">
-                                                                        <label className="form-label">Logo</label>
-                                                                        <input type="file" className="form-control" onChange={this.imageChangedHandler}/>
+                                                                        <label className="form-label">Photo</label>
+                                                                        <input type="file" className="form-control" onChange={this.fileChangedHandler}/>
                                                                     </div>
                                                                     </div> 
 
@@ -308,7 +332,16 @@ class Profile extends Component {
                                                                 </div>
 
                                                                 <div className="row">
-                                                                    
+                     
+                                                                    <div className="col-md-6">
+                                                                    <div className="form-group">
+                                                                        <label className="form-label">Company Name</label>
+                                                                        <input type="text" name="company_name" placeholder="Enter Company name"
+                                                                        onChange={this.handleChange} value={this.state.company_name} className="form-control" />
+                                                                    </div>
+                                                                    </div> 
+
+                                                                                                                   
                                                                     <div className="col-md-6">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Linkedin</label>
@@ -316,7 +349,10 @@ class Profile extends Component {
                                                                         onChange={this.handleChange} value={this.state.linkedin} className="form-control" />
                                                                     </div>
                                                                     </div>  
+      
+                                                                </div>
 
+                                                                <div className="row">
                                                                     <div className="col-md-3">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Linkedin Visible</label>
@@ -328,10 +364,6 @@ class Profile extends Component {
                                                                         </select>
                                                                     </div>
                                                                     </div> 
-                                                                    
-                                                                </div>
-
-                                                                <div className="row">
                                                                     
                                                                     <div className="col-md-6">
                                                                     <div className="form-group">
@@ -355,17 +387,23 @@ class Profile extends Component {
                                                                     
                                                                 </div>
                                                                 
-                                
-                                                                {/* <div className="row">
-                                                                    <div className="col-md-12">
+                                                                <div className="row">
+                                                                    
+                                                                    <div className="col-md-6">
                                                                     <div className="form-group">
-                                                                        <label className="form-label">Description</label>
-                                                                        <textarea name="description" rows="3" value={this.state.description} onChange={this.handleChange}
-                                                                        className="form-control" placeholder="Resource Description">
-                                                                        </textarea>
+                                                                        <label className="form-label">Event Role</label>
+                                                                        <select name="role" className="form-control" onChange={this.handleChange} value={this.state.role}>
+                                                                            <option value="">Select Event Role
+                                                                            </option>
+                                                                            <option value="attendees">Attendees</option>
+                                                                                <option value="sponsors">Sponsors</option>
+                                                                                <option value="speakers">Speakers</option>
+                                                                                <option value="organisers">Organisers</option>
+                                                                        </select>
                                                                     </div>
-                                                                    </div> 
-                                                                </div> */}
+                                                                    </div>
+
+                                                                </div>
 
                                                                 </div>
                                                                 <div className="card-footer text-right">
@@ -394,13 +432,10 @@ class Profile extends Component {
         )
     }
 }
-
-// export default Profile;
 const mapStateToProps = (state) => ({
     auth: state.auth,
     errors: state.errors,
-    events: state.events,
-    programs: state.programs
+    peopleProfile: state.peopleProfile
 });
 
-export default connect(mapStateToProps, { createCompanyProfile })(Profile);
+export default connect(mapStateToProps, { findPeople, updatePeople })(EditPeople);

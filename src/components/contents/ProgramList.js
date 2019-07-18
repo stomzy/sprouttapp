@@ -100,11 +100,14 @@ class ProgramList extends Component {
                                                                                     <td><b>{data.title}</b></td>
                                                                                     <td><span className="alert-danger">{data.start_time}</span></td>
                                                                                     <td><span className="alert-danger">{data.end_time}</span></td>
-                                                                                    <td><button className="btn btn-info btn-sm">
+                                                                                    <td>
+                                                                                    <a href={`/program-edit/${data._id}`}>
+                                                                                        <button className="btn btn-info btn-sm">
                                                                                             <span className="glyphicon glyphicon-edit"></span> Edit
                                                                                         </button>
+                                                                                    </a>
                                                                                         <button className="btn btn-danger btn-sm">
-                                                                                            <span className="glyphicon glyphicon-trash"></span> Edit
+                                                                                            <span className="glyphicon glyphicon-trash"></span> Delete
                                                                                         </button>
                                                                                     </td>
                                                                                </tr>

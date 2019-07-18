@@ -3,6 +3,8 @@ import Sidebar from '../Sidebar';
 import Navbar from '../Navbar';
 import { connect } from 'react-redux';
 import { createResource } from '../../actions/resourceActions';
+import { getEvents } from '../../actions/eventsAction';
+import { getPrograms } from '../../actions/programAction';
 
 
 class Resources extends Component {
@@ -14,11 +16,17 @@ class Resources extends Component {
           title: "",
           description: "",
           url: "",
+          resource: "",
           success: null
         }
   
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    componentDidMount() {
+        this.props.getEvents();
+        this.props.getPrograms();
     }
 
     handleChange(event) {
@@ -39,6 +47,33 @@ class Resources extends Component {
 
         this.setState({ title: "", description: "", eventid: "", programid: "",  url: "", success: "Resource addeed Successfully"})
     
+    }
+
+    uploadLogo = () => {
+        let { resource, title } = this.state;
+        let type = resource.slice(5, 14);
+        let photo = resource.slice(22, resource.length);
+
+        const dataImage = {
+            name: title,
+            photo: photo,
+            type: type
+        }
+
+        this.props.uploads(dataImage);
+    }
+
+    fileChangedHandler = event => {
+        let self = this;
+        let reader = new FileReader();
+        const file = event.target.files[0];
+        
+        reader.onload = function(upload) {
+            // console.log(upload.target);
+            self.setState({ resource: upload.target.result });
+        };
+
+        reader.readAsDataURL(file);  
     }
 
     render() {
@@ -93,7 +128,7 @@ class Resources extends Component {
                                                         <a href="index.html"><i className="feather icon-home"></i></a>
                                                     </li>
                                                     <li className="breadcrumb-item">
-                                                        <a href="#!">Resource info</a>
+                                                        <a href="/resources-list">Resource List</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -139,14 +174,15 @@ class Resources extends Component {
                                                                         <label className="form-label">Resource Title</label>
                                                                         <input type="text" name="title" placeholder="Enter your Resource Title" 
                                                                         onChange={this.handleChange} value={this.state.title} className="form-control" 
-                                                                        />
+                                                                        required/>
                                                                     </div>
                                                                     </div> 
                                                                     <div className="col-md-6">
                                                                     <div className="form-group">
-                                                                        <label className="form-label">Resource Url</label>
-                                                                        <input type="text" name="url" placeholder="Enter Resource Url"
-                                                                         onChange={this.handleChange} value={this.state.url} className="form-control" />
+                                                                        <label className="form-label">Upload Resource</label>
+                                                                        {/* <input type="text" name="url" placeholder="Enter Resource Url"
+                                                                         onChange={this.handleChange} value={this.state.url} className="form-control" required/> */}
+                                                                         <input type="file" className="form-control"  onChange={this.fileChangedHandler}/>
                                                                     </div>
                                                                     </div> 
                                                                     
@@ -155,17 +191,25 @@ class Resources extends Component {
                                                             
                                                                     <div className="col-md-6">
                                                                     <div className="form-group">
-                                                                        <label className="form-label">Event Id</label>
-                                                                        <input type="text" name="eventid" placeholder="Enter Event Id" 
-                                                                        onChange={this.handleChange} value={this.state.eventid} className="form-control" />
+                                                                        <label className="form-label">Event</label>
+                                                                        <select name="eventid" className="form-control" onChange={this.handleChange} value={this.state.eventid} required>
+                                                                            <option value="">Select Event
+                                                                            </option>
+                                                                            {this.props.events.events.map((data, i) => <option key={i} value={data._id}>{data.title}</option> )}
+                                                                        </select>
                                                                     </div>
                                                                     </div> 
 
                                                                     <div className="col-md-6">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Program Id</label>
-                                                                        <input type="text" name="programid" placeholder="Enter Resource Program Id"
-                                                                         onChange={this.handleChange} value={this.state.programid} className="form-control" />
+                                                                        {/* <input type="text" name="programid" placeholder="Enter Resource Program Id"
+                                                                         onChange={this.handleChange} value={this.state.programid} className="form-control" required/> */}
+                                                                         <select name="eventid" className="form-control" onChange={this.handleChange} value={this.state.programid} required>
+                                                                            <option value="">Select Event
+                                                                            </option>
+                                                                            {this.props.programs.programs.map((data, i) => <option key={i} value={data._id}>{data.title}</option> )}
+                                                                        </select>
                                                                     </div>
                                                                     </div> 
                                                                     
@@ -216,8 +260,9 @@ class Resources extends Component {
 const mapStateToProps = (state) => ({
     auth: state.auth,
     events: state.events,
-    resources: state.resources
+    resources: state.resources,
+    programs: state.programs
 });
 
 // export default Event;
-export default connect(mapStateToProps, { createResource })(Resources);
+export default connect(mapStateToProps, { createResource, getEvents, getPrograms })(Resources);

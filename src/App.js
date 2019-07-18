@@ -4,10 +4,12 @@ import Dashboard from './components/Dashboard';
 import SetupEvent from './components/setup/Event';
 import EventList from './components/setup/EventList';
 import EventEdit from './components/setup/EventEdit';
+import AddParticipant from './components/setup/AddParticipant';
 import AppDesign from './components/setup/AppDesign';
 import AppDesignList from './components/setup/AppDesignList';
 import Program from './components/contents/Program';
 import ProgramList from './components/contents/ProgramList';
+import ProgramEdit from './components/contents/ProgramEdit';
 import Resources from './components/contents/Resources';
 import ResourcesList from './components/contents/ResourcesList';
 import Activities from './components/contents/activity/Activities';
@@ -17,6 +19,7 @@ import companyProfileList from './components/settings/CompanyProfiles';
 import UserProfile from './components/UserProfile';
 import people from './components/people/ListPeople';
 import addPeople from './components/people/AddPeople';
+import EditPeople from './components/people/EditPeople';
 import floorplan from './components/floorPlan/AddFloorPlan';
 import floorplanList from './components/floorPlan/ListFloorPlan';
 import {Switch, Route} from "react-router-dom";
@@ -61,19 +64,22 @@ function App() {
       <PrivateRoute exact path="/events-info" component={SetupEvent}/>
       <PrivateRoute exact path="/events-list" component={EventList}/>
       <PrivateRoute exact path="/events-edit/:id" component={EventEdit}/>
+      <PrivateRoute exact path="/participant/:id" component={AddParticipant}/>
       <PrivateRoute exact path="/app-design" component={AppDesign}/>
       <PrivateRoute exact path="/app-design-list" component={AppDesignList}/>
       <PrivateRoute exact path="/profile" component={UserProfile}/>
       <PrivateRoute exact path="/program" component={Program}/>
       <PrivateRoute exact path="/program-list" component={ProgramList}/>
+      <PrivateRoute exact path="/program-edit/:id" component={ProgramEdit}/>
       <PrivateRoute exact path="/resource" component={Resources}/>
       <PrivateRoute exact path="/resources-list" component={ResourcesList}/>
       <PrivateRoute exact path="/activities" component={Activities}/>
       <PrivateRoute exact path="/activities-list" component={ActivityList}/>
       <PrivateRoute exact path="/company" component={companyProfile}/>
-      <PrivateRoute exact path="/company-profile-list" component={companyProfileList}/>
+      <PrivateRoute exact path="/company-list" component={companyProfileList}/>
       <PrivateRoute exact path="/people-list" component={people}/>
       <PrivateRoute exact path="/people" component={addPeople}/>
+      <PrivateRoute exact path="/people-edit/:id" component={EditPeople}/>
       <PrivateRoute exact path="/floor-plan" component={floorplan}/>
       <PrivateRoute exact path="/floor-plan-list" component={floorplanList}/>
       {/* <Route exact path="/table" component={Table}/> */}

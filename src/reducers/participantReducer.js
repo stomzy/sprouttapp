@@ -1,20 +1,21 @@
-import { UPLOADS, SET_UPLOAD } from '../actions/types';
+import { ADD_PARTICIPANT, VERIFY_PARTICIPANT } from '../actions/types';
 
 const initialState = {
-    uploads: []
+    participant: {},
+    
 }
 
 export default function(state = initialState, action) {
     switch(action.type) {
-        case UPLOADS:
+        case ADD_PARTICIPANT:
             return {
                 ...state,
-                uploads: [...state.uploads, action.payload]
+                participant: action.payload,
             }
-        case SET_UPLOAD:
+        case VERIFY_PARTICIPANT:
             return {
                 ...state,
-                uploads: [...state.uploads, action.payload]
+                participant: action.payload,
             }
         default:
             return state;

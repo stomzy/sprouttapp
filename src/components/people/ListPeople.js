@@ -87,8 +87,8 @@ class People extends Component {
                                                                     <thead>
                                                                         <tr>
                                                                       
-                                                                        <th>Title</th>
-                                                                        <th>First Name</th>
+                                                                        <th>Profile Id</th>
+                                                                        <th>Full Name</th>
                                                                         <th>Phone</th>
                                                                         <th>Email</th>
                                                                         <th></th>
@@ -98,12 +98,12 @@ class People extends Component {
                                                                     {this.props.peopleProfile.peoples.map((data, i) => 
                                                                                   <tr key={i}>
                                                                                     {/* <td>{i += 1}</td> */}
-                                                                                    <td>{data.title}</td>
-                                                                                    <td><b>{data.name}</b></td>
+                                                                                    <td>{data._id}</td>
+                                                                                    <td><b>{data.title} {data.name}</b></td>
                                                                                     <td>{data.phone}</td>
                                                                                     <td>{data.email}</td>
                                                                                     <td className="text-right">
-                                                                                        <a href={`/events-edit/${data._id}`}>
+                                                                                        <a href={`/people-edit/${data._id}`}>
                                                                                             <button className="btn btn-info btn-sm">
                                                                                                 <span className="glyphicon glyphicon-edit"></span> Edit
                                                                                             </button>

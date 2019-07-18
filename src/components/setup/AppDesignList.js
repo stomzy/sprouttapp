@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Sidebar from '../Sidebar';
 import Navbar from '../Navbar';
-import { Link } from "react-router-dom";
 
 class AppDesignList extends Component {
     render() {

@@ -98,8 +98,8 @@ class EventList extends Component {
                                                                             <th>Event Code</th>
                                                                             {/* <th>Website</th> */}
                                                                             <th>Start Date</th>
-                                                                            <th>End Date</th>
-                                                                            <th>Time</th>
+                                                                            {/* <th>End Date</th> */}
+                                                                            {/* <th>Time</th> */}
                                                                             <th></th>
                                                                             </tr>
                                                                         </thead>
@@ -112,9 +112,14 @@ class EventList extends Component {
                                                                                     <td>{data.eventCode}</td>
                                                                                     {/* <td>{data.website}</td> */}
                                                                                     <td>{data.start_date.replace(/T/, ' ').replace(/\..+/, '').slice(0,10)}</td>
-                                                                                    <td>{data.end_date.replace(/T/, ' ').replace(/\..+/, '').slice(0,10)}</td>
-                                                                                    <td><span className="alert-danger">{data.start_time}</span></td>
+                                                                                    {/* <td>{data.end_date.replace(/T/, ' ').replace(/\..+/, '').slice(0,10)}</td> */}
+                                                                                    {/* <td><span className="alert-danger">{data.start_time}</span></td> */}
                                                                                     <td className="text-right">
+                                                                                        <a href={`/participant/${data._id}`}>
+                                                                                            <button className="btn btn-success btn-sm">
+                                                                                                <span className="glyphicon glyphicon-user"></span> Add Participant
+                                                                                            </button>
+                                                                                        </a>
                                                                                         <a href={`/events-edit/${data._id}`}>
                                                                                             <button className="btn btn-info btn-sm">
                                                                                                 <span className="glyphicon glyphicon-edit"></span> Edit

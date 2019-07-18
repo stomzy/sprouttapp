@@ -71,7 +71,7 @@ class ListFloorPlan extends Component {
                                                                 <h5> Program Lists</h5>
                                                                 <div className="card-header-right">
                                                                     <a href="/floor-plan">
-                                                                    <button className="btn btn-primary">Add Program</button>
+                                                                    <button className="btn btn-primary">Add Floor Plan</button>
                                                                     </a>
                                                                 </div>
                                                             </div>

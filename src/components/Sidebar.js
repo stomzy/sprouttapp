@@ -24,39 +24,21 @@ export default function Sidebar() {
                                 <a href="/events-list" className="waves-effect waves-dark">
                                     <span className="pcoded-mtext">Events Info</span>
                                 </a>
-                                {/* <ul className="pcoded-submenu">
-                                    <li className="">
-                                        <a href="/events-info" className="waves-effect waves-dark">
-                                            <span className="pcoded-mtext">Add Events</span>
-                                        </a>
-                                    </li>
-                                    <li className="">
-                                        <a href="/events-list" className="waves-effect waves-dark">
-                                            <span className="pcoded-mtext">All Events</span>
-                                        </a>
-                                    </li>
-                                </ul> */}
+                
                             </li>
-                            <li className=" pcoded-hasmenu">
+                            {/* <li className=" pcoded-hasmenu">
                                 <a href="/app-design-list" className="waves-effect waves-dark">
                                     <span className="pcoded-mtext">App Design</span>
                                 </a>
-                                {/* <ul className="pcoded-submenu">
-                                    <li className="">
-                                        <a href="menu-horizontal-static.html" 
-                                            className="waves-effect waves-dark">
-                                            <span className="pcoded-mtext">Static Layout</span>
-                                        </a>
-                                    </li>
-                                </ul> */}
-                            </li>
+                    
+                            </li> */}
                         </ul>
                     </li>
                     <li className="pcoded-hasmenu">
                         <a href="#" className="waves-effect waves-dark">
                             <span className="pcoded-micon"><i className="feather icon-sidebar"></i></span>
                             <span className="pcoded-mtext">PEOPLE</span>
-                            <span className="pcoded-badge label label-info">2 items</span>
+                            <span className="pcoded-badge label label-info">1 items</span>
                         </a>
                         <ul className="pcoded-submenu">
                             <li className=" pcoded-hasmenu">
@@ -82,122 +64,64 @@ export default function Sidebar() {
                         <a href="#" className="waves-effect waves-dark">
                             <span className="pcoded-micon"><i className="feather icon-sidebar"></i></span>
                             <span className="pcoded-mtext">CONTENT</span>
-                            <span className="pcoded-badge label label-success">6 items</span>
+                            <span className="pcoded-badge label label-success">4 items</span>
                         </a>
                         <ul className="pcoded-submenu">
-                            <li className=" pcoded-hasmenu">
+                            {/* <li className=" pcoded-hasmenu">
                                 <a href="/floor-plan-list" className="waves-effect waves-dark">
                                     <span className="pcoded-mtext">Floor Plan</span>
                                 </a>
-                            </li>
+                            </li> */}
                             <li className=" pcoded-hasmenu">
                                 <a href="/program-list" className="waves-effect waves-dark">
                                     <span className="pcoded-mtext">Program</span>
                                 </a>
                             </li>
                             <li className=" pcoded-hasmenu">
-                                <a href="#" className="waves-effect waves-dark">
+                                <a href="/resources-list" className="waves-effect waves-dark">
                                     <span className="pcoded-mtext">Resources</span>
                                 </a>
-                                <ul className="pcoded-submenu">
-                                    <li className="">
-                                        <a href="/resource" className="waves-effect waves-dark">
-                                            <span className="pcoded-mtext">Add Resource</span>
-                                        </a>
-                                    </li>
-                                    <li className="">
-                                        <a href="/resources-list" className="waves-effect waves-dark">
-                                            <span className="pcoded-mtext">Resources List</span>
-                                        </a>
-                                    </li>
-                                </ul>
                             </li>
-                            <li className=" pcoded-hasmenu">
-                                <a href="javascript:void(0)" className="waves-effect waves-dark">
+                            {/* <li className=" pcoded-hasmenu">
+                                <a href="/activities-list" className="waves-effect waves-dark">
                                     <span className="pcoded-mtext">Activities</span>
                                 </a>
-                                <ul className="pcoded-submenu">
-                                    <li className="">
-                                        <a href="/activities" 
-                                            className="waves-effect waves-dark">
-                                            <span className="pcoded-mtext">Create an activity</span>
-                                        </a>
-                                    </li>
-                                    <li className="">
-                                        <a href="/activities-list" 
-                                            className="waves-effect waves-dark">
-                                            <span className="pcoded-mtext">Activity List</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li className=" pcoded-hasmenu">
-                                <a href="javascript:void(0)" className="waves-effect waves-dark">
-                                    <span className="pcoded-mtext">User/Post</span>
-                                </a>
-                                <ul className="pcoded-submenu">
-                                    <li className="">
-                                        <a href="" 
-                                            className="waves-effect waves-dark">
-                                            <span className="pcoded-mtext">Static Layout</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
+                            </li> */}
                         </ul>
                     </li>
                     <li className="pcoded-hasmenu">
                         <a href="#" className="waves-effect waves-dark">
                             <span className="pcoded-micon"><i className="feather icon-sidebar"></i></span>
                             <span className="pcoded-mtext">COMPANIES</span>
-                            <span className="pcoded-badge label label-info">2 items</span>
+                            <span className="pcoded-badge label label-danger">1 items</span>
                         </a>
                         <ul className="pcoded-submenu">
                             <li className=" pcoded-hasmenu">
-                                <a href="/company" className="waves-effect waves-dark">
-                                    <span className="pcoded-mtext">Add Company</span>
+                                <a href="/company-list" className="waves-effect waves-dark">
+                                    <span className="pcoded-mtext">companies</span>
                                 </a>
-                                {/* <ul className="pcoded-submenu">
-                                    <li className="">
-                                        <a href="/events-info" className="waves-effect waves-dark">
-                                            <span className="pcoded-mtext">Add Attendees</span>
-                                        </a>
-                                    </li>
-                                    <li className="">
-                                        <a href="/events-list" className="waves-effect waves-dark">
-                                            <span className="pcoded-mtext">All Attendees</span>
-                                        </a>
-                                    </li>
-                                </ul> */}
                             </li>
                         </ul>
                     </li>
-                    <li className="pcoded-hasmenu">
+                    {/* <li className="pcoded-hasmenu">
                         <a href="#" className="waves-effect waves-dark">
                             <span className="pcoded-micon"><i className="feather icon-sidebar"></i></span>
                             <span className="pcoded-mtext">SETTINGS</span>
-                            <span className="pcoded-badge label label-danger">2 items</span>
+                            <span className="pcoded-badge label label-primary">2 items</span>
                         </a>
                         <ul className="pcoded-submenu">
                             <li className=" pcoded-hasmenu">
-                                <a href="#" className="waves-effect waves-dark">
-                                    <span className="pcoded-mtext">Profiles</span>
+                                <a href="/company-list" className="waves-effect waves-dark">
+                                    <span className="pcoded-mtext">Profile Setting</span>
                                 </a>
-                                <ul className="pcoded-submenu">
-                                    <li className="">
-                                        <a href="/company" className="waves-effect waves-dark">
-                                            <span className="pcoded-mtext">Add Profile</span>
-                                        </a>
-                                    </li>
-                                    <li className="">
-                                        <a href="/company-profile-list" className="waves-effect waves-dark">
-                                            <span className="pcoded-mtext">Company Profiles</span>
-                                        </a>
-                                    </li>
-                                </ul>
+                            </li>
+                            <li className=" pcoded-hasmenu">
+                                <a href="/company-list" className="waves-effect waves-dark">
+                                    <span className="pcoded-mtext">Add User</span>
+                                </a>
                             </li>
                         </ul>
-                    </li>
+                    </li> */}
                 </ul>
             </div>
         </div>

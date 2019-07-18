@@ -1,24 +1,28 @@
 import React, { Component } from 'react';
-import Sidebar from '../../Sidebar';
-import Navbar from '../../Navbar';
+import Sidebar from '../Sidebar';
+import Navbar from '../Navbar';
 import { connect } from 'react-redux';
-import { createActivity } from '../../../actions/activityAction';
+import { addParticipant, verifyParticipant } from '../../actions/participantAction';
 
-class Activities extends Component {
+class AddParticipant extends Component {
     constructor() {
         super();
         this.state = {
           eventid: "",
-          content: "",
-          picture: "",
-          video: "",
-          time: "",
-          time_zone: "",
-          success: null
+          participantid: "",
+          verified: false,
+          as: ""
         }
   
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    componentDidMount() {
+        const { id } = this.props.match.params;
+        this.setState({
+            eventid: id
+        })
     }
 
     handleChange(event) {
@@ -29,28 +33,21 @@ class Activities extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        const { content, picture, video, eventid, time, time_zone } = this.state;
+        const { participantid, eventid, verified, as } = this.state;
     
-        const data = { content, picture, video, eventid, time, time_zone }
+        const data = { participantid, eventid, verified, as }
         
-        console.log('datad', data)
+        // console.log('datad', data)
 
-        this.props.createActivity(data);
+        this.props.addParticipant(data);
+        this.props.verifyParticipant(data);
+        this.props.history('/events-list');
 
-        this.setState({ content: "",  time_zone: "", time: "", success: "Activity Created Successfully"})
+        this.setState({ success: "Participants added and verified"})
     
     }
-    
-    render() {
-        let notification = "";
-        if (this.state.success != null) {
-            notification = (
-                <div className="alert alert-success" role="alert">
-                    { this.state.success }
-                </div>
-            );
-        }
 
+    render() {
         return (
             <React.Fragment>
             <div className="loader-bg">
@@ -81,7 +78,7 @@ class Activities extends Component {
                                             <div className="page-header-title">
                                                 <i className="feather icon-watch bg-c-blue"></i>
                                                 <div className="d-inline">
-                                                    <h5>Activities info</h5>
+                                                    <h5>Add participant to Event</h5>
                                                     <span>Setting up Activity</span>
                                                 </div>
                                             </div>
@@ -93,7 +90,7 @@ class Activities extends Component {
                                                         <a href="index.html"><i className="feather icon-home"></i></a>
                                                     </li>
                                                     <li className="breadcrumb-item">
-                                                        <a href="/activities-list">Activities List</a>
+                                                        <a href="/activities-list">Participant List</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -129,101 +126,53 @@ class Activities extends Component {
                                                                 </div>
                                                             </div>
                                                             <div className="card-block">
-                                                            { notification }
+                                                            {/* { notification } */}
                                                             <form onSubmit={this.handleSubmit}>
                                                                 <div className="card-body">
                                                                 {/* <h3 className="card-title">Create An Event</h3> */}
-                                                                <div className="row">
-                                                                    <div className="col-md-12">
-                                                                    <div className="form-group">
-                                                                        <label className="form-label">Content</label>
-                                                                        <input type="text" name="content" placeholder="Enter your activity content" 
-                                                                        onChange={this.handleChange} value={this.state.content} className="form-control" 
-                                                                        required/>
-                                                                    </div>
-                                                                    </div> 
-                                                                
-                                                                  
-                                                                    
-                                                                </div>
-                                                             
                                                                 <div className="row">
                                                                     <div className="col-md-6">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Event Id</label>
                                                                         <input type="text" name="eventid" placeholder="Enter Event Id" 
                                                                         onChange={this.handleChange} value={this.state.eventid} className="form-control" 
+                                                                        required readOnly/>
+                                                                    </div>
+                                                                    </div> 
+                                                                    <div className="col-md-6">
+                                                                    <div className="form-group">
+                                                                        <label className="form-label">Participant Id</label>
+                                                                        <input type="text" name="participantid" placeholder="Enter your participant Id" 
+                                                                        onChange={this.handleChange} value={this.state.participantid} className="form-control" 
                                                                         required/>
                                                                     </div>
                                                                     </div> 
-
-                                                                    <div className="col-md-3">
-                                                                    <div className="form-group">
-                                                                        <label className="form-label">Time</label>
-                                                                        <input type="time" name="time" placeholder="Enter Event Time"
-                                                                         onChange={this.handleChange} value={this.state.time} className="form-control" 
-                                                                         required/>
-                                                                    </div>
-                                                                    </div>  
-                                                                    <div className="col-md-3">
-                                                                    <div className="form-group">
-                                                                        <label className="form-label">Time Zone</label>
-                                                                        <select name="time_zone" className="form-control" onChange={this.handleChange} value={this.state.time_zone}>
-                                                                            <option value="">Select your time zone
-                                                                            </option>
-                                                                            <option value="GMT-1">GMT-1</option>
-                                                                                <option value="GMT-2">GMT-2</option>
-                                                                                <option value="GMT-3">GMT-3</option>
-                                                                                <option value="GMT-4">GMT-4</option>
-                                                                                <option value="GMT-5">GMT-5</option>
-                                                                                <option value="GMT-6">GMT-6</option>
-                                                                                <option value="GMT-7">GMT-7</option>
-                                                                                <option value="GMT-8">GMT-8</option>
-                                                                                <option value="GMT-9">GMT-9</option>
-                                                                                <option value="GMT-10">GMT-10</option>
-                                                                                <option value="GMT-11">GMT-11</option>
-                                                                                <option value="GMT-12">GMT-12</option>
-                                                                                <option value="GMT+1">GMT+1</option>
-                                                                                <option value="GMT+2">GMT+2</option>
-                                                                                <option value="GMT+3">GMT+3</option>
-                                                                                <option value="GMT+4">GMT+4</option>
-                                                                                <option value="GMT+5">GMT+5</option>
-                                                                                <option value="GMT+6">GMT+6</option>
-                                                                                <option value="GMT+7">GMT+7</option>
-                                                                                <option value="GMT+8">GMT+8</option>
-                                                                                <option value="GMT+9">GMT+9</option>
-                                                                                <option value="GMT+10">GMT+10</option>
-                                                                                <option value="GMT+11">GMT+11</option>
-                                                                                <option value="GMT+12">GMT+12</option>
-                                                                        </select>
-                                                                    </div>
-                                                                    </div> 
+                                                                
                                                                 </div>
+                                                             
                                                                 <div className="row">
                                                                     <div className="col-md-6">
                                                                     <div className="form-group">
-                                                                        <label className="form-label">picture</label>
-                                                                        <input type="file" className="form-control"/>
+                                                                        <label className="form-label">Verification</label>
+                                                                           <select name="verified" className="form-control" onChange={this.handleChange} value={this.state.verified}>
+                                                                                <option value="true">Verified</option>
+                                                                                <option value="false">Unverified</option>
+                                                                            </select>
                                                                     </div>
-                                                                    </div>
+                                                                    </div> 
+
                                                                     <div className="col-md-6">
                                                                     <div className="form-group">
-                                                                        <label className="form-label">Video</label>
-                                                                        <input type="file" className="form-control" />
+                                                                        <label className="form-label">Role</label>
+                                                                         <select name="as" className="form-control" onChange={this.handleChange} value={this.state.as}>
+                                                                                <option value="attendees">Attendees</option>
+                                                                                <option value="sponsors">Sponsors</option>
+                                                                                <option value="speakers">Speakers</option>
+                                                                                <option value="organisers">Organisers</option>
+                                                                            </select>
                                                                     </div>
-                                                                    </div> 
+                                                                    </div>  
                                                                 </div>
-                                                                {/* <div className="row">
-                                                                    <div className="col-md-12">
-                                                                    <div className="form-group">
-                                                                        <label className="form-label">Description</label>
-                                                                        <textarea name="description" rows="3" value={this.state.description} onChange={this.handleChange}
-                                                                        className="form-control" placeholder="Program Description">
-                                                                        </textarea>
-                                                                    </div>
-                                                                    </div> 
-                                                                </div> */}
-
                                                                 </div>
                                                                 <div className="card-footer text-right">
                                                                 <button type="submit" className="btn btn-primary">Submit</button>
@@ -252,15 +201,11 @@ class Activities extends Component {
     }
 }
 
-// export default Program;
 
 const mapStateToProps = (state) => ({
     auth: state.auth,
-    errors: state.errors,
-    events: state.events,
-    programs: state.programs
+    errors: state.errors
 });
 
 // export default Event;
-export default connect(mapStateToProps, { createActivity })(Activities);
-
+export default connect(mapStateToProps, { addParticipant, verifyParticipant })(AddParticipant);
