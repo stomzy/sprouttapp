@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import Sidebar from '../Sidebar';
 import Navbar from '../Navbar';
 import { connect } from 'react-redux';
-import { createCompanyProfile } from '../../actions/companyProfileAction';
 import {countries} from '../../common/country';
 import axios from 'axios';
 import { headers } from '../../utils/headerJWT';
 import { url } from '../../config/config';
+import { findCompany, updateCompany } from '../../actions/companyProfileAction';
 
-class Profile extends Component {
+class CompanyEdit extends Component {
     constructor() {
         super();
         this.state = {
@@ -29,11 +29,32 @@ class Profile extends Component {
           instagram: "",
           instagram_visible: false,
           email: "",
-          success: null
+          success: null,
+          photoUrl: ""
         }
   
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    componentDidMount() {
+        const { id } = this.props.match.params;
+        let query = {query:{"_id": id}}; 
+
+        this.props.findCompany(query);
+    }
+
+    componentWillReceiveProps(NextProps) {
+      
+        let data = NextProps.companyProfiles.companyProfile;
+        console.log(data);
+        
+        this.setState({
+            industry: data.industry, name: data.name, phone: data.phone, address: data.address, email: data.email,
+            website: data.website, short_bio: data.short_bio, country: data.country, facebook: data.facebook, facebook_visible: data.facebook_visible,
+            twitter: data.twitter, twitter_visible: data.twitter_visible, linkedin: data.linkedin, linkedin_visible: data.linkedin_visible,
+            instagram: data.instagram, instagram_visible: data.instagram_visible, photoUrl: data.logo
+        })
     }
 
     handleChange(event) {
@@ -72,9 +93,19 @@ class Profile extends Component {
                     website, country, facebook, facebook_visible, logo: urls,
                     twitter, twitter_visible, linkedin, linkedin_visible, instagram, instagram_visible }
 
-                    console.log(data);
+                    const { id } = this.props.match.params;
+    
+                    let query = { 
+                        query: {"_id": id},
+                        update: data
+                    }
 
-                    this.props.createCompanyProfile(data);
+                    console.log(query);
+
+                    this.props.updateCompany(query);
+
+                    this.props.history.push('/company-list');
+                    // window.location.reload();
 
                     this.setState({ industry: "", email: "", name: "", phone: "", address: "", short_bio: "", 
                     website: "", country: "", photo: "", facebook: "", facebook_visible: "",
@@ -120,8 +151,6 @@ class Profile extends Component {
                      {/* navbar */}
                         <Navbar />
 
-
-
                     <div className="pcoded-main-container">
                         <div className="pcoded-wrapper">
 
@@ -137,8 +166,8 @@ class Profile extends Component {
                                             <div className="page-header-title">
                                                 <i className="feather icon-watch bg-c-blue"></i>
                                                 <div className="d-inline">
-                                                    <h5>Company Profile info</h5>
-                                                    <span>Setting up company Profile</span>
+                                                    <h5>Edit Company info</h5>
+                                                    <span>Edit company Profile</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -166,7 +195,7 @@ class Profile extends Component {
                                                     <div className="col-sm-12">
                                                         <div className="card">
                                                             <div className="card-header">
-                                                                <h5>Add Company Profile</h5>
+                                                                <h5>Edit Company Profile</h5>
                                                                 <div className="card-header-right">
                                                                     <ul className="list-unstyled card-option">
                                                                         <li className="first-opt"><i
@@ -188,7 +217,12 @@ class Profile extends Component {
                                                             { notification }
                                                             <form onSubmit={this.handleSubmit}>
                                                                 <div className="card-body">
-                                                                {/* <h3 className="card-title">Create An Event</h3> */}
+                                                                <div className="row">
+                                                                    <div className="col-xs-6 col-md-3">
+                                                                        <img src={this.state.photoUrl} alt="..." style={{width:'120px', height: '100px'}}/>
+                                                                    </div>
+                                                                </div>
+                                                                <br />
                                                                 <div className="row">
                                                                     <div className="col-md-4">
                                                                     <div className="form-group">
@@ -383,18 +417,6 @@ class Profile extends Component {
                                                                     </div>  
                                                                     
                                                                 </div>
-                                                                
-                                
-                                                                {/* <div className="row">
-                                                                    <div className="col-md-12">
-                                                                    <div className="form-group">
-                                                                        <label className="form-label">Description</label>
-                                                                        <textarea name="description" rows="3" value={this.state.description} onChange={this.handleChange}
-                                                                        className="form-control" placeholder="Resource Description">
-                                                                        </textarea>
-                                                                    </div>
-                                                                    </div> 
-                                                                </div> */}
 
                                                                 </div>
                                                                 <div className="card-footer text-right">
@@ -429,7 +451,7 @@ const mapStateToProps = (state) => ({
     auth: state.auth,
     errors: state.errors,
     events: state.events,
-    programs: state.programs
+    companyProfiles: state.companyProfiles
 });
 
-export default connect(mapStateToProps, { createCompanyProfile })(Profile);
+export default connect(mapStateToProps, { findCompany, updateCompany })(CompanyEdit);

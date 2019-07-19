@@ -41,11 +41,12 @@ export const findPeople = (query) => dispatch => {
 export const updatePeople = (query) => dispatch => {
   
     axios.put(`${url}/profile/`, query, { headers: headers })
-    .then( res => 
-        dispatch({
-        type: UPDATE_PEOPLE,
-        payload: res.data.data[0]
-    })
+        .then( res => 
+            dispatch({
+            type: UPDATE_PEOPLE,
+            payload: res.data.data[0]
+        })
+  
     )
     .catch(err => console.log(err));
 }

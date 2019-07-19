@@ -89,12 +89,7 @@ class ResourcesList extends Component {
                                                                         <thead>
                                                                             <tr>
                                                                             <th>S/N</th>
-                                                                            <th>Event Id</th>
-                                                                            <th>Program Id</th>
                                                                             <th>Resource Title</th>
-                                                                            {/* <th>Venue</th>
-                                                                            <th>Start Date</th>
-                                                                            <th>End Date</th> */}
                                                                             <th>Url</th>
                                                                             <th>Actions</th>
                                                                             </tr>
@@ -103,13 +98,14 @@ class ResourcesList extends Component {
                                                                             {this.props.resources.resources.map((data, i) => 
                                                                                   <tr key={i}>
                                                                                     <td>{i += 1}</td>
-                                                                                    <td>{data.eventid}</td>
-                                                                                    <td>{data.programid}</td>
                                                                                     <td><b>{data.title}</b></td>
                                                                                     <td>{data.url}</td>
-                                                                                    <td><button className="btn btn-info btn-sm">
+                                                                                    <td>
+                                                                                    <a href={`/resource-edit/${data._id}`}>
+                                                                                        <button className="btn btn-info btn-sm">
                                                                                             <span className="glyphicon glyphicon-edit"></span> Edit
                                                                                         </button>
+                                                                                    </a>
                                                                                         <button className="btn btn-danger btn-sm">
                                                                                             <span className="glyphicon glyphicon-trash"></span> Edit
                                                                                         </button>

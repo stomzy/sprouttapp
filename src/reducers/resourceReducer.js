@@ -1,4 +1,4 @@
-import { CREATE_RESOURCE, GET_RESOURCES } from '../actions/types';
+import { CREATE_RESOURCE, GET_RESOURCES, FIND_RESOURCE } from '../actions/types';
 
 const initialState = {
     resource: {},
@@ -16,6 +16,11 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 resources: action.payload,
+            }
+        case FIND_RESOURCE:
+            return {
+                ...state,
+                resource: action.payload,
             }
         default:
             return state;

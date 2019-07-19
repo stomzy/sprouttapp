@@ -221,7 +221,7 @@ class Event extends Component {
                                                                             <select name="company" className="form-control" onChange={this.handleChange} value={this.state.company} required>
                                                                                 <option value="">Select a Company
                                                                                 </option>
-                                                                                {this.props.companyProfiles.companyProfiles.map((data, i) => <option key={i} value={data._id}>{data.company_name}</option> )}
+                                                                                {this.props.companyProfiles.companyProfiles.map((data, i) => <option key={i} value={data._id}>{data.name}</option> )}
                                                                             </select>
                                                                 
                                                                         </div>

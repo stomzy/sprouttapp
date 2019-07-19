@@ -12,10 +12,13 @@ import ProgramList from './components/contents/ProgramList';
 import ProgramEdit from './components/contents/ProgramEdit';
 import Resources from './components/contents/Resources';
 import ResourcesList from './components/contents/ResourcesList';
+import ResourceEdit from './components/contents/ResourceEdit';
 import Activities from './components/contents/activity/Activities';
 import ActivityList from './components/contents/activity/ActivityList';
 import companyProfile from './components/settings/Profile';
 import companyProfileList from './components/settings/CompanyProfiles';
+import AddOrganizer from './components/settings/AddOrganizers';
+import companyEdit from './components/settings/CompanyEdit';
 import UserProfile from './components/UserProfile';
 import people from './components/people/ListPeople';
 import addPeople from './components/people/AddPeople';
@@ -29,7 +32,6 @@ import {setCurrentUser, logoutUser} from './actions/authActions';
 import store from './store/Store';
 import { clearCurrentProfile } from './actions/profileActions';
 
-// import Table from './components/Tables';
 
 import PrivateRoute from './common/PrivateRoute';
 
@@ -72,11 +74,14 @@ function App() {
       <PrivateRoute exact path="/program-list" component={ProgramList}/>
       <PrivateRoute exact path="/program-edit/:id" component={ProgramEdit}/>
       <PrivateRoute exact path="/resource" component={Resources}/>
+      <PrivateRoute exact path="/resource-edit/:id" component={ResourceEdit}/>
       <PrivateRoute exact path="/resources-list" component={ResourcesList}/>
       <PrivateRoute exact path="/activities" component={Activities}/>
       <PrivateRoute exact path="/activities-list" component={ActivityList}/>
       <PrivateRoute exact path="/company" component={companyProfile}/>
       <PrivateRoute exact path="/company-list" component={companyProfileList}/>
+      <PrivateRoute exact path="/company-edit/:id" component={companyEdit}/>
+      <PrivateRoute exact path="/organizers/:id" component={AddOrganizer}/>
       <PrivateRoute exact path="/people-list" component={people}/>
       <PrivateRoute exact path="/people" component={addPeople}/>
       <PrivateRoute exact path="/people-edit/:id" component={EditPeople}/>

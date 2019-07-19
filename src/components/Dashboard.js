@@ -4,10 +4,18 @@ import Navbar from '../components/Navbar';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getCurrentProfile } from '../actions/profileActions';
+import { getEvents } from '../actions/eventsAction';
+import { getPrograms } from '../actions/programAction';
+import { getPeople } from '../actions/peopleAction';
+import { getResources } from '../actions/resourceActions';
 
 class Dashboard extends Component {
     componentDidMount() {
         this.props.getCurrentProfile();
+        this.props.getEvents();
+        this.props.getPrograms();
+        this.props.getPeople();
+        this.props.getResources();
     }
 
     render() {
@@ -83,9 +91,9 @@ class Dashboard extends Component {
                                                                 <div className="card-body">
                                                                     <div className="row align-items-center">
                                                                         <div className="col">
-                                                                            <h6 className="m-b-25">Impressions</h6>
-                                                                            <h3 className="f-w-700 text-c-blue">1,563</h3>
-                                                                            <p className="m-b-0">May 23 - June 01 (2017)</p>
+                                                                            <h6 className="m-b-25">Events</h6>
+                                                                            <h3 className="f-w-700 text-c-blue">{this.props.events.events.length}</h3>
+                                                                            {/* <p className="m-b-0">{new Date().getFullYear()}</p> */}
                                                                         </div>
                                                                         <div className="col-auto">
                                                                             <i className="fas fa-eye bg-c-blue"></i>
@@ -97,9 +105,9 @@ class Dashboard extends Component {
                                                                 <div className="card-body">
                                                                     <div className="row align-items-center">
                                                                         <div className="col">
-                                                                            <h6 className="m-b-25">Goal</h6>
-                                                                            <h3 className="f-w-700 text-c-green">30,564</h3>
-                                                                            <p className="m-b-0">May 23 - June 01 (2017)</p>
+                                                                            <h6 className="m-b-25">Programs</h6>
+                                                                            <h3 className="f-w-700 text-c-green">{this.props.programs.programs.length}</h3>
+                                                                            {/* <p className="m-b-0">{new Date().getDate()}</p> */}
                                                                         </div>
                                                                         <div className="col-auto">
                                                                             <i className="fas fa-bullseye bg-c-green"></i>
@@ -111,9 +119,9 @@ class Dashboard extends Component {
                                                                 <div className="card-body">
                                                                     <div className="row align-items-center">
                                                                         <div className="col">
-                                                                            <h6 className="m-b-25">Impact</h6>
-                                                                            <h3 className="f-w-700 text-c-yellow">42.6%</h3>
-                                                                            <p className="m-b-0">May 23 - June 01 (2017)</p>
+                                                                            <h6 className="m-b-25">Users</h6>
+                                                                            <h3 className="f-w-700 text-c-yellow">{this.props.peopleProfile.peoples.length}</h3>
+                                                                            {/* <p className="m-b-0">{ new Date().getHours()}</p> */}
                                                                         </div>
                                                                         <div className="col-auto">
                                                                             <i className="fas fa-hand-paper bg-c-yellow"></i>
@@ -129,9 +137,9 @@ class Dashboard extends Component {
                                                                 <div className="card-block">
                                                                     <div className="row">
                                                                         <div className="col-xl-3 col-md-6">
-                                                                            <h6>Published Project</h6>
-                                                                            <h5 className="m-b-30 f-w-700">532<span
-                                                                                    className="text-c-green m-l-10">+1.69%</span></h5>
+                                                                            <h6>Resources</h6>
+                                                                            <h5 className="m-b-30 f-w-700">Total:<span
+                                                                                    className="text-c-green m-l-10">+{this.props.resources.resources.length}%</span></h5>
                                                                             <div className="progress">
                                                                                 <div className="progress-bar bg-c-red"
                                                                                     style={{width:"25%"}}></div>
@@ -197,8 +205,12 @@ Dashboard.prototypes = {
 
 const mapStateToProps = state => ({
     profile: state.profile,
-    auth: state.auth
+    auth: state.auth,
+    peopleProfile: state.peopleProfile,
+    programs: state.programs,
+    events: state.events,
+    resources: state.resources
 })
 
 // export default Dashboard;
-export default connect(mapStateToProps, { getCurrentProfile })(Dashboard);
+export default connect(mapStateToProps, { getCurrentProfile, getEvents, getPrograms, getPeople, getResources })(Dashboard);

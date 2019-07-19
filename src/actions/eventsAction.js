@@ -2,7 +2,7 @@ import axios from 'axios';
 import { url } from '../config/config';
 import { headers } from '../utils/headerJWT'
 
-import { CREATE_EVENTS, GET_EVENTS, FIND_EVENT, UPDATE_EVENT } from './types';
+import { CREATE_EVENTS, GET_EVENTS, FIND_EVENT, UPDATE_EVENT, SET_EVENT } from './types';
 
 export const createEvent = (eventData) => dispatch => {
 
@@ -44,6 +44,18 @@ export const updateEvent = (query) => dispatch => {
     .then( res => 
         dispatch({
         type: UPDATE_EVENT,
+        payload: res.data.data[0]
+    })
+    )
+    .catch(err => console.log(err));
+}
+
+export const eventSetUp = (query) => dispatch => {
+  
+    axios.put(`${url}/event/`, query, { headers: headers })
+    .then( res => 
+        dispatch({
+        type: SET_EVENT,
         payload: res.data.data[0]
     })
     )

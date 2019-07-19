@@ -4,7 +4,10 @@ import Navbar from '../Navbar';
 import { ChromePicker } from 'react-color';
 import "./AppDesign.css";
 import { connect } from 'react-redux';
-import { uploads } from '../../actions/uploads';
+import { getEvents, eventSetUp } from '../../actions/eventsAction';
+import axios from 'axios';
+import { headers } from '../../utils/headerJWT';
+import { url } from '../../config/config';
 
 class AppDesign extends Component {
     constructor() {
@@ -24,7 +27,8 @@ class AppDesign extends Component {
           logoUrl: '',
           header_image1_Url: '',
           header_image2_Url: '',
-          header_image3_Url: ''
+          header_image3_Url: '',
+          eventid: ''
         }
   
         this.handleChange = this.handleChange.bind(this);
@@ -50,40 +54,15 @@ class AppDesign extends Component {
         });
     }
 
-    componentWillReceiveProps(NextProps) {
-      
-        // let data = NextProps.events.event;
-        console.log(NextProps);
+    componentDidMount() {
+        this.props.getEvents();
     }
 
     handleSubmit(event) {
         event.preventDefault();
-        this.uploadLogo();
-        this.uploadHeader1();
-        this.uploadHeader2();
-        this.uploadHeader3();
-
         
+        let { logo, header_image1, header_image2, header_image3, caption1, caption2, caption3, theme, background, appName, eventid } = this.state;
         
-        const { theme, background, logoUrl, header_image1_Url, header_image2_Url, header_image3_Url } = this.state;
-        
-        const data = { theme, background, logoUrl, header_image1_Url, header_image2_Url, header_image3_Url }
-        
-        console.log('datad', data)
-
-        // this.props.createEvent(data)
-
-        const imagesUploaded = this.props;
-
-        console.log(imagesUploaded);
-        
-        this.setState({ theme: "", color: "", success: `App setup Completed..`})
-       
-    
-    }
-
-    uploadLogo = () => {
-        let { logo, theme } = this.state;
         let type = logo.slice(5, 14);
         let photo = logo.slice(22, logo.length);
 
@@ -93,11 +72,6 @@ class AppDesign extends Component {
             type: type
         }
 
-        this.props.uploads(dataImage);
-    }
-
-    uploadHeader1 = () => {
-        let { header_image1, caption1 } = this.state;
         let imageType = header_image1.slice(5, 14);
         let imagePhoto = header_image1.slice(22, header_image1.length);
 
@@ -107,35 +81,82 @@ class AppDesign extends Component {
             type: imageType
         }
 
-        this.props.uploads(headImage);
-    }
+        let imageType2 = header_image2.slice(5, 14);
+        let imagePhoto2 = header_image2.slice(22, header_image2.length);
 
-    uploadHeader2 = () => {
-        let { header_image2, caption2 } = this.state;
-        let imageType = header_image2.slice(5, 14);
-        let imagePhoto = header_image2.slice(22, header_image2.length);
-
-        const headImage = {
+        const headImage2 = {
             name: caption2,
-            photo: imagePhoto,
-            type: imageType
+            photo: imagePhoto2,
+            type: imageType2
         }
 
-        this.props.uploads(headImage);
-    }
 
-    uploadHeader3 = () => {
-        let { header_image3, caption3 } = this.state;
-        let imageType = header_image3.slice(5, 14);
-        let imagePhoto = header_image3.slice(22, header_image3.length);
+        let imageType3 = header_image3.slice(5, 14);
+        let imagePhoto3 = header_image3.slice(22, header_image3.length);
 
-        const headImage = {
+        const headImage3 = {
             name: caption3,
-            photo: imagePhoto,
-            type: imageType
+            photo: imagePhoto3,
+            type: imageType3
         }
 
-        this.props.uploads(headImage);
+        
+        axios.post(`${url}/upload/`, dataImage, { headers: headers })
+        .then( res => {
+            let urls = res.data.Location;
+                this.setState({
+                    logoUrl: urls
+                })
+            }
+        )
+        .then(res => {
+            axios.post(`${url}/upload/`, headImage, { headers: headers })
+            .then(resp => {
+                let urls = resp.data.Location;
+                this.setState({
+                    header_image1_Url: urls
+                })
+            })
+            .then(res => {
+                axios.post(`${url}/upload/`, headImage2, { headers: headers })
+                .then(resp => {
+                    let urls = resp.data.Location;
+                    this.setState({
+                        header_image2_Url: urls
+                    })
+                })
+                .then(res => {
+                    axios.post(`${url}/upload/`, headImage3, { headers: headers })
+                        .then(resp => {
+                            let urls = resp.data.Location;
+                            this.setState({
+                                header_image3_Url: urls
+                            })
+                        })
+                        .then(res => {
+                            const { logoUrl, header_image1_Url, header_image2_Url, header_image3_Url } = this.state;
+
+                            const data = { eventid, color: background, logo: logoUrl, header_image: [header_image1_Url, header_image2_Url, header_image3_Url] }
+
+                            let query = { 
+                                query: {"_id": eventid},
+                                update: data
+                            }
+
+                            console.log('datad', query);
+
+                            this.props.eventSetUp(query);
+
+                            this.setState({ theme: "", color: "", success: `App setup Completed..`})
+                        })
+                        .catch(err => console.log(err));
+                })
+                .catch(err => console.log(err));
+            })
+            .catch(err => console.log(err));
+        })
+        .catch(err => console.log(err));
+    
     }
 
     fileChangedHandler = event => {
@@ -280,24 +301,31 @@ class AppDesign extends Component {
                                                                 <div className="card-body">
                                                                 {/* <h3 className="card-title">Create An Event</h3> */}
                                                                 <div className="row">
-                                                                    <div className="col-md-4">
+                                                                   <div className="col-md-6">
+                                                                    <div className="form-group">
+                                                                        <label className="form-label">Event</label>
+                                                                        <select name="eventid" className="form-control" onChange={this.handleChange} value={this.state.eventid} required>
+                                                                            <option value="">Select Event
+                                                                            </option>
+                                                                            {this.props.events.events.map((data, i) => <option key={i} value={data._id}>{data.title}</option> )}
+                                                                        </select>
+                                                                    </div>
+                                                                    </div> 
+                                                                    <div className="col-md-6">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Theme</label>
                                                                         <select name="theme" className="form-control" onChange={this.handleChange} value={this.state.theme}>
                                                                             <option value="opt1">Select Customize Theme
                                                                             </option>
                                                                             <option value="theme2">Theme 1</option>
-                                                                            {/* <option value="theme2">Theme 2</option>
-                                                                            <option value="theme3">Theme 3</option>
-                                                                            <option value="theme4">Theme 4</option> */}
-                                                                            {/* <option value="opt5">Type 5</option>
-                                                                            <option value="opt6">Type 6</option>
-                                                                            <option value="opt7">Type 7</option>
-                                                                            <option value="opt8">Type 8</option> */}
+                                                                           
                                                                         </select>
                                                                     </div>
                                                                     </div> 
-                                                                    <div className="col-md-4">
+                                                                </div>
+                                                                <div className="row">
+                                                              
+                                                                    <div className="col-md-6">
                                                                     <div className="form-group">
                                                     
                                                                         <label className="form-label">App Name</label>
@@ -305,7 +333,7 @@ class AppDesign extends Component {
                                                                     </div>
                                                                     </div> 
                                                                 
-                                                                    <div className="col-md-4">
+                                                                    <div className="col-md-6">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Color</label>
                                                                         
@@ -433,8 +461,8 @@ class AppDesign extends Component {
 
 const mapStateToProps = (state) => ({
     auth: state.auth,
-    uploads: state.uploads
+    events: state.events,
 });
 
 // export default Event;
-export default connect(mapStateToProps, { uploads })(AppDesign);
+export default connect(mapStateToProps, { getEvents, eventSetUp })(AppDesign);

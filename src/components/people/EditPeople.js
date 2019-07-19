@@ -3,7 +3,10 @@ import Sidebar from '../Sidebar';
 import Navbar from '../Navbar';
 import {countries} from '../../common/country';
 import { connect } from 'react-redux';
-import { findPeople, updatePeople } from '../../actions/peopleAction';
+import { getPeople, findPeople, updatePeople } from '../../actions/peopleAction';
+import axios from 'axios';
+import { headers } from '../../utils/headerJWT';
+import { url } from '../../config/config';
 
 class EditPeople extends Component {
     constructor() {
@@ -30,7 +33,9 @@ class EditPeople extends Component {
             instagram: "",
             instagram_visible: false,
             role: "",
-            success: null
+            success: null,
+            photoUrl: "",
+            photourl: ""
         }
   
         this.handleChange = this.handleChange.bind(this);
@@ -41,6 +46,7 @@ class EditPeople extends Component {
         const { id } = this.props.match.params;
         let query = {query:{"_id": id}}; 
         this.props.findPeople(query);
+        this.props.getPeople()
     }
 
     componentWillReceiveProps(NextProps) {
@@ -51,7 +57,7 @@ class EditPeople extends Component {
             email: data.email, name: data.name, phone: data.phone, address: data.address, interest: data.interest, company_name: data.company_name,
             short_bio: data.short_bio, website: data.website, facebook: data.facebook, twitter: data.twitter, country: data.country,
             linkedin: data.linkedin, instagram: data.instagram, facebook_visible: data.facebook_visible, twitter_visible: data.twitter_visible,
-            linkedin_visible: data.linkedin_visible, instagram_visible: data.instagram_visible, job_title: data.job_title
+            linkedin_visible: data.linkedin_visible, instagram_visible: data.instagram_visible, job_title: data.job_title, photoUrl: data.photo
         })
     }
 
@@ -75,31 +81,54 @@ class EditPeople extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        const { interest, role, company_name, email, name, phone, address, job_title, short_bio, website, country, facebook, facebook_visible,
-            twitter, twitter_visible, linkedin, linkedin_visible, instagram, instagram_visible } = this.state;
-        
-        let event = {
-            event:{
-                event_id: "",
-                event_role: role
-            }
+        let { photo, interest, email, company_name, name, phone, address, job_title, short_bio, website, country, facebook, facebook_visible,
+            twitter, twitter_visible, linkedin, linkedin_visible, instagram, instagram_visible, role  } = this.state;        
+        let type = photo.slice(5, 14);
+        let photoData = photo.slice(22, photo.length);
+
+
+        const dataImage = {
+            name: name,
+            photo: photoData,
+            type: type
         }
 
-        let data = { interest, company_name, email, name, phone, address, job_title, short_bio, website, country, facebook, facebook_visible,
-            twitter, twitter_visible, linkedin, linkedin_visible, instagram, instagram_visible, event }
+        axios.post(`${url}/upload/`, dataImage, { headers: headers })
+            .then( res => {
+                let urls = res.data.Location;
+                    this.setState({
+                        urls: urls
+                    })
+                }
+            )
+            .then(res => {
+                const { urls } = this.state;
 
-        const { id } = this.props.match.params;
+                let event = {
+                    event:{
+                        event_id: "",
+                        event_role: role
+                    }
+                }
+
+                let data = { interest, email, company_name, name, phone, address, job_title, short_bio, website, country, facebook, facebook_visible,
+                            photo: urls, twitter, twitter_visible, linkedin, linkedin_visible, instagram, instagram_visible, event }
+
+                    const { id } = this.props.match.params;
     
-        let query = { 
-            query: {"_id": id},
-            update: data
-        }
+                    let query = { 
+                        query: {"_id": id},
+                        update: data
+                    }
 
-        console.log(query);
+                    console.log(query);
 
-        this.props.updatePeople(query);
+                    this.props.updatePeople(query);
 
-        this.props.history.push('/people-list');
+                    this.props.history.push('/people-list');
+                    // window.location.reload();
+            })
+            .catch(err => console.log(err));
     
     }
 
@@ -188,7 +217,12 @@ class EditPeople extends Component {
                                                                 <div className="card-body">
                                                                 {/* <h3 className="card-title">Create An Event</h3> */}
                                                                 <div className="row">
-                                                                    
+                                                                    <div className="col-xs-6 col-md-3">
+                                                                        <img src={this.state.photoUrl} alt="..." style={{width:'150px', height: '150px'}}/>
+                                                                    </div>
+                                                                </div>
+                                                                <br />
+                                                                <div className="row">
                                                                     <div className="col-md-6">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Name</label>
@@ -258,7 +292,7 @@ class EditPeople extends Component {
                                                                         <textarea name="short_bio" rows="3" maxLength={500} value={this.state.short_bio} onChange={this.handleChange}
                                                                         className="form-control" placeholder="Resource Description">
                                                                         </textarea>
-                                                                        <span>{this.state.short_bio.length }/500</span>
+                                                                        {/* <span>{this.state.short_bio.length }/500</span> */}
                                                                     </div>
                                                                     </div>
                                                                     
@@ -438,4 +472,4 @@ const mapStateToProps = (state) => ({
     peopleProfile: state.peopleProfile
 });
 
-export default connect(mapStateToProps, { findPeople, updatePeople })(EditPeople);
+export default connect(mapStateToProps, { getPeople, findPeople, updatePeople })(EditPeople);

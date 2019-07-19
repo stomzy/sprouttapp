@@ -17,7 +17,7 @@ export default function Sidebar() {
                         <a href="#" className="waves-effect waves-dark">
                             <span className="pcoded-micon"><i className="feather icon-sidebar"></i></span>
                             <span className="pcoded-mtext">SETUP</span>
-                            <span className="pcoded-badge label label-warning">2 items</span>
+                            <span className="pcoded-badge label label-warning">1 items</span>
                         </a>
                         <ul className="pcoded-submenu">
                             <li className=" pcoded-hasmenu">
@@ -26,12 +26,12 @@ export default function Sidebar() {
                                 </a>
                 
                             </li>
-                            {/* <li className=" pcoded-hasmenu">
-                                <a href="/app-design-list" className="waves-effect waves-dark">
+                            <li className=" pcoded-hasmenu">
+                                <a href="/app-design" className="waves-effect waves-dark">
                                     <span className="pcoded-mtext">App Design</span>
                                 </a>
                     
-                            </li> */}
+                            </li>
                         </ul>
                     </li>
                     <li className="pcoded-hasmenu">
@@ -64,7 +64,7 @@ export default function Sidebar() {
                         <a href="#" className="waves-effect waves-dark">
                             <span className="pcoded-micon"><i className="feather icon-sidebar"></i></span>
                             <span className="pcoded-mtext">CONTENT</span>
-                            <span className="pcoded-badge label label-success">4 items</span>
+                            <span className="pcoded-badge label label-success">2 items</span>
                         </a>
                         <ul className="pcoded-submenu">
                             {/* <li className=" pcoded-hasmenu">

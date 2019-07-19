@@ -97,9 +97,17 @@ class CompanyProfiles extends Component {
                                                                                     <td><b>{data.name}</b></td>
                                                                                     <td>{data.email}</td>
                                                                                     <td>{data.address}</td>
-                                                                                    <td><button className="btn btn-info btn-sm">
-                                                                                        <span className="glyphicon glyphicon-edit"></span> Edit
-                                                                                    </button>
+                                                                                    <td>
+                                                                                        <a href={`/organizers/${data.email}`}>
+                                                                                            <button className="btn btn-success btn-sm">
+                                                                                                <span className="glyphicon glyphicon-user"></span> Add Organizers
+                                                                                            </button>
+                                                                                        </a>
+                                                                                        <a href={`/company-edit/${data._id}`}>
+                                                                                            <button className="btn btn-info btn-sm">
+                                                                                                <span className="glyphicon glyphicon-edit"></span> Edit
+                                                                                            </button>
+                                                                                        </a>
                                                                                     <button className="btn btn-danger btn-sm">
                                                                                         <span className="glyphicon glyphicon-trash"></span> Delete
                                                                                     </button>

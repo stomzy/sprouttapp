@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import Sidebar from '../Sidebar';
 import Navbar from '../Navbar';
-import { connect } from 'react-redux';
-import { createResource } from '../../actions/resourceActions';
-import { getEvents } from '../../actions/eventsAction';
-import { getPrograms } from '../../actions/programAction';
 import axios from 'axios';
 import { headers } from '../../utils/headerJWT';
 import { url } from '../../config/config';
+import { connect } from 'react-redux';
+import { findResources } from '../../actions/resourceActions';
+import { getEvents } from '../../actions/eventsAction';
+import { getPrograms } from '../../actions/programAction';
 
-
-class Resources extends Component {
+class ResourceEdit extends Component {
     constructor() {
         super();
         this.state = {
@@ -28,6 +27,10 @@ class Resources extends Component {
     }
 
     componentDidMount() {
+        const { id } = this.props.match.params;
+        let query = {query:{"_id": id}}; 
+
+        this.props.findResources(query);  
         this.props.getEvents();
         this.props.getPrograms();
     }
@@ -36,6 +39,17 @@ class Resources extends Component {
         this.setState({
           [event.target.name]: event.target.value
         });
+    }
+
+    componentWillReceiveProps(NextProps) {
+      
+        let data = NextProps.resources.resource;
+        console.log(data);
+ 
+        this.setState({
+            title: data.title, description: data.description, urls: data.url, eventid: data.eventid,
+            programid: data.programid
+        })
     }
 
     handleSubmit(event) {
@@ -107,8 +121,6 @@ class Resources extends Component {
                      {/* navbar */}
                         <Navbar />
 
-
-
                     <div className="pcoded-main-container">
                         <div className="pcoded-wrapper">
 
@@ -124,7 +136,7 @@ class Resources extends Component {
                                             <div className="page-header-title">
                                                 <i className="feather icon-watch bg-c-blue"></i>
                                                 <div className="d-inline">
-                                                    <h5>Resource info</h5>
+                                                    <h5>Edit Resource info</h5>
                                                     <span>Setting up Resources</span>
                                                 </div>
                                             </div>
@@ -153,7 +165,7 @@ class Resources extends Component {
                                                     <div className="col-sm-12">
                                                         <div className="card">
                                                             <div className="card-header">
-                                                                <h5>Add Resource</h5>
+                                                                <h5>Edit Resource</h5>
                                                                 <div className="card-header-right">
                                                                     <ul className="list-unstyled card-option">
                                                                         <li className="first-opt"><i
@@ -175,7 +187,8 @@ class Resources extends Component {
                                                             { notification }
                                                             <form onSubmit={this.handleSubmit}>
                                                                 <div className="card-body">
-                                                                {/* <h3 className="card-title">Create An Event</h3> */}
+                                                                <h4 className="card-title">Resource Url: <span><a href={this.state.urls}>{this.state.urls}</a></span></h4>
+                                                                <br/>
                                                                 <div className="row">
                                                                     <div className="col-md-6">
                                                                     <div className="form-group">
@@ -188,8 +201,6 @@ class Resources extends Component {
                                                                     <div className="col-md-6">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Upload Resource</label>
-                                                                        {/* <input type="text" name="url" placeholder="Enter Resource Url"
-                                                                         onChange={this.handleChange} value={this.state.url} className="form-control" required/> */}
                                                                          <input type="file" className="form-control"  onChange={this.fileChangedHandler}/>
                                                                     </div>
                                                                     </div> 
@@ -263,8 +274,6 @@ class Resources extends Component {
     }
 }
 
-
-// export default Resources;
 const mapStateToProps = (state) => ({
     auth: state.auth,
     events: state.events,
@@ -273,4 +282,4 @@ const mapStateToProps = (state) => ({
 });
 
 // export default Event;
-export default connect(mapStateToProps, { createResource, getEvents, getPrograms })(Resources);
+export default connect(mapStateToProps, { findResources, getEvents, getPrograms })(ResourceEdit);

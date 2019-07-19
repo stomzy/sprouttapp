@@ -22,8 +22,9 @@ class Navbar extends Component {
                         <div className="navbar-wrapper">
                             <div className="navbar-logo">
                                 <a href="">
-                                    {/* <img className="img-fluid" src="../files/assets/images/logo.pngn" alt="Sprout" /> */}
-                                    <p>Sprout</p>
+                                    {/* <span>Ignite</span> */}
+                                    <img className="img-fluid" src="../files/assets/images/icon_png.png" alt="Sprout" style={{width:'150px', height: '150px'}}/>
+                                    
                                 </a>
                                 <a className="mobile-menu" id="mobile-collapse" href="">
                                     <i className="feather icon-menu icon-toggle-right"></i>

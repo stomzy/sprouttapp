@@ -2,25 +2,17 @@ import React, { Component } from 'react';
 import Sidebar from '../Sidebar';
 import Navbar from '../Navbar';
 import { connect } from 'react-redux';
-import { createResource } from '../../actions/resourceActions';
+import { getPeople } from '../../actions/peopleAction';
 import { getEvents } from '../../actions/eventsAction';
-import { getPrograms } from '../../actions/programAction';
-import axios from 'axios';
-import { headers } from '../../utils/headerJWT';
-import { url } from '../../config/config';
+import { addOrganizer } from '../../actions/companyProfileAction';
 
-
-class Resources extends Component {
+class AddOrganizers extends Component {
     constructor() {
         super();
         this.state = {
+          email: "",
           eventid: "",
-          programid: "",
-          title: "",
-          description: "",
-          urls: "",
-          resource: "",
-          success: null
+          participantid: ""
         }
   
         this.handleChange = this.handleChange.bind(this);
@@ -28,8 +20,13 @@ class Resources extends Component {
     }
 
     componentDidMount() {
+        const { id } = this.props.match.params;
+        this.setState({
+            email: id
+        })
+
+        this.props.getPeople();
         this.props.getEvents();
-        this.props.getPrograms();
     }
 
     handleChange(event) {
@@ -40,48 +37,21 @@ class Resources extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        
-        let { resource, title, programid, description, eventid } = this.state;        
-        let type = resource.slice(5, 14);
-        let photo = resource.slice(22, resource.length);
-
-        const dataImage = {
-            name: title,
-            photo: photo,
-            type: type
-        }
-
-            axios.post(`${url}/upload/`, dataImage, { headers: headers })
-            .then( res => {
-                let urls = res.data.Location;
-                    this.setState({
-                        urls: urls
-                    })
-                }
-            )
-            .then(res => {
-                const { urls } = this.state;
-                const data = { title, programid, description, eventid, url: urls }
-            
-                this.props.createResource(data);
-            })
-            .catch(err => console.log(err));
-
-        this.setState({ title: "", description: "", eventid: "", programid: "",  urls: "", success: "Resource addeed Successfully"})
+        const { email, participantid, eventid } = this.state;
     
-    }
+        const data = { organisers: participantid, events: eventid }
 
-    fileChangedHandler = event => {
-        let self = this;
-        let reader = new FileReader();
-        const file = event.target.files[0];
-        
-        reader.onload = function(upload) {
-            // console.log(upload.target);
-            self.setState({ resource: upload.target.result });
-        };
+        let query = { 
+            query: {"email": email},
+            update: data
+        }
+        console.log('datad', query);
+        this.props.addOrganizer(query)
 
-        reader.readAsDataURL(file);  
+        // this.props.history.push('/events-list');
+
+        this.setState({ success: "Organizer added to Company"})
+    
     }
 
     render() {
@@ -93,7 +63,6 @@ class Resources extends Component {
                 </div>
             );
         }
-
         return (
             <React.Fragment>
             <div className="loader-bg">
@@ -106,8 +75,6 @@ class Resources extends Component {
 
                      {/* navbar */}
                         <Navbar />
-
-
 
                     <div className="pcoded-main-container">
                         <div className="pcoded-wrapper">
@@ -124,8 +91,8 @@ class Resources extends Component {
                                             <div className="page-header-title">
                                                 <i className="feather icon-watch bg-c-blue"></i>
                                                 <div className="d-inline">
-                                                    <h5>Resource info</h5>
-                                                    <span>Setting up Resources</span>
+                                                    <h5>Add Organisers to Event</h5>
+                                                    <span>Setting up organisers</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -136,7 +103,7 @@ class Resources extends Component {
                                                         <a href="index.html"><i className="feather icon-home"></i></a>
                                                     </li>
                                                     <li className="breadcrumb-item">
-                                                        <a href="/resources-list">Resource List</a>
+                                                        <a href="/company-list">Company List</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -153,7 +120,7 @@ class Resources extends Component {
                                                     <div className="col-sm-12">
                                                         <div className="card">
                                                             <div className="card-header">
-                                                                <h5>Add Resource</h5>
+                                                                <h5>Add Organisers</h5>
                                                                 <div className="card-header-right">
                                                                     <ul className="list-unstyled card-option">
                                                                         <li className="first-opt"><i
@@ -166,7 +133,7 @@ class Resources extends Component {
                                                                         </li>
                                                                         <li><i className="feather icon-trash close-card"></i></li>
                                                                         <li><i
-                                                                                className="feather icon-chevron-left open-card-option"></i>
+                                                                               className="feather icon-chevron-left open-card-option"></i>
                                                                         </li>
                                                                     </ul>
                                                                 </div>
@@ -179,27 +146,8 @@ class Resources extends Component {
                                                                 <div className="row">
                                                                     <div className="col-md-6">
                                                                     <div className="form-group">
-                                                                        <label className="form-label">Resource Title</label>
-                                                                        <input type="text" name="title" placeholder="Enter your Resource Title" 
-                                                                        onChange={this.handleChange} value={this.state.title} className="form-control" 
-                                                                        required/>
-                                                                    </div>
-                                                                    </div> 
-                                                                    <div className="col-md-6">
-                                                                    <div className="form-group">
-                                                                        <label className="form-label">Upload Resource</label>
-                                                                        {/* <input type="text" name="url" placeholder="Enter Resource Url"
-                                                                         onChange={this.handleChange} value={this.state.url} className="form-control" required/> */}
-                                                                         <input type="file" className="form-control"  onChange={this.fileChangedHandler}/>
-                                                                    </div>
-                                                                    </div> 
-                                                                    
-                                                                </div>
-                                                                <div className="row">
-                                                            
-                                                                    <div className="col-md-6">
-                                                                    <div className="form-group">
                                                                         <label className="form-label">Event</label>
+                                                                       
                                                                         <select name="eventid" className="form-control" onChange={this.handleChange} value={this.state.eventid} required>
                                                                             <option value="">Select Event
                                                                             </option>
@@ -207,34 +155,18 @@ class Resources extends Component {
                                                                         </select>
                                                                     </div>
                                                                     </div> 
-
                                                                     <div className="col-md-6">
                                                                     <div className="form-group">
-                                                                        <label className="form-label">Program Id</label>
-                                                                        {/* <input type="text" name="programid" placeholder="Enter Resource Program Id"
-                                                                         onChange={this.handleChange} value={this.state.programid} className="form-control" required/> */}
-                                                                         <select name="programid" className="form-control" onChange={this.handleChange} value={this.state.programid} required>
-                                                                            <option value="">Select Event
+                                                                        <label className="form-label">Participants </label>
+                                                                        
+                                                                        <select name="participantid" className="form-control" onChange={this.handleChange} value={this.state.participantid} required>
+                                                                            <option value="">Select Organiser
                                                                             </option>
-                                                                            {this.props.programs.programs.map((data, i) => <option key={i} value={data._id}>{data.title}</option> )}
+                                                                            {this.props.peopleProfile.peoples.map((data, i) => <option key={i} value={data._id}>{data.name} - {data.event.length > 0 ? data.event[0].event_role : null }</option> )}
                                                                         </select>
                                                                     </div>
                                                                     </div> 
-                                                                    
                                                                 </div>
-                                
-                                                                <div className="row">
-                                                                    <div className="col-md-12">
-                                                                    <div className="form-group">
-                                                                        <label className="form-label">Description</label>
-                                                                        <textarea name="description" maxLength={500} rows="3" value={this.state.description} onChange={this.handleChange}
-                                                                        className="form-control" placeholder="Resource Description">
-                                                                        </textarea>
-                                                                        <span>{this.state.description.length}/500</span>
-                                                                    </div>
-                                                                    </div> 
-                                                                </div>
-
                                                                 </div>
                                                                 <div className="card-footer text-right">
                                                                 <button type="submit" className="btn btn-primary">Submit</button>
@@ -264,13 +196,12 @@ class Resources extends Component {
 }
 
 
-// export default Resources;
 const mapStateToProps = (state) => ({
     auth: state.auth,
+    errors: state.errors,
+    peopleProfile: state.peopleProfile,
     events: state.events,
-    resources: state.resources,
-    programs: state.programs
 });
 
 // export default Event;
-export default connect(mapStateToProps, { createResource, getEvents, getPrograms })(Resources);
+export default connect(mapStateToProps, { getPeople, getEvents, addOrganizer })(AddOrganizers);

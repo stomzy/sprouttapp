@@ -1,4 +1,4 @@
-import { CREATE_EVENTS, GET_EVENTS, FIND_EVENT } from '../actions/types';
+import { CREATE_EVENTS, GET_EVENTS, FIND_EVENT, UPDATE_EVENT, SET_EVENT } from '../actions/types';
 
 const initialState = {
     event: {},
@@ -18,6 +18,16 @@ export default function(state = initialState, action) {
                 events: action.payload,
             }
         case FIND_EVENT:
+            return {
+                ...state,
+                event: action.payload,
+            }
+        case UPDATE_EVENT:
+            return {
+                ...state,
+                event: action.payload,
+            }
+        case SET_EVENT:
             return {
                 ...state,
                 event: action.payload,

@@ -4,6 +4,10 @@ import Navbar from '../Navbar';
 import {countries} from '../../common/country';
 import { connect } from 'react-redux';
 import { createPeople } from '../../actions/peopleAction';
+import axios from 'axios';
+import { headers } from '../../utils/headerJWT';
+import { url } from '../../config/config';
+import { getCompanyProfiles } from '../../actions/companyProfileAction';
 
 class AddPeople extends Component {
     constructor() {
@@ -30,11 +34,16 @@ class AddPeople extends Component {
             instagram: "",
             instagram_visible: false,
             role: "",
-            success: null
+            success: null,
+            photourl: ""
         }
   
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    componentDidMount() {
+        this.props.getCompanyProfiles();
     }
 
     handleChange(event) {
@@ -57,23 +66,44 @@ class AddPeople extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        const { interest, email, company_name, name, phone, address, job_title, short_bio, website, country, facebook, facebook_visible,
-            twitter, twitter_visible, linkedin, linkedin_visible, instagram, instagram_visible, role } = this.state;
-        
-        let event = {
-            event:{
-                event_id: "",
-                event_role: role
-            }
+
+        let { photo, interest, email, company_name, name, phone, address, job_title, short_bio, website, country, facebook, facebook_visible,
+            twitter, twitter_visible, linkedin, linkedin_visible, instagram, instagram_visible, role  } = this.state;        
+        let type = photo.slice(5, 14);
+        let photoData = photo.slice(22, photo.length);
+
+        const dataImage = {
+            name: name,
+            photo: photoData,
+            type: type
         }
-        
-        let data = { interest, email, company_name, name, phone, address, job_title, short_bio, website, country, facebook, facebook_visible,
-            twitter, twitter_visible, linkedin, linkedin_visible, instagram, instagram_visible, event }
 
-        console.log(data);
+        axios.post(`${url}/upload/`, dataImage, { headers: headers })
+            .then( res => {
+                let urls = res.data.Location;
+                    this.setState({
+                        urls: urls
+                    })
+                }
+            )
+            .then(res => {
+                const { urls } = this.state;
 
-        this.props.createPeople(data);
-    
+                let event = {
+                    event:{
+                        event_id: "",
+                        event_role: role
+                    }
+                }
+
+                let data = { interest, email, company_name, name, phone, address, job_title, short_bio, website, country, facebook, facebook_visible,
+                            photo: urls, twitter, twitter_visible, linkedin, linkedin_visible, instagram, instagram_visible, event }
+
+                        console.log(data);
+
+                        this.props.createPeople(data);
+            })
+            .catch(err => console.log(err));
     }
 
     render() {
@@ -309,8 +339,14 @@ class AddPeople extends Component {
                                                                     <div className="col-md-6">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Company Name</label>
-                                                                        <input type="text" name="company_name" placeholder="Enter Company name"
-                                                                        onChange={this.handleChange} value={this.state.company_name} className="form-control" />
+                                                                        {/* <input type="text" name="company_name" placeholder="Enter Company name"
+                                                                        onChange={this.handleChange} value={this.state.company_name} className="form-control" /> */}
+
+                                                                        <select name="company_name" className="form-control" onChange={this.handleChange} value={this.state.company_name} required>
+                                                                                <option value="">Select a Company
+                                                                                </option>
+                                                                                {this.props.companyProfiles.companyProfiles.map((data, i) => <option key={i} value={data._id}>{data.name}</option> )}
+                                                                            </select>
                                                                     </div>
                                                                     </div> 
 
@@ -408,7 +444,8 @@ class AddPeople extends Component {
 const mapStateToProps = (state) => ({
     auth: state.auth,
     errors: state.errors,
-    events: state.events
+    events: state.events,
+    companyProfiles: state.companyProfiles
 });
 
-export default connect(mapStateToProps, { createPeople })(AddPeople);
+export default connect(mapStateToProps, { createPeople, getCompanyProfiles })(AddPeople);

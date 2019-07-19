@@ -3,6 +3,7 @@ import Sidebar from '../Sidebar';
 import Navbar from '../Navbar';
 import { connect } from 'react-redux';
 import { addParticipant, verifyParticipant } from '../../actions/participantAction';
+import { getPeople } from '../../actions/peopleAction';
 
 class AddParticipant extends Component {
     constructor() {
@@ -23,6 +24,8 @@ class AddParticipant extends Component {
         this.setState({
             eventid: id
         })
+
+        this.props.getPeople();
     }
 
     handleChange(event) {
@@ -37,17 +40,25 @@ class AddParticipant extends Component {
     
         const data = { participantid, eventid, verified, as }
         
-        // console.log('datad', data)
+        console.log('datad', data)
 
         this.props.addParticipant(data);
         this.props.verifyParticipant(data);
-        this.props.history('/events-list');
+        // this.props.history.push('/events-list');
 
         this.setState({ success: "Participants added and verified"})
     
     }
 
     render() {
+        let notification = "";
+        if (this.state.success != null) {
+            notification = (
+                <div className="alert alert-success" role="alert">
+                    { this.state.success }
+                </div>
+            );
+        }
         return (
             <React.Fragment>
             <div className="loader-bg">
@@ -79,7 +90,7 @@ class AddParticipant extends Component {
                                                 <i className="feather icon-watch bg-c-blue"></i>
                                                 <div className="d-inline">
                                                     <h5>Add participant to Event</h5>
-                                                    <span>Setting up Activity</span>
+                                                    <span>Setting up Participant</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -90,7 +101,7 @@ class AddParticipant extends Component {
                                                         <a href="index.html"><i className="feather icon-home"></i></a>
                                                     </li>
                                                     <li className="breadcrumb-item">
-                                                        <a href="/activities-list">Participant List</a>
+                                                        <a href="/events-list">Participant List</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -107,7 +118,7 @@ class AddParticipant extends Component {
                                                     <div className="col-sm-12">
                                                         <div className="card">
                                                             <div className="card-header">
-                                                                <h5>Create an Activity</h5>
+                                                                <h5>Add Participants</h5>
                                                                 <div className="card-header-right">
                                                                     <ul className="list-unstyled card-option">
                                                                         <li className="first-opt"><i
@@ -126,7 +137,7 @@ class AddParticipant extends Component {
                                                                 </div>
                                                             </div>
                                                             <div className="card-block">
-                                                            {/* { notification } */}
+                                                            { notification }
                                                             <form onSubmit={this.handleSubmit}>
                                                                 <div className="card-body">
                                                                 {/* <h3 className="card-title">Create An Event</h3> */}
@@ -142,9 +153,14 @@ class AddParticipant extends Component {
                                                                     <div className="col-md-6">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Participant Id</label>
-                                                                        <input type="text" name="participantid" placeholder="Enter your participant Id" 
+                                                                        {/* <input type="text" name="participantid" placeholder="Enter your participant Id" 
                                                                         onChange={this.handleChange} value={this.state.participantid} className="form-control" 
-                                                                        required/>
+                                                                        required/> */}
+                                                                        <select name="participantid" className="form-control" onChange={this.handleChange} value={this.state.participantid} required>
+                                                                            <option value="">Select Participants
+                                                                            </option>
+                                                                            {this.props.peopleProfile.peoples.map((data, i) => <option key={i} value={data._id}>{data.name} - {data.event.length > 0 ? data.event[0].event_role : null }</option> )}
+                                                                        </select>
                                                                     </div>
                                                                     </div> 
                                                                 
@@ -165,10 +181,10 @@ class AddParticipant extends Component {
                                                                     <div className="form-group">
                                                                         <label className="form-label">Role</label>
                                                                          <select name="as" className="form-control" onChange={this.handleChange} value={this.state.as}>
-                                                                                <option value="attendees">Attendees</option>
+                                                                                {/* <option value="attendees">Attendees</option> */}
                                                                                 <option value="sponsors">Sponsors</option>
                                                                                 <option value="speakers">Speakers</option>
-                                                                                <option value="organisers">Organisers</option>
+                                                                                {/* <option value="organisers">Organisers</option> */}
                                                                             </select>
                                                                     </div>
                                                                     </div>  
@@ -204,8 +220,9 @@ class AddParticipant extends Component {
 
 const mapStateToProps = (state) => ({
     auth: state.auth,
-    errors: state.errors
+    errors: state.errors,
+    peopleProfile: state.peopleProfile,
 });
 
 // export default Event;
-export default connect(mapStateToProps, { addParticipant, verifyParticipant })(AddParticipant);
+export default connect(mapStateToProps, { addParticipant, verifyParticipant, getPeople })(AddParticipant);

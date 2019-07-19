@@ -314,7 +314,6 @@ const mapStateToProps = (state) => ({
     events: state.events,
     programs: state.programs,
     peopleProfile: state.peopleProfile,
-    events: state.events
 });
 
 // export default Event;
