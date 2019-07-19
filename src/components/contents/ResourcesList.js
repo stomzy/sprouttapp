@@ -90,7 +90,7 @@ class ResourcesList extends Component {
                                                                             <tr>
                                                                             <th>S/N</th>
                                                                             <th>Resource Title</th>
-                                                                            <th>Url</th>
+                                                                            <th>Resource Url</th>
                                                                             <th>Actions</th>
                                                                             </tr>
                                                                         </thead>
@@ -107,7 +107,7 @@ class ResourcesList extends Component {
                                                                                         </button>
                                                                                     </a>
                                                                                         <button className="btn btn-danger btn-sm">
-                                                                                            <span className="glyphicon glyphicon-trash"></span> Edit
+                                                                                            <span className="glyphicon glyphicon-trash"></span> Delete
                                                                                         </button>
                                                                                     </td>
                                                                                </tr>

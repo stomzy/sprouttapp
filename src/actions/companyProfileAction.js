@@ -28,7 +28,7 @@ export const getCompanyProfiles = () => dispatch => {
 
 export const addOrganizer = (profileData) => dispatch => {
 
-    axios.post(`${url}/event/addOrganiserOrEvent`, profileData, { headers: headers })
+    axios.post(`${url}/company/addOrganiserOrEvent`, profileData, { headers: headers })
     .then( res => dispatch({
         type: ADD_ORGANIZER,
         payload: res.data.data

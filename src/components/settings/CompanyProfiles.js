@@ -82,7 +82,7 @@ class CompanyProfiles extends Component {
                                                                         <thead>
                                                                             <tr>
                                                                             {/* <th>S/N</th> */}
-                                                                            <th>Profile Id</th>
+                                                                            {/* <th>Profile Id</th> */}
                                                                             <th>Company Name</th>
                                                                             <th>Email</th>
                                                                             <th>Address</th>
@@ -93,7 +93,7 @@ class CompanyProfiles extends Component {
                                                                             {this.props.companyProfiles.companyProfiles.map((data, i) => 
                                                                                   <tr key={i}>
                                                                                     {/* <td>{i += 1}</td> */}
-                                                                                    <td>{data._id}</td>
+                                                                                    {/* <td>{data._id}</td> */}
                                                                                     <td><b>{data.name}</b></td>
                                                                                     <td>{data.email}</td>
                                                                                     <td>{data.address}</td>

@@ -81,12 +81,13 @@ class ProgramList extends Component {
                                                                         <table  className="table table-xs table-hover table-outline card-table table-striped">
                                                                         <thead>
                                                                             <tr>
-                                                                            <th>S/N</th>
-                                                                            <th>Program Id</th>
+                                                                            {/* <th>S/N</th> */}
+                                                                            {/* <th>Program Id</th> */}
                                                                             <th>Program Title</th>
                                                                             {/* <th>Venue</th>
                                                                             <th>Start Date</th>
                                                                             <th>End Date</th> */}
+                                                                            <th>Date</th>
                                                                             <th>Start Time</th>
                                                                             <th>End Time</th>
                                                                             <th>Actions</th>
@@ -95,9 +96,10 @@ class ProgramList extends Component {
                                                                         <tbody>
                                                                             {this.props.programs.programs.map((data, i) => 
                                                                                   <tr key={i}>
-                                                                                    <td>{i += 1}</td>
-                                                                                    <td>{data._id}</td>
+                                                                                    {/* <td>{i += 1}</td> */}
+                                                                                    {/* <td>{data._id}</td> */}
                                                                                     <td><b>{data.title}</b></td>
+                                                                                    <td>{data.date.replace(/T/, ' ').replace(/\..+/, '').slice(0,10)}</td>
                                                                                     <td><span className="alert-danger">{data.start_time}</span></td>
                                                                                     <td><span className="alert-danger">{data.end_time}</span></td>
                                                                                     <td>

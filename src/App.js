@@ -31,9 +31,8 @@ import setAuthToken from './utils/setAuthToken';
 import {setCurrentUser, logoutUser} from './actions/authActions';
 import store from './store/Store';
 import { clearCurrentProfile } from './actions/profileActions';
-
-
 import PrivateRoute from './common/PrivateRoute';
+
 
 // check for token
 if (localStorage.jwtToken) {
@@ -56,7 +55,6 @@ if (localStorage.jwtToken) {
   }
 
 }
-
 
 function App() {
   return (

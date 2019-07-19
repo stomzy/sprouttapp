@@ -62,11 +62,10 @@ class EventEdit extends Component {
       
         let data = NextProps.events.event;
         console.log(data);
-        let add = data.location.address;
         this.setState({
             title: data.title, type: data.type, venue: data.venue, facebook: data.facebook, twitter: data.twitter, country: data.country
             ,instagram: data.instagram, linkedin: data.linkedin, website: data.website, description: data.description,
-            latitude: data.map.slice(4, 10), longitude: data.map.slice(15, 20), address: add, postcode: data.location.postcode,
+            latitude: data.map.slice(4, 10), longitude: data.map.slice(15, 20), address: data.location.address, postcode: data.location.postcode,
             state: data.location.state, eventCode: data.eventCode, location_name: data.location.name, location_description: data.location.description
         })
     }

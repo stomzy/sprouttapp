@@ -42,8 +42,8 @@ class Resources extends Component {
         event.preventDefault();
         
         let { resource, title, programid, description, eventid } = this.state;        
-        let type = resource.slice(5, 14);
-        let photo = resource.slice(22, resource.length);
+        let type = resource.slice(5, 20);
+        let photo = resource.slice(28, resource.length);
 
         const dataImage = {
             name: title,
@@ -77,7 +77,7 @@ class Resources extends Component {
         const file = event.target.files[0];
         
         reader.onload = function(upload) {
-            // console.log(upload.target);
+            // console.log(upload.target.result);
             self.setState({ resource: upload.target.result });
         };
 
@@ -191,6 +191,7 @@ class Resources extends Component {
                                                                         {/* <input type="text" name="url" placeholder="Enter Resource Url"
                                                                          onChange={this.handleChange} value={this.state.url} className="form-control" required/> */}
                                                                          <input type="file" className="form-control"  onChange={this.fileChangedHandler}/>
+                                                                         <em style={{ color: 'red' }}>Accepts only PDF resources</em>
                                                                     </div>
                                                                     </div> 
                                                                     
