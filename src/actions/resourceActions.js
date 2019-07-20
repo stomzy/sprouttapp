@@ -2,16 +2,26 @@ import axios from 'axios';
 import { url } from '../config/config';
 import { headers } from '../utils/headerJWT'
 
-import { CREATE_RESOURCE, GET_RESOURCES, FIND_RESOURCE } from './types';
+import { GET_ERRORS, CREATE_RESOURCE, GET_RESOURCES, FIND_RESOURCE } from './types';
 
 export const createResource = (resourceData) => dispatch => {
-
-    axios.post(`${url}/resource/create`, resourceData, { headers: headers })
-    .then( res => dispatch({
-        type: CREATE_RESOURCE,
-        payload: "Resource Created Successfully."
-    }))
-    .catch(err => console.log(err));
+    return new Promise((resolve, reject) => {
+        axios.post(`${url}/resource/create`, resourceData, { headers: headers })
+        .then( res => {
+            dispatch({
+                type: CREATE_RESOURCE,
+                payload: "Resource Created Successfully."
+            })
+            resolve(res)
+        })
+        .catch(err => {
+            dispatch({
+                type: GET_ERRORS,
+                payload: err
+            })
+            reject(err)
+        });
+    });
 }
 
 export const getResources = () => dispatch => {
@@ -23,29 +33,49 @@ export const getResources = () => dispatch => {
         payload: res.data.data
     })
     )
-    .catch(err => console.log(err));
+    .catch(err => dispatch({
+        type: GET_ERRORS,
+        payload: err
+    }));
 }
 
 export const findResources = (query) => dispatch => {
-  
-    axios.post(`${url}/resource/query/`, query, { headers: headers })
-    .then( res => 
-        dispatch({
-        type: FIND_RESOURCE,
-        payload: res.data.data[0]
-    })
-    )
-    .catch(err => console.log(err));
+    return new Promise((resolve, reject) => {
+        axios.post(`${url}/resource/query/`, query, { headers: headers })
+        .then( res => {
+            dispatch({
+                type: FIND_RESOURCE,
+                payload: res.data.data[0]
+            })
+            resolve(res)
+        })
+        .catch(err => {
+            dispatch({
+                type: GET_ERRORS,
+                payload: err
+            })
+            reject(err)
+        });
+    });
 }
 
-// export const updatePeople = (query) => dispatch => {
-  
-//     axios.put(`${url}/profile/`, query, { headers: headers })
-//     .then( res => 
-//         dispatch({
-//         type: UPDATE_PEOPLE,
-//         payload: res.data.data[0]
-//     })
-//     )
-//     .catch(err => console.log(err));
-// }
+export const deleteResource = (resourceData) => dispatch => {
+    return new Promise((resolve, reject) => {
+        axios.post(`${url}/resource/delete/`, resourceData, { headers: headers })
+        .then( res => {
+            dispatch({
+                type: CREATE_RESOURCE,
+                payload: "Resource Deleted Successfully."
+            })
+            resolve(res)
+        })
+        .catch(err => {
+            dispatch({
+                type: GET_ERRORS,
+                payload: err
+            })
+            reject(err)
+        });
+    });
+}
+

@@ -2,12 +2,25 @@ import React, { Component } from 'react';
 import Sidebar from '../Sidebar';
 import Navbar from '../Navbar';
 import { connect } from 'react-redux';
-import { getPrograms } from '../../actions/programAction';
+import { getPrograms, deleteProgram } from '../../actions/programAction';
 
 class ProgramList extends Component {
     componentDidMount() {
         this.props.getPrograms();
     }
+
+    handleDelete(id, e) {
+        e.preventDefault();
+    
+        let data = {id: id};
+        this.props.deleteProgram(data).then(res => {
+            this.setState({ success: `Program deleted Successfully`})
+            window.location.reload();
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    }   
 
     render() {
         return (
@@ -108,7 +121,7 @@ class ProgramList extends Component {
                                                                                             <span className="glyphicon glyphicon-edit"></span> Edit
                                                                                         </button>
                                                                                     </a>
-                                                                                        <button className="btn btn-danger btn-sm">
+                                                                                        <button onClick={this.handleDelete.bind(this, data._id)} className="btn btn-danger btn-sm">
                                                                                             <span className="glyphicon glyphicon-trash"></span> Delete
                                                                                         </button>
                                                                                     </td>
@@ -149,4 +162,4 @@ const mapStateToProps = (state) => ({
 });
 
 // export default Event;
-export default connect(mapStateToProps, { getPrograms })(ProgramList);
+export default connect(mapStateToProps, { getPrograms, deleteProgram })(ProgramList);

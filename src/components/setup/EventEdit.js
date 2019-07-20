@@ -36,7 +36,7 @@ class EventEdit extends Component {
           logo: null,
           success: null,
           location_name: "",
-          location_description: ""
+          location_description: "",
         }
   
         this.handleChange = this.handleChange.bind(this);
@@ -48,7 +48,19 @@ class EventEdit extends Component {
         let query = {query:{"_id": id}}; 
 
       
-        this.props.findEvent(query);
+        this.props.findEvent(query).then(res => {
+            // console.log(res.data.data[0])
+            let data = res.data.data[0];
+            this.setState({
+                title: data.title, type: data.type, venue: data.venue, facebook: data.facebook, twitter: data.twitter, country: data.country
+                ,instagram: data.instagram, linkedin: data.linkedin, website: data.website, description: data.description,tags: data.tags,company: data.company,
+                latitude: data.map.slice(4, 10), longitude: data.map.slice(15, 20), address: data.location.address, postcode: data.location.postcode,
+                state: data.location.state, eventCode: data.eventCode, location_name: data.location.name, location_description: data.location.description
+            })
+        })
+        .catch(err=> {
+            console.log(err);
+        });
         this.props.getCompanyProfiles();
     }
 
@@ -56,18 +68,6 @@ class EventEdit extends Component {
         this.setState({
           [event.target.name]: event.target.value
         });
-    }
-
-    componentWillReceiveProps(NextProps) {
-      
-        let data = NextProps.events.event;
-        console.log(data);
-        this.setState({
-            title: data.title, type: data.type, venue: data.venue, facebook: data.facebook, twitter: data.twitter, country: data.country
-            ,instagram: data.instagram, linkedin: data.linkedin, website: data.website, description: data.description,
-            latitude: data.map.slice(4, 10), longitude: data.map.slice(15, 20), address: data.location.address, postcode: data.location.postcode,
-            state: data.location.state, eventCode: data.eventCode, location_name: data.location.name, location_description: data.location.description
-        })
     }
 
     handleSubmit(event) {
@@ -78,13 +78,18 @@ class EventEdit extends Component {
             address, postcode, state, country, company  } = this.state;
         
         let map =  `lat ${latitude} long ${longitude}`;
-        let tagArray = tags.split(',');
-        
+  
+        let countryName = country.slice(3, country.length)
+        let tagArray = ""  
+        if (Array.isArray(tags)) {
+            tagArray = tags
+        }else {
+            tagArray = tags.split(',');
+        }
+         
         const data = { title, tags: tagArray, description, venue, type, eventCode, facebook, twitter, instagram, linkedin,
-            location: {address, postcode, state, country, name: this.state.location_name, description: this.state.location_description}, map, company,
+            location: {address, postcode, state, country: countryName, name: this.state.location_name, description: this.state.location_description}, map, company,
             start_date, end_date, start_time, end_time, time_zone, website}
-
-            console.log('datad', data)
         
         const { id } = this.props.match.params;
         
@@ -93,9 +98,13 @@ class EventEdit extends Component {
             update: data
         }
 
-        this.props.updateEvent(query);
-
-        this.setState({ success: `Event updated with event Code:  ${eventCode} <a href="/events-list">Click Event Listing</a>`})
+        this.props.updateEvent(query)
+        .then(res => {
+            this.setState({ success: `Event updated with event Code:  ${eventCode}`})
+        })
+        .catch(err => {
+            console.log(err);
+        });
     
     }
 

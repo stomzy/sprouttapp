@@ -30,7 +30,16 @@ class ProgramEdit extends Component {
         const { id } = this.props.match.params;
         let query = {query:{"_id": id}}; 
 
-        this.props.findPrograms(query);    
+        this.props.findPrograms(query).then(res => {
+            let data = res.data.data[0];
+            this.setState({
+                title: data.title, eventid: data.eventid, description: data.description, time_zone: data.time_zone,
+                type: data.type, speakers: data.speakers, venue: data.venue, tags: data.tags
+            })
+        })
+        .catch(err => {
+            console.log(err);
+        });    
     }
 
     handleChange(event) {
@@ -39,23 +48,16 @@ class ProgramEdit extends Component {
         });
     }
 
-    componentWillReceiveProps(NextProps) {
-      
-        let data = NextProps.programs.programs[0];
- 
-        this.setState({
-            title: data.title, eventid: data.eventid, description: data.description, time_zone: data.time_zone,
-            type: data.type, speakers: data.speakers, venue: data.venue, tags: data.tags
-        })
-    }
-
     handleSubmit(event) {
         event.preventDefault();
-        const { title, type, description, eventid, speakers, start_time,  end_time, time_zone, date, venue, tags } = this.state;
-    
-        const data = { title, type, description, eventid, speakers, start_time,  end_time, time_zone, date, venue, tags}
-        
-        console.log('datad', data)
+        let { title, type, description, eventid, speakers, start_time,  end_time, time_zone, date, venue, tags } = this.state;
+        let tagArray = ""  
+        if (Array.isArray(tags)) {
+            tagArray = tags
+        }else {
+            tagArray = tags.split(',');
+        }
+        const data = { title, type, description, eventid, speakers, start_time,  end_time, time_zone, date, venue, tags: tagArray}
 
         const { id } = this.props.match.params;
     
@@ -63,9 +65,13 @@ class ProgramEdit extends Component {
             query: {"_id": id},
             update: data
         }
-        this.props.updateProgram(query);
-
-        this.setState({ success: "Program Updated Successfully"})
+        this.props.updateProgram(query)
+        .then(res => {
+            this.setState({ success: "Program Updated Successfully"})
+        })
+        .catch(err => {
+            console.log(err);
+        });
     }
 
     fileChangedHandler = event => {

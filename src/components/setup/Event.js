@@ -55,24 +55,25 @@ class Event extends Component {
             start_date, end_date, start_time, end_time, time_zone, website, longitude, latitude,
             address, postcode, state, country, company, location_name, location_description } = this.state;
         
+        let conutryCode = country.slice(0, 3)
+        let countryName = country.slice(3, country.length)
         let map =  `lat ${latitude} long ${longitude}`;
         let rand =  Math.floor(100000 + Math.random() * 900000);
-        let eventCode = (title.slice(0, 5) + rand + country).replace(' ', '');
+        let eventCode = (title.slice(0, 5) + rand + conutryCode).replace(' ', '');
         let tagArray = tags.split(',');
         
-        const data = { title, tagArray, description, venue, type, eventCode, facebook, twitter, instagram, linkedin,
-            location: {address, postcode, state, country, name: location_name, description: location_description}, map, company,
+        const data = { title, tags: tagArray, description, venue, type, eventCode, facebook, twitter, instagram, linkedin,
+            location: {address, postcode, state, country: countryName, name: location_name, description: location_description}, map, company,
             start_date, end_date, start_time, end_time, time_zone, website}
-        
-        console.log('datad', data)
 
-        this.props.createEvent(data)
-        
-        this.setState({ title: "", tags: "", description: "",  venue: "", time_zone: "", website: "", location_name: "", location_description: "",
-        type: "", facebook: "", twitter: "", instagram: "", linkedin: "", start_date: "", end_date: "", start_time: "", end_time: "", 
-        longitude: "", latitude: "", address: "", postcode: "", state: "", country: "", company: "", success: `Event created with event Code:  ${eventCode}`})
-       
-    
+        this.props.createEvent(data).then(res => {
+            this.setState({ title: "", tags: "", description: "",  venue: "", time_zone: "", website: "", location_name: "", location_description: "",
+            type: "", facebook: "", twitter: "", instagram: "", linkedin: "", start_date: "", end_date: "", start_time: "", end_time: "", 
+            longitude: "", latitude: "", address: "", postcode: "", state: "", country: "", company: "", success: `Event created with event Code:  ${eventCode}`})
+        })
+        .catch(err => {
+            console.log(err);
+        }) 
     }
 
     fileChangedHandler = event => {
@@ -234,21 +235,7 @@ class Event extends Component {
                                                                         </div>
                                                                         </div> 
                                                                     </div>
-                                                                    {/* <div className="row">
-                                                                        <div className="col-md-6">
-                                                                        <div className="form-group">
-                                                                            <label className="form-label">Event Logo</label>
-                                                                            <input type="file" className="form-control" onChange={this.fileChangedHandler}/>
-                                                                        </div>
-                                                                        </div>
-                                                                        <div className="col-md-4">
-                                                                        <div className="form-group">
-                                                                            <label className="form-label">Event Header Image</label>
-                                                                            <input type="file" className="form-control" onChange={this.imageChangedHandler}/>
-                                                                        </div>
-                                                                        </div> 
-                                                                       
-                                                                    </div> */}
+    
                                                                     <div className="row">
                                                                         <div className="col-md-3">
                                                                         <div className="form-group">
@@ -319,7 +306,7 @@ class Event extends Component {
                                                                             <select name="country" className="form-control" onChange={this.handleChange} value={this.state.country}>
                                                                                 <option value="">Select your country
                                                                                 </option>
-                                                                                { countryArray.map((data, i) => <option key={i} value={data}>{countries[data]}</option>)}
+                                                                                { countryArray.map((data, i) => <option key={i} value={`${data}${countries[data]}`}>{countries[data]}</option>)}
                                                                             </select>
                                                                         </div>
                                                                         </div> 

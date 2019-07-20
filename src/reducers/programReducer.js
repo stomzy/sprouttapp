@@ -1,4 +1,4 @@
-import { CREATE_PROGRAM, GET_PROGRAMS, FIND_PROGRAMS, UPDATE_PROGRAM } from '../actions/types';
+import { CREATE_PROGRAM, GET_PROGRAMS, FIND_PROGRAMS, UPDATE_PROGRAM, DELETE_PROGRAM } from '../actions/types';
 
 const initialState = {
     program: {},
@@ -23,6 +23,11 @@ export default function(state = initialState, action) {
                 programs: action.payload,
             }
         case UPDATE_PROGRAM:
+            return {
+                ...state,
+                program: action.payload,
+            }
+        case DELETE_PROGRAM:
             return {
                 ...state,
                 program: action.payload,

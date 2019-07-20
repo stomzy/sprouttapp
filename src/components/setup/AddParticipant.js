@@ -39,8 +39,6 @@ class AddParticipant extends Component {
         const { participantid, eventid, verified, as } = this.state;
     
         const data = { participantid, eventid, verified, as }
-        
-        console.log('datad', data)
 
         this.props.addParticipant(data);
         this.props.verifyParticipant(data);
@@ -159,7 +157,7 @@ class AddParticipant extends Component {
                                                                         <select name="participantid" className="form-control" onChange={this.handleChange} value={this.state.participantid} required>
                                                                             <option value="">Select Participants
                                                                             </option>
-                                                                            {this.props.peopleProfile.peoples.map((data, i) => <option key={i} value={data._id}>{data.name} - {data.event.length > 0 ? data.event[0].event_role : null }</option> )}
+                                                                            {this.props.peopleProfile.peoples.map((data, i) => <option key={i} value={data._id}>{data.name}</option> )}
                                                                         </select>
                                                                     </div>
                                                                     </div> 

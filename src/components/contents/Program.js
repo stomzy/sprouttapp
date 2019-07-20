@@ -50,14 +50,20 @@ class Program extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        const { title, type, description, eventid, speakers, start_time, date, venue, tags,  end_time, time_zone } = this.state;
-    
-        const data = { title, type, description, eventid, speakers, date, venue, tags, start_time,  end_time, time_zone }
-        
-        console.log('datad', data)
-        this.props.createProgram(data);
+        let { title, type, description, eventid, speakers, start_time, date, venue, tags,  end_time, time_zone } = this.state;
+        let tagsArray = tags.split(',');
 
-        this.setState({ title: "", eventid: "", date: "", venue: "", tags: "", description: "",  time_zone: "", type: "", speakers: "", start_time: "",  end_time: "", success: "Program Submitted Successfully"})
+        const data = { title, type, description, eventid, speakers, date, venue, tags: tagsArray, start_time,  end_time, time_zone }
+        
+        this.props.createProgram(data)
+        .then(res => {
+            this.setState({ title: "", eventid: "", date: "", venue: "", tags: "", description: "",  time_zone: "", type: "", speakers: "", start_time: "",  end_time: "", success: "Program Submitted Successfully"})
+        })
+        .catch(err => {
+            console.log(err);
+        });
+
+      
     }
    
     render() {
@@ -174,7 +180,7 @@ class Program extends Component {
                                                                     <div className="col-md-4">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Speakers</label>
-                                            
+                                                                
                                                                         <select name="speakers" className="form-control" onChange={this.handleMultiple} value={this.state.speakers} required>
                                                                             <option value="">Select Speakers
                                                                             </option>
@@ -189,7 +195,7 @@ class Program extends Component {
                                                                     <div className="form-group">
                                                                         <label className="form-label">Venue</label>
                                                                         <input type="text" name="venue" placeholder="Enter Program Venue"
-                                                                         onChange={this.handleChange} value={this.state.venue} className="form-control" required/>
+                                                                         onChange={this.handleChange} value={this.state.venue} className="form-control"/>
                                                                     </div>
                                                                     </div> 
 
@@ -204,7 +210,7 @@ class Program extends Component {
                                                                     <div className="form-group">
                                                                         <label className="form-label">Tags</label>
                                                                         <input type="text" name="tags" placeholder="Enter Program Tags"
-                                                                         onChange={this.handleChange} value={this.state.tags} className="form-control" required/>
+                                                                         onChange={this.handleChange} value={this.state.tags} className="form-control"  />
                                                                     </div>
                                                                     </div> 
                                                                 </div>

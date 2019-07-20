@@ -63,12 +63,15 @@ class Resources extends Component {
                 const { urls } = this.state;
                 const data = { title, programid, description, eventid, url: urls }
             
-                this.props.createResource(data);
+                this.props.createResource(data)
+                .then(res => {
+                    this.setState({ title: "", description: "", eventid: "", programid: "",  urls: "", success: "Resource addeed Successfully"})
+                })
+                .catch(err => {
+                    console.log(err);
+                });
             })
             .catch(err => console.log(err));
-
-        this.setState({ title: "", description: "", eventid: "", programid: "",  urls: "", success: "Resource addeed Successfully"})
-    
     }
 
     fileChangedHandler = event => {

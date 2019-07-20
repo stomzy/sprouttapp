@@ -96,7 +96,7 @@ class CompanyProfiles extends Component {
                                                                                     {/* <td>{data._id}</td> */}
                                                                                     <td><b>{data.name}</b></td>
                                                                                     <td>{data.email}</td>
-                                                                                    <td>{data.address}</td>
+                                                                                    <td>{data.phone}</td>
                                                                                     <td>
                                                                                         <a href={`/organizers/${data.email}`}>
                                                                                             <button className="btn btn-success btn-sm">

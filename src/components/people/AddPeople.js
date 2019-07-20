@@ -7,7 +7,6 @@ import { createPeople } from '../../actions/peopleAction';
 import axios from 'axios';
 import { headers } from '../../utils/headerJWT';
 import { url } from '../../config/config';
-import { getCompanyProfiles } from '../../actions/companyProfileAction';
 
 class AddPeople extends Component {
     constructor() {
@@ -40,10 +39,6 @@ class AddPeople extends Component {
   
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    componentDidMount() {
-        this.props.getCompanyProfiles();
     }
 
     handleChange(event) {
@@ -99,15 +94,32 @@ class AddPeople extends Component {
                 let data = { interest, email, company_name, name, phone, address, job_title, short_bio, website, country, facebook, facebook_visible,
                             photo: urls, twitter, twitter_visible, linkedin, linkedin_visible, instagram, instagram_visible, event }
 
-                        console.log(data);
+                        this.props.createPeople(data)
+                        .then(res => {
+                            this.setState({
+                                interest: "", email: "", company_name: "", name: "", phone: "", address: "", job_title: "", short_bio: "", website: "", country: "", facebook: "", facebook_visible: "",
+                                photo: "", twitter: "", twitter_visible: "", linkedin: "", linkedin_visible: "", instagram: "", instagram_visible: "", success: `${name} added successfully...`
+                            })
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        });
 
-                        this.props.createPeople(data);
+               
             })
             .catch(err => console.log(err));
     }
 
     render() {
         let countryArray = Object.keys(countries); 
+        let notification = "";
+        if (this.state.success != null) {
+            notification = (
+                <div className="alert alert-success" role="alert">
+                    { this.state.success }
+                </div>
+            );
+        }
         return (
             <React.Fragment>
             <div className="loader-bg">
@@ -186,7 +198,7 @@ class AddPeople extends Component {
                                                                 </div>
                                                             </div>
                                                             <div className="card-block">
-                                                            {/* { notification } */}
+                                                            { notification }
                                                             <form onSubmit={this.handleSubmit}>
                                                                 <div className="card-body">
                                                                 {/* <h3 className="card-title">Create An Event</h3> */}
@@ -339,14 +351,8 @@ class AddPeople extends Component {
                                                                     <div className="col-md-6">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Company Name</label>
-                                                                        {/* <input type="text" name="company_name" placeholder="Enter Company name"
-                                                                        onChange={this.handleChange} value={this.state.company_name} className="form-control" /> */}
-
-                                                                        <select name="company_name" className="form-control" onChange={this.handleChange} value={this.state.company_name} required>
-                                                                                <option value="">Select a Company
-                                                                                </option>
-                                                                                {this.props.companyProfiles.companyProfiles.map((data, i) => <option key={i} value={data._id}>{data.name}</option> )}
-                                                                            </select>
+                                                                        <input type="text" name="company_name" placeholder="Enter Company name"
+                                                                        onChange={this.handleChange} value={this.state.company_name} className="form-control" />
                                                                     </div>
                                                                     </div> 
 
@@ -395,7 +401,7 @@ class AddPeople extends Component {
                                                                     </div>  
                                                                     
                                                                 </div>
-                                                                
+                                                               
                                                                 <div className="row">
                                                                     
                                                                     <div className="col-md-6">
@@ -413,7 +419,7 @@ class AddPeople extends Component {
                                                                     </div>
 
                                                                 </div>
-
+                                                                { notification }
                                                                 </div>
                                                                 <div className="card-footer text-right">
                                                                 <button type="submit" className="btn btn-primary">Submit</button>
@@ -444,8 +450,7 @@ class AddPeople extends Component {
 const mapStateToProps = (state) => ({
     auth: state.auth,
     errors: state.errors,
-    events: state.events,
-    companyProfiles: state.companyProfiles
+    events: state.events
 });
 
-export default connect(mapStateToProps, { createPeople, getCompanyProfiles })(AddPeople);
+export default connect(mapStateToProps, { createPeople })(AddPeople);

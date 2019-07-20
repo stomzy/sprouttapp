@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Sidebar from '../Sidebar';
 import Navbar from '../Navbar';
 import { connect } from 'react-redux';
-import { getPeople } from '../../actions/peopleAction';
+import { getPeople, deletePeople } from '../../actions/peopleAction';
 
 class People extends Component {
     componentDidMount() {
@@ -11,7 +11,14 @@ class People extends Component {
 
     handleDelete(id, e) {
         e.preventDefault();
-        console.log(id);
+        let data = {id: id};
+        this.props.deletePeople(data).then(res => {
+            this.setState({ success: `People deleted Successfully`})
+            window.location.reload();
+        })
+        .catch(err => {
+            console.log(err);
+        });
     } 
 
     render() {
@@ -91,7 +98,6 @@ class People extends Component {
                                                                         <th>Full Name</th>
                                                                         <th>Phone</th>
                                                                         <th>Email</th>
-                                                                        <th>Address</th>
                                                                         <th></th>
                                                                         </tr>
                                                                     </thead>
@@ -103,7 +109,6 @@ class People extends Component {
                                                                                     <td><b>{data.title} {data.name}</b></td>
                                                                                     <td>{data.phone}</td>
                                                                                     <td>{data.email}</td>
-                                                                                    <td>{data.address}</td>
                                                                                     <td className="text-right">
                                                                                         <a href={`/people-edit/${data._id}`}>
                                                                                             <button className="btn btn-info btn-sm">
@@ -148,4 +153,4 @@ const mapStateToProps = (state) => ({
     peopleProfile: state.peopleProfile
 });
 
-export default connect(mapStateToProps, { getPeople })(People);
+export default connect(mapStateToProps, { getPeople, deletePeople })(People);

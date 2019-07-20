@@ -45,12 +45,18 @@ class AddOrganizers extends Component {
             query: {"email": email},
             update: data
         }
-        console.log('datad', query);
+
         this.props.addOrganizer(query)
+            .then(res => {
+                this.setState({ success: "Organizer added to Company"})
+            })
+            .catch(err => {
+                console.log(err)
+            })
 
         // this.props.history.push('/events-list');
 
-        this.setState({ success: "Organizer added to Company"})
+     
     
     }
 
@@ -162,7 +168,7 @@ class AddOrganizers extends Component {
                                                                         <select name="participantid" className="form-control" onChange={this.handleChange} value={this.state.participantid} required>
                                                                             <option value="">Select Organiser
                                                                             </option>
-                                                                            {this.props.peopleProfile.peoples.map((data, i) => <option key={i} value={data._id}>{data.name} - {data.event.length > 0 ? data.event[0].event_role : null }</option> )}
+                                                                            {this.props.peopleProfile.peoples.map((data, i) => <option key={i} value={data._id}>{data.name}</option> )}
                                                                         </select>
                                                                     </div>
                                                                     </div> 

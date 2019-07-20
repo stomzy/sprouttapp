@@ -41,20 +41,19 @@ class CompanyEdit extends Component {
         const { id } = this.props.match.params;
         let query = {query:{"_id": id}}; 
 
-        this.props.findCompany(query);
-    }
-
-    componentWillReceiveProps(NextProps) {
-      
-        let data = NextProps.companyProfiles.companyProfile;
-        console.log(data);
-        
-        this.setState({
-            industry: data.industry, name: data.name, phone: data.phone, address: data.address, email: data.email,
-            website: data.website, short_bio: data.short_bio, country: data.country, facebook: data.facebook, facebook_visible: data.facebook_visible,
-            twitter: data.twitter, twitter_visible: data.twitter_visible, linkedin: data.linkedin, linkedin_visible: data.linkedin_visible,
-            instagram: data.instagram, instagram_visible: data.instagram_visible, photoUrl: data.logo
+        this.props.findCompany(query).then(res => {
+            let data = res.data.data[0];
+            console.log(data);
+            this.setState({
+                industry: data.industry, name: data.name, phone: data.phone, address: data.address, email: data.email,
+                website: data.website, short_bio: data.short_bio, country: data.country, facebook: data.facebook, facebook_visible: data.facebook_visible,
+                twitter: data.twitter, twitter_visible: data.twitter_visible, linkedin: data.linkedin, linkedin_visible: data.linkedin_visible,
+                instagram: data.instagram, instagram_visible: data.instagram_visible, photoUrl: data.logo
+            })
         })
+        .catch(err => {
+            console.log(err)
+        });
     }
 
     handleChange(event) {
@@ -100,17 +99,15 @@ class CompanyEdit extends Component {
                         update: data
                     }
 
-                    console.log(query);
-
-                    this.props.updateCompany(query);
-
-                    this.props.history.push('/company-list');
-                    // window.location.reload();
-
-                    this.setState({ industry: "", email: "", name: "", phone: "", address: "", short_bio: "", 
-                    website: "", country: "", photo: "", facebook: "", facebook_visible: "",
-                    twitter: "", twitter_visible: "", linkedin: "", linkedin_visible: "", instagram: "", instagram_visible: "", success: "Company created Successfully"})
+                    this.props.updateCompany(query).then(res => {
+                        this.props.history.push('/company-list');
+                        window.location.reload();
                     })
+                    .catch(err => {
+                        console.log(err)
+                    })
+            
+                })
             .catch(err => console.log(err));
         
     

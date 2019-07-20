@@ -2,16 +2,26 @@ import axios from 'axios';
 import { url } from '../config/config';
 import { headers } from '../utils/headerJWT'
 
-import { CREATE_APP_DESIGN, GET_APP_DESIGN } from './types';
+import { GET_ERRORS, CREATE_APP_DESIGN, GET_APP_DESIGN } from './types';
 
 export const createResource = (resourceData) => dispatch => {
-
-    axios.post(`${url}/resource/create`, resourceData, { headers: headers })
-    .then( res => dispatch({
-        type: CREATE_APP_DESIGN,
-        payload: res.data
-    }))
-    .catch(err => console.log(err));
+    return new Promise((resolve, reject) => {
+        axios.post(`${url}/resource/create`, resourceData, { headers: headers })
+        .then( res => {
+            dispatch({
+                type: CREATE_APP_DESIGN,
+                payload: res.data
+            })
+            resolve(res)
+        })
+        .catch(err => {
+            dispatch({
+                type: GET_ERRORS,
+                payload: err
+            })
+            reject(err)
+        });
+    });
 }
 
 export const getResources = () => dispatch => {

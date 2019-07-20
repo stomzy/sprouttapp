@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import Sidebar from '../Sidebar';
 import Navbar from '../Navbar';
 import { connect } from 'react-redux';
-import { getEvents } from '../../actions/eventsAction';
+import { getEvents, deleteEvent } from '../../actions/eventsAction';
 
 class EventList extends Component {
     constructor() {
         super();
-        this.state = {}
+        this.state = {
+            success: null,
+        }
     }
 
     componentDidMount() {
@@ -16,7 +18,15 @@ class EventList extends Component {
 
     handleDelete(id, e) {
         e.preventDefault();
-        console.log(id);
+    
+        let data = {id: id};
+        this.props.deleteEvent(data).then(res => {
+            this.setState({ success: `Event deleted Successfully`})
+            window.location.reload();
+        })
+        .catch(err => {
+            console.log(err);
+        });
     }   
 
     render() {
@@ -165,4 +175,4 @@ const mapStateToProps = (state) => ({
 });
 
 // export default Event;
-export default connect(mapStateToProps, { getEvents })(EventList);
+export default connect(mapStateToProps, { getEvents, deleteEvent })(EventList);

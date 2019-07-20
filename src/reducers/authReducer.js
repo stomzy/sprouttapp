@@ -14,11 +14,6 @@ export default function(state = initialState, action) {
                 isAuthenticated: !isEmpty(action.payload),
                 user: action.payload
             }
-        // case TEST_LOGIN_DISPATCH:
-        //     return {
-        //         ...state,
-        //         user: action.payload
-        //     }
         default:
             return state;
     }

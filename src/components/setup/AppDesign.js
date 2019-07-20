@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Sidebar from '../Sidebar';
 import Navbar from '../Navbar';
 import { ChromePicker } from 'react-color';
-import "./AppDesign.css";
 import { connect } from 'react-redux';
 import { getEvents, eventSetUp } from '../../actions/eventsAction';
 import axios from 'axios';
@@ -143,11 +142,15 @@ class AppDesign extends Component {
                                 update: data
                             }
 
-                            console.log('datad', query);
+                            this.props.eventSetUp(query)
+                            .then(res => {
+                                this.setState({ theme: "", color: "", success: `App setup Completed..`});
+                                this.props.history.push('/events-list')
+                            })
+                            .catch(err => {
+                                console.log(err);
+                            });
 
-                            this.props.eventSetUp(query);
-
-                            this.setState({ theme: "", color: "", success: `App setup Completed..`})
                         })
                         .catch(err => console.log(err));
                 })
@@ -230,8 +233,6 @@ class AppDesign extends Component {
 
                      {/* navbar */}
                         <Navbar />
-
-
 
                     <div className="pcoded-main-container">
                         <div className="pcoded-wrapper">

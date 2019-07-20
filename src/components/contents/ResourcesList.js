@@ -2,19 +2,24 @@ import React, { Component } from 'react';
 import Sidebar from '../Sidebar';
 import Navbar from '../Navbar';
 import { connect } from 'react-redux';
-import { getResources } from '../../actions/resourceActions';
+import { getResources, deleteResource } from '../../actions/resourceActions';
 
 class ResourcesList extends Component {
     componentDidMount() {
-        const script = document.createElement("script");
-
-        script.src = 'js/content.js';
-        script.async = true;
-
-        document.body.appendChild(script);
-
         this.props.getResources();
     }
+
+    handleDelete(id, e) {
+        e.preventDefault();
+        let data = {id: id};
+        this.props.deleteResource(data).then(res => {
+            this.setState({ success: `Resource deleted Successfully`})
+            window.location.reload();
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    } 
 
     render() {
         return (
@@ -99,14 +104,14 @@ class ResourcesList extends Component {
                                                                                   <tr key={i}>
                                                                                     <td>{i += 1}</td>
                                                                                     <td><b>{data.title}</b></td>
-                                                                                    <td>{data.url}</td>
+                                                                                    <td><a href={data.url}>{data.url}</a></td>
                                                                                     <td>
                                                                                     <a href={`/resource-edit/${data._id}`}>
                                                                                         <button className="btn btn-info btn-sm">
                                                                                             <span className="glyphicon glyphicon-edit"></span> Edit
                                                                                         </button>
                                                                                     </a>
-                                                                                        <button className="btn btn-danger btn-sm">
+                                                                                        <button onClick={this.handleDelete.bind(this, data._id)} className="btn btn-danger btn-sm">
                                                                                             <span className="glyphicon glyphicon-trash"></span> Delete
                                                                                         </button>
                                                                                     </td>
@@ -145,4 +150,4 @@ const mapStateToProps = (state) => ({
     resources: state.resources
 });
 
-export default connect(mapStateToProps, { getResources })(ResourcesList);
+export default connect(mapStateToProps, { getResources, deleteResource })(ResourcesList);

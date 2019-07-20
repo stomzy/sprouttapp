@@ -72,13 +72,17 @@ class Profile extends Component {
                     website, country, facebook, facebook_visible, logo: urls,
                     twitter, twitter_visible, linkedin, linkedin_visible, instagram, instagram_visible }
 
-                    console.log(data);
+                    this.props.createCompanyProfile(data)
+                        .then(res => {
+                            this.setState({ industry: "", email: "", name: "", phone: "", address: "", short_bio: "", 
+                            website: "", country: "", photo: "", facebook: "", facebook_visible: "",
+                            twitter: "", twitter_visible: "", linkedin: "", linkedin_visible: "", instagram: "", instagram_visible: "", success: "Company created Successfully"})
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        });
 
-                    this.props.createCompanyProfile(data);
-
-                    this.setState({ industry: "", email: "", name: "", phone: "", address: "", short_bio: "", 
-                    website: "", country: "", photo: "", facebook: "", facebook_visible: "",
-                    twitter: "", twitter_visible: "", linkedin: "", linkedin_visible: "", instagram: "", instagram_visible: "", success: "Company created Successfully"})
+                  
                     })
             .catch(err => console.log(err));
         
@@ -259,7 +263,7 @@ class Profile extends Component {
                                                             
                                                                     <div className="col-md-12">
                                                                     <div className="form-group">
-                                                                        <label className="form-label">Short Bio</label>
+                                                                        <label className="form-label">About Company</label>
                                                                         <textarea name="short_bio" rows="3" maxLength={500} value={this.state.short_bio} onChange={this.handleChange}
                                                                         className="form-control" placeholder="Resource Description">
                                                                         </textarea>
@@ -383,7 +387,6 @@ class Profile extends Component {
                                                                     </div>  
                                                                     
                                                                 </div>
-                                                                
                                 
                                                                 {/* <div className="row">
                                                                     <div className="col-md-12">
@@ -395,7 +398,7 @@ class Profile extends Component {
                                                                     </div>
                                                                     </div> 
                                                                 </div> */}
-
+                                                                 { notification }
                                                                 </div>
                                                                 <div className="card-footer text-right">
                                                                 <button type="submit" className="btn btn-primary">Submit</button>

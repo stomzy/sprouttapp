@@ -45,20 +45,20 @@ class EditPeople extends Component {
     componentDidMount() {
         const { id } = this.props.match.params;
         let query = {query:{"_id": id}}; 
-        this.props.findPeople(query);
-        this.props.getPeople()
-    }
-
-    componentWillReceiveProps(NextProps) {
-      
-        let data = NextProps.peopleProfile.people;
- 
-        this.setState({
-            email: data.email, name: data.name, phone: data.phone, address: data.address, interest: data.interest, company_name: data.company_name,
-            short_bio: data.short_bio, website: data.website, facebook: data.facebook, twitter: data.twitter, country: data.country,
-            linkedin: data.linkedin, instagram: data.instagram, facebook_visible: data.facebook_visible, twitter_visible: data.twitter_visible,
-            linkedin_visible: data.linkedin_visible, instagram_visible: data.instagram_visible, job_title: data.job_title, photoUrl: data.photo
+        this.props.findPeople(query).then(res => {
+            let data = res.data.data[0];
+            // console.log(data);
+            this.setState({
+                email: data.email, name: data.name, phone: data.phone, address: data.address, interest: data.interest, company_name: data.company_name,
+                short_bio: data.short_bio, website: data.website, facebook: data.facebook, twitter: data.twitter, country: data.country,
+                linkedin: data.linkedin, instagram: data.instagram, facebook_visible: data.facebook_visible, twitter_visible: data.twitter_visible,
+                linkedin_visible: data.linkedin_visible, instagram_visible: data.instagram_visible, job_title: data.job_title, photoUrl: data.photo
+            })
         })
+        .catch(err => {
+            console.log(err);
+        });
+        this.props.getPeople()
     }
 
     handleChange(event) {
@@ -121,12 +121,16 @@ class EditPeople extends Component {
                         update: data
                     }
 
-                    console.log(query);
+                    this.props.updatePeople(query).then(res => {
+                        this.props.history.push('/people-list');
+                         window.location.reload();
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
 
-                    this.props.updatePeople(query);
-
-                    this.props.history.push('/people-list');
-                    // window.location.reload();
+                    
+                   
             })
             .catch(err => console.log(err));
     

@@ -23,7 +23,7 @@ class Navbar extends Component {
                             <div className="navbar-logo">
                                 <a href="">
                                     {/* <span>Ignite</span> */}
-                                    <img className="img-fluid" src="../files/assets/images/icon_png.png" alt="Sprout" style={{width:'150px', height: '150px'}}/>
+                                    <img className="img-fluid" src="../files/assets/images/logo1.png" alt="Sprout" style={{width:'50px', height: '60px'}}/>
                                     
                                 </a>
                                 <a className="mobile-menu" id="mobile-collapse" href="">
