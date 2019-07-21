@@ -3,8 +3,19 @@ import Sidebar from '../Sidebar';
 import Navbar from '../Navbar';
 import { connect } from 'react-redux';
 import { getResources, deleteResource } from '../../actions/resourceActions';
+import Pagination from '../Pagination';
+import Spinner from '../../common/Spinner';
 
 class ResourcesList extends Component {
+    constructor() {
+        super();
+        this.state = {
+            success: null,
+            currentPage: 1,
+            postsPerPage: 10,
+        }
+    }
+
     componentDidMount() {
         this.props.getResources();
     }
@@ -22,6 +33,19 @@ class ResourcesList extends Component {
     } 
 
     render() {
+        let {resources, loading} = this.props.resources;
+        // spinner
+        let spinner;
+
+        if(resources.length < 0 || loading) {
+            spinner = <Spinner />;
+        }
+        // pagination
+        const indexOfLastPost = this.state.currentPage * this.state.postsPerPage;
+        const indexOfFirstPost = indexOfLastPost - this.state.postsPerPage;
+        const currentPosts = resources.slice(indexOfFirstPost, indexOfLastPost);
+
+        const paginate = (pageNumber) => this.setState({currentPage: pageNumber});
         return (
             <React.Fragment>
             <div className="loader-bg">
@@ -100,7 +124,8 @@ class ResourcesList extends Component {
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
-                                                                            {this.props.resources.resources.map((data, i) => 
+                                                                            {spinner}
+                                                                            {currentPosts.map((data, i) => 
                                                                                   <tr key={i}>
                                                                                     <td>{i += 1}</td>
                                                                                     <td><b>{data.title}</b></td>
@@ -119,6 +144,7 @@ class ResourcesList extends Component {
                                                                             )}
                                                                         </tbody>
                                                                         </table>
+                                                                        <Pagination postsPerPage={this.state.postsPerPage} totalPosts={resources.length} paginate={paginate} />
                                                                     </div>
                                                             </div>
                                                         </div>

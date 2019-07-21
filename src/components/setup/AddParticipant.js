@@ -13,7 +13,7 @@ class AddParticipant extends Component {
           participantid: [],
           multiple: '',
           verified: false,
-          as: "attendee"
+          as: ""
         }
   
         this.handleChange = this.handleChange.bind(this);

@@ -3,13 +3,17 @@ import Sidebar from '../Sidebar';
 import Navbar from '../Navbar';
 import { connect } from 'react-redux';
 import { getPeople, deletePeople, checkStatus } from '../../actions/peopleAction';
+import Pagination from '../Pagination';
+import Spinner from '../../common/Spinner';
 
 class People extends Component {
     constructor() {
         super();
         this.state = {
             success: null,
-            error: null
+            error: null,
+            currentPage: 1,
+            postsPerPage: 10,
         }
   
     }
@@ -50,6 +54,21 @@ class People extends Component {
     }
 
     render() {
+        let {peoples, loading } = this.props.peopleProfile;
+        // spinner
+        let spinner;
+
+        if(peoples.length < 0 || loading) {
+            spinner = <Spinner />;
+        }
+
+        // pagination
+        const indexOfLastPost = this.state.currentPage * this.state.postsPerPage;
+        const indexOfFirstPost = indexOfLastPost - this.state.postsPerPage;
+        const currentPosts = peoples.slice(indexOfFirstPost, indexOfLastPost);
+
+        const paginate = (pageNumber) => this.setState({currentPage: pageNumber});
+
         let notification = "";
         if (this.state.success != null) {
             notification = (
@@ -141,8 +160,9 @@ class People extends Component {
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
-                                                                    {this.props.peopleProfile.peoples.map((data, i) => 
-                                                                    // console.log(data)
+                                                                    {spinner}
+                                                                    {currentPosts.map((data, i) => 
+                                                                    
                                                                                   <tr key={i}>
                                                                                   
                                                                                     <td>{i+1}</td>
@@ -166,7 +186,9 @@ class People extends Component {
                                                                                </tr>
                                                                             )}
                                                                     </tbody>
+                                                                    
                                                                 </table>
+                                                                <Pagination postsPerPage={this.state.postsPerPage} totalPosts={peoples.length} paginate={paginate} />
                                                             </div>
                                                             </div>
                                                         </div>

@@ -2,7 +2,7 @@ import axios from 'axios';
 import { url } from '../config/config';
 import { headers } from '../utils/headerJWT'
 
-import { GET_ERRORS, CREATE_RESOURCE, GET_RESOURCES, FIND_RESOURCE } from './types';
+import {LOADING, GET_ERRORS, CREATE_RESOURCE, GET_RESOURCES, FIND_RESOURCE } from './types';
 
 export const createResource = (resourceData) => dispatch => {
     return new Promise((resolve, reject) => {
@@ -25,7 +25,7 @@ export const createResource = (resourceData) => dispatch => {
 }
 
 export const getResources = () => dispatch => {
-
+    dispatch(loading());
     axios.get(`${url}/resource/`, { headers: headers })
     .then( res => 
         dispatch({
@@ -77,5 +77,11 @@ export const deleteResource = (resourceData) => dispatch => {
             reject(err)
         });
     });
+}
+
+export const loading = () => {
+    return {
+        type: LOADING,
+    }
 }
 

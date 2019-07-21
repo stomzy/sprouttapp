@@ -3,8 +3,19 @@ import Sidebar from '../Sidebar';
 import Navbar from '../Navbar';
 import { connect } from 'react-redux';
 import { getCompanyProfiles, deleteCompany } from '../../actions/companyProfileAction';
+import Pagination from '../Pagination';
+import Spinner from '../../common/Spinner';
 
 class CompanyProfiles extends Component {
+    constructor() {
+        super();
+        this.state = {
+            success: null,
+            currentPage: 1,
+            postsPerPage: 10,
+        }
+    }
+
     componentDidMount() {
         this.props.getCompanyProfiles();
     }
@@ -23,6 +34,20 @@ class CompanyProfiles extends Component {
     }   
 
     render() {
+        let {companyProfiles, loading} = this.props.companyProfiles;
+         // spinner
+         let spinner;
+
+         if(companyProfiles.length < 0 || loading) {
+             spinner = <Spinner />;
+         }
+        // pagination
+        const indexOfLastPost = this.state.currentPage * this.state.postsPerPage;
+        const indexOfFirstPost = indexOfLastPost - this.state.postsPerPage;
+        const currentPosts = companyProfiles.slice(indexOfFirstPost, indexOfLastPost);
+
+        const paginate = (pageNumber) => this.setState({currentPage: pageNumber});
+
         return (
             <React.Fragment>
             <div className="loader-bg">
@@ -94,8 +119,6 @@ class CompanyProfiles extends Component {
                                                                         <table className="table table-xs table-hover table-outline card-table table-striped">
                                                                         <thead>
                                                                             <tr>
-                                                                            {/* <th>S/N</th> */}
-                                                                            {/* <th>Profile Id</th> */}
                                                                             <th>Company Name</th>
                                                                             <th>Email</th>
                                                                             <th>Address</th>
@@ -103,10 +126,9 @@ class CompanyProfiles extends Component {
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
-                                                                            {this.props.companyProfiles.companyProfiles.map((data, i) => 
+                                                                            {spinner}
+                                                                            {currentPosts.map((data, i) => 
                                                                                   <tr key={i}>
-                                                                                    {/* <td>{i += 1}</td> */}
-                                                                                    {/* <td>{data._id}</td> */}
                                                                                     <td><b>{data.name}</b></td>
                                                                                     <td>{data.email}</td>
                                                                                     <td>{data.phone}</td>
@@ -129,6 +151,7 @@ class CompanyProfiles extends Component {
                                                                             )}
                                                                         </tbody>
                                                                         </table>
+                                                                        <Pagination postsPerPage={this.state.postsPerPage} totalPosts={companyProfiles.length} paginate={paginate} />
                                                                     </div>
                                                             </div>
                                                         </div>

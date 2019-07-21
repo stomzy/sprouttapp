@@ -3,12 +3,16 @@ import Sidebar from '../Sidebar';
 import Navbar from '../Navbar';
 import { connect } from 'react-redux';
 import { getEvents, deleteEvent } from '../../actions/eventsAction';
+import Pagination from '../Pagination';
+import Spinner from '../../common/Spinner';
 
 class EventList extends Component {
     constructor() {
         super();
         this.state = {
             success: null,
+            currentPage: 1,
+            postsPerPage: 10,
         }
     }
 
@@ -30,6 +34,19 @@ class EventList extends Component {
     }   
 
     render() {
+        let {events, loading} = this.props.events;
+         // spinner
+         let spinner;
+
+         if(events.length < 0 || loading) {
+             spinner = <Spinner />;
+         }
+        // pagination
+        const indexOfLastPost = this.state.currentPage * this.state.postsPerPage;
+        const indexOfFirstPost = indexOfLastPost - this.state.postsPerPage;
+        const currentPosts = events.slice(indexOfFirstPost, indexOfLastPost);
+
+        const paginate = (pageNumber) => this.setState({currentPage: pageNumber});
 
         return (
             <React.Fragment>
@@ -114,7 +131,8 @@ class EventList extends Component {
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
-                                                                            {this.props.events.events.map((data, i) => 
+                                                                            {spinner}
+                                                                            {currentPosts.map((data, i) => 
                                                                                   <tr key={i}>
                                                                                     {/* <td>{i += 1}</td> */}
                                                                                     {/* <td>{data._id}</td> */}
@@ -143,6 +161,7 @@ class EventList extends Component {
                                                                             )}
                                                                         </tbody>
                                                                         </table>
+                                                                        <Pagination postsPerPage={this.state.postsPerPage} totalPosts={events.length} paginate={paginate} />
                                                                     </div>
                                                                                                      
                                                                 </div>

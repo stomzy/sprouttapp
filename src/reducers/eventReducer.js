@@ -1,12 +1,18 @@
-import { CREATE_EVENTS, GET_EVENTS, FIND_EVENT, UPDATE_EVENT, SET_EVENT, DELETE_EVENT } from '../actions/types';
+import {LOADING, CREATE_EVENTS, GET_EVENTS, FIND_EVENT, UPDATE_EVENT, SET_EVENT, DELETE_EVENT } from '../actions/types';
 
 const initialState = {
     event: {},
-    events: []
+    events: [],
+    loading: false
 }
 
 export default function(state = initialState, action) {
     switch(action.type) {
+        case LOADING:
+            return {
+                ...state,
+                loading: true
+            }
         case CREATE_EVENTS:
             return {
                 ...state,
@@ -16,6 +22,7 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 events: action.payload,
+                loading: false
             }
         case FIND_EVENT:
             return {

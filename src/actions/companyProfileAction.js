@@ -2,7 +2,7 @@ import axios from 'axios';
 import { url } from '../config/config';
 import { headers } from '../utils/headerJWT'
 
-import { GET_ERRORS, CREATE_COMPANY_PROFILE, GET_COMPANY_PROFILES, ADD_ORGANIZER, FIND_COMPANY, UPDATE_COMPANY } from './types';
+import {LOADING, GET_ERRORS, CREATE_COMPANY_PROFILE, GET_COMPANY_PROFILES, ADD_ORGANIZER, FIND_COMPANY, UPDATE_COMPANY } from './types';
 
 export const createCompanyProfile = (profileData) => dispatch => {
     return new Promise((resolve, reject) => {
@@ -25,7 +25,7 @@ export const createCompanyProfile = (profileData) => dispatch => {
 }
 
 export const getCompanyProfiles = () => dispatch => {
-
+    dispatch(loading());
     axios.get(`${url}/company/`, { headers: headers })
     .then( res => 
         dispatch({
@@ -117,4 +117,10 @@ export const deleteCompany = (id) => dispatch => {
             reject(err)
         }); 
     });
+}
+
+export const loading = () => {
+    return {
+        type: LOADING,
+    }
 }

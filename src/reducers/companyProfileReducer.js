@@ -1,12 +1,18 @@
-import { CREATE_COMPANY_PROFILE, GET_COMPANY_PROFILES, ADD_ORGANIZER, FIND_COMPANY, UPDATE_COMPANY } from '../actions/types';
+import {LOADING, CREATE_COMPANY_PROFILE, GET_COMPANY_PROFILES, ADD_ORGANIZER, FIND_COMPANY, UPDATE_COMPANY } from '../actions/types';
 
 const initialState = {
     companyProfile: {},
-    companyProfiles: []
+    companyProfiles: [],
+    loading: false
 }
 
 export default function(state = initialState, action) {
     switch(action.type) {
+        case LOADING:
+            return {
+                ...state,
+                loading: true
+            }
         case CREATE_COMPANY_PROFILE:
             return {
                 ...state,
@@ -16,6 +22,7 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 companyProfiles: action.payload,
+                loading: false
             }
         case ADD_ORGANIZER:
             return {

@@ -6,6 +6,7 @@ export const PROFILE_NOT_FOUND = 'PROFILE_NOT_FOUND';
 export const CLEAR_CURRENT_PROFILE = 'CLEAR_CURRENT_PROFILE';
 export const GET_PROFILES = 'GET_PROFILES';
 export const PROFILE_LOADING = 'PROFILE_LOADING';
+export const LOADING = 'LOADING';
 export const GET_ERRORS = 'GET_ERRORS';
 export const CREATE_EVENTS = 'CREATE_EVENTS';
 export const GET_EVENTS = 'GET_EVENTS';

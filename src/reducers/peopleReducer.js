@@ -1,16 +1,23 @@
-import { CREATE_PEOPLE, GET_PEOPLE, FIND_PEOPLE, UPDATE_PEOPLE, CHECK_STATUS, REGISTER_USER } from '../actions/types';
+import { LOADING, CREATE_PEOPLE, GET_PEOPLE, FIND_PEOPLE, UPDATE_PEOPLE, CHECK_STATUS, REGISTER_USER } from '../actions/types';
 
 const initialState = {
     people: {},
-    peoples: []
+    peoples: [],
+    loading: false
 }
 
 export default function(state = initialState, action) {
     switch(action.type) {
+        case LOADING:
+            return {
+                ...state,
+                loading: true
+            }
         case CREATE_PEOPLE:
             return {
                 ...state,
                 people: action.payload,
+                loading: false
             }
         case REGISTER_USER:
             return {
@@ -21,6 +28,7 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 peoples: action.payload,
+                loading: false
             }
         case FIND_PEOPLE:
             return {

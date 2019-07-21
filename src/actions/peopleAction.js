@@ -2,9 +2,11 @@ import axios from 'axios';
 import { url } from '../config/config';
 import { headers } from '../utils/headerJWT'
 
-import { GET_ERRORS, CREATE_PEOPLE, GET_PEOPLE, FIND_PEOPLE, UPDATE_PEOPLE, CHECK_STATUS, REGISTER_USER } from './types';
+import { LOADING, GET_ERRORS, CREATE_PEOPLE, GET_PEOPLE, FIND_PEOPLE, UPDATE_PEOPLE, CHECK_STATUS, REGISTER_USER } from './types';
 
 export const createPeople = (programData) => dispatch => {
+    dispatch(loading());
+
     return new Promise((resolve, reject) => {
         axios.post(`${url}/profile/create`, programData, { headers: headers })
         .then( res => {
@@ -45,7 +47,7 @@ export const registerUser = (user) => dispatch => {
 }
 
 export const getPeople = () => dispatch => {
-
+    dispatch(loading());
     axios.get(`${url}/profile/`, { headers: headers })
     .then( res => 
         dispatch({
@@ -138,4 +140,10 @@ export const checkStatus = (email) => dispatch => {
             reject(err)
         });
     });
+}
+
+export const loading = () => {
+    return {
+        type: LOADING,
+    }
 }

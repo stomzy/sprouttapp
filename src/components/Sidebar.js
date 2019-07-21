@@ -35,7 +35,7 @@ export default function Sidebar() {
                         </ul>
                     </li>
                     <li className="pcoded-hasmenu">
-                        <a href="#" className="waves-effect waves-dark">
+                        <a href="/people-list" className="waves-effect waves-dark">
                             <span className="pcoded-micon"><i className="feather icon-sidebar"></i></span>
                             <span className="pcoded-mtext">PEOPLE</span>
                             <span className="pcoded-badge label label-info">1 items</span>
@@ -90,7 +90,7 @@ export default function Sidebar() {
                         </ul>
                     </li>
                     <li className="pcoded-hasmenu">
-                        <a href="#" className="waves-effect waves-dark">
+                        <a href="/company-list" className="waves-effect waves-dark">
                             <span className="pcoded-micon"><i className="feather icon-sidebar"></i></span>
                             <span className="pcoded-mtext">COMPANIES</span>
                             <span className="pcoded-badge label label-danger">1 items</span>

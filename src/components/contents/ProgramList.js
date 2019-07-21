@@ -3,8 +3,19 @@ import Sidebar from '../Sidebar';
 import Navbar from '../Navbar';
 import { connect } from 'react-redux';
 import { getPrograms, deleteProgram } from '../../actions/programAction';
+import Pagination from '../Pagination';
+import Spinner from '../../common/Spinner';
 
 class ProgramList extends Component {
+    constructor() {
+        super();
+        this.state = {
+            success: null,
+            currentPage: 1,
+            postsPerPage: 10,
+        }
+    }
+
     componentDidMount() {
         this.props.getPrograms();
     }
@@ -23,6 +34,19 @@ class ProgramList extends Component {
     }   
 
     render() {
+        let {programs, loading} = this.props.programs;
+         // spinner
+         let spinner;
+
+         if(programs.length < 0 || loading) {
+             spinner = <Spinner />;
+         }
+        // pagination
+        const indexOfLastPost = this.state.currentPage * this.state.postsPerPage;
+        const indexOfFirstPost = indexOfLastPost - this.state.postsPerPage;
+        const currentPosts = programs.slice(indexOfFirstPost, indexOfLastPost);
+
+        const paginate = (pageNumber) => this.setState({currentPage: pageNumber});
         return (
             <React.Fragment>
             <div className="loader-bg">
@@ -35,8 +59,6 @@ class ProgramList extends Component {
 
                      {/* navbar */}
                         <Navbar />
-
-
 
                     <div className="pcoded-main-container">
                         <div className="pcoded-wrapper">
@@ -107,7 +129,8 @@ class ProgramList extends Component {
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
-                                                                            {this.props.programs.programs.map((data, i) => 
+                                                                            {spinner}
+                                                                            {currentPosts.map((data, i) => 
                                                                                   <tr key={i}>
                                                                                     {/* <td>{i += 1}</td> */}
                                                                                     {/* <td>{data._id}</td> */}
@@ -129,6 +152,7 @@ class ProgramList extends Component {
                                                                             )}
                                                                         </tbody>
                                                                         </table>
+                                                                        <Pagination postsPerPage={this.state.postsPerPage} totalPosts={programs.length} paginate={paginate} />
                                                                     </div>
                                                             </div>
                                                         </div>

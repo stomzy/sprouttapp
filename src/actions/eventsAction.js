@@ -2,7 +2,7 @@ import axios from 'axios';
 import { url } from '../config/config';
 import { headers } from '../utils/headerJWT'
 
-import { GET_ERRORS, CREATE_EVENTS, GET_EVENTS, FIND_EVENT, UPDATE_EVENT, SET_EVENT, DELETE_EVENT } from './types';
+import {LOADING, GET_ERRORS, CREATE_EVENTS, GET_EVENTS, FIND_EVENT, UPDATE_EVENT, SET_EVENT, DELETE_EVENT } from './types';
 
 export const createEvent = (eventData) => dispatch => {
     return new Promise((resolve, reject) => {
@@ -25,6 +25,7 @@ export const createEvent = (eventData) => dispatch => {
 }
 
 export const getEvents = () => dispatch => {
+    dispatch(loading());
     return new Promise((resolve, reject) => {
         axios.get(`${url}/event/`, { headers: headers })
         .then( res => {
@@ -122,4 +123,10 @@ export const deleteEvent = (id) => dispatch => {
             reject(err)
         });
     });
+}
+
+export const loading = () => {
+    return {
+        type: LOADING,
+    }
 }

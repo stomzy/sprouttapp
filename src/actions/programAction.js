@@ -2,7 +2,7 @@ import axios from 'axios';
 import { url } from '../config/config';
 import { headers } from '../utils/headerJWT'
 
-import { GET_ERRORS, CREATE_PROGRAM, GET_PROGRAMS, FIND_PROGRAMS, UPDATE_PROGRAM, DELETE_PROGRAM } from './types';
+import {LOADING, GET_ERRORS, CREATE_PROGRAM, GET_PROGRAMS, FIND_PROGRAMS, UPDATE_PROGRAM, DELETE_PROGRAM } from './types';
 
 export const createProgram = (programData) => dispatch => {
     return new Promise((resolve, reject) => {
@@ -27,7 +27,7 @@ export const createProgram = (programData) => dispatch => {
 }
 
 export const getPrograms = () => dispatch => {
-
+    dispatch(loading());
     axios.get(`${url}/program/`, { headers: headers })
     .then( res => 
         dispatch({
@@ -103,3 +103,9 @@ export const deleteProgram = (id) => dispatch => {
         );
     })
 } 
+
+export const loading = () => {
+    return {
+        type: LOADING,
+    }
+}
