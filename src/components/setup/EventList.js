@@ -116,6 +116,7 @@ class EventList extends Component {
                                                                 </div>
                                                                 <div className="card-block">
                                                                     <div className="table-responsive">
+                                                                    {spinner}
                                                                         <table className="table table-xs table-hover table-outline card-table table-striped">
                                                                         <thead>
                                                                             <tr>
@@ -131,7 +132,7 @@ class EventList extends Component {
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
-                                                                            {spinner}
+                                                                            
                                                                             {currentPosts.map((data, i) => 
                                                                                   <tr key={i}>
                                                                                     {/* <td>{i += 1}</td> */}

@@ -48,18 +48,24 @@ class AddParticipant extends Component {
     handleSubmit(event) {
         event.preventDefault();
         const { participantid, eventid, verified, as } = this.state;
+
+        participantid.forEach((value) =>{
+          
+            const data = { participantid: value, eventid, verified, as }
+        
+            this.props.addParticipant(data).then(res => {
+              
+                this.setState({ success: "Participants added and verified"})
+                this.props.verifyParticipant(data);
+                
+            }).catch(err => {
+                console.log(err)
+            })
+        }) 
+
+        // this.props.history.push('/events-list');
+        // window.location.reload();
     
-        const data = { participantid, eventid, verified, as }
-        console.log(data);
-        this.props.addParticipant(data).then(res => {
-            console.log(res)
-            this.setState({ success: "Participants added and verified"})
-            this.props.verifyParticipant(data);
-            this.props.history.push('/events-list');
-            window.location.reload();
-        }).catch(err => {
-            console.log(err)
-        })
     }
 
     render() {

@@ -57,6 +57,12 @@ if (localStorage.jwtToken) {
 }
 
 function App() {
+  // const decoded = jwt_decode(localStorage.jwtToken);
+  
+  // let x = store.dispatch(setCurrentUser(decoded));
+  
+  // const user = x.payload.profile;
+  // console.log('role', user)
   return (
     <Switch>
       <Route exact path="/" component={Login}/>

@@ -113,6 +113,7 @@ class ResourcesList extends Component {
                                                                 </div>
                                                             </div>
                                                             <div className="card-block">
+                                                            {spinner}
                                                             <div className="table-responsive">
                                                                         <table id="order-table" className="table table-xs table-hover table-outline card-table table-striped">
                                                                         <thead>
@@ -124,7 +125,7 @@ class ResourcesList extends Component {
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
-                                                                            {spinner}
+                                                                            
                                                                             {currentPosts.map((data, i) => 
                                                                                   <tr key={i}>
                                                                                     <td>{i += 1}</td>

@@ -116,6 +116,7 @@ class CompanyProfiles extends Component {
                                                             </div>
                                                             <div className="card-block">
                                                             <div className="table-responsive">
+                                                            {spinner}
                                                                         <table className="table table-xs table-hover table-outline card-table table-striped">
                                                                         <thead>
                                                                             <tr>
@@ -126,7 +127,7 @@ class CompanyProfiles extends Component {
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
-                                                                            {spinner}
+                                                                           
                                                                             {currentPosts.map((data, i) => 
                                                                                   <tr key={i}>
                                                                                     <td><b>{data.name}</b></td>
