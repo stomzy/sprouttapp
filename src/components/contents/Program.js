@@ -216,7 +216,7 @@ class Program extends Component {
                                                                 </div>
                                                              
                                                                 <div className="row">
-                                                                    <div className="col-md-3">
+                                                                    <div className="col-md-4">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Type</label>
                                                                         <input type="text" name="type" placeholder="Enter Program Type"
@@ -224,21 +224,21 @@ class Program extends Component {
                                                                     </div>
                                                                     </div> 
 
-                                                                    <div className="col-md-3">
+                                                                    <div className="col-md-4">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Start Time</label>
                                                                         <input type="time" name="start_time" placeholder="Enter Event Start Time"
                                                                          onChange={this.handleChange} value={this.state.start_time} className="form-control" required/>
                                                                     </div>
                                                                     </div>  
-                                                                    <div className="col-md-3">
+                                                                    <div className="col-md-4">
                                                                     <div className="form-group">
                                                                         <label className="form-label">End Time</label>
                                                                         <input type="time" name="end_time" placeholder="Enter Event end Time"
                                                                          onChange={this.handleChange} value={this.state.end_time} className="form-control" required/>
                                                                     </div>
                                                                     </div>  
-                                                                    <div className="col-md-3">
+                                                                    {/* <div className="col-md-3">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Time Zone</label>
                                                                         <select name="time_zone" className="form-control" onChange={this.handleChange} value={this.state.time_zone} required>
@@ -270,7 +270,7 @@ class Program extends Component {
                                                                                 <option value="GMT+12">GMT+12</option>
                                                                         </select>
                                                                     </div>
-                                                                    </div> 
+                                                                    </div>  */}
                                                                 </div>
                                                                 <div className="row">
                                                                     <div className="col-md-12">

@@ -26,14 +26,22 @@ export const addParticipant = (programData) => dispatch => {
 }
 
 export const verifyParticipant = (programData) => dispatch => {
+    return new Promise((resolve, reject) => {
+        axios.post(`${url}/event/verifyParticipant`, programData, { headers: headers })
+        .then( res => {
+            dispatch({
+                type: VERIFY_PARTICIPANT,
+                payload: res.message
+            })
+            resolve(res)
+        })
+        .catch(err => {
+            dispatch({
+                type: GET_ERRORS,
+                payload: err
+            })
+            reject(err)
+        });
+    });
 
-    axios.post(`${url}/event/verifyParticipant`, programData, { headers: headers })
-    .then( res => dispatch({
-        type: VERIFY_PARTICIPANT,
-        payload: res.message
-    }))
-    .catch(err => dispatch({
-        type: GET_ERRORS,
-        payload: err
-    }));
 }

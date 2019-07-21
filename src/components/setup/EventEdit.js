@@ -49,12 +49,12 @@ class EventEdit extends Component {
 
       
         this.props.findEvent(query).then(res => {
-            // console.log(res.data.data[0])
+            console.log(res.data.data[0])
             let data = res.data.data[0];
             this.setState({
                 title: data.title, type: data.type, venue: data.venue, facebook: data.facebook, twitter: data.twitter, country: data.country
                 ,instagram: data.instagram, linkedin: data.linkedin, website: data.website, description: data.description,tags: data.tags,company: data.company,
-                latitude: data.map.slice(4, 10), longitude: data.map.slice(15, 20), address: data.location.address, postcode: data.location.postcode,
+                latitude: data.map.slice(4, 11), longitude: data.map.slice(17, data.map.length), address: data.location.address, postcode: data.location.postcode,
                 state: data.location.state, eventCode: data.eventCode, location_name: data.location.name, location_description: data.location.description
             })
         })
@@ -326,7 +326,7 @@ class EventEdit extends Component {
                                                                         <select name="country" className="form-control" onChange={this.handleChange} value={this.state.country}>
                                                                             <option value="">Select your country
                                                                             </option>
-                                                                            { countryArray.map((data, i) => <option key={i} value={data}>{countries[data]}</option>)}
+                                                                            { countryArray.map((data, i) => <option key={i} value={`${data}${countries[data]}`}>{countries[data]}</option>)}
                                                                         </select>
                                                                     </div>
                                                                     </div> 

@@ -2,9 +2,18 @@ import React, { Component } from 'react';
 import Sidebar from '../Sidebar';
 import Navbar from '../Navbar';
 import { connect } from 'react-redux';
-import { getPeople, deletePeople } from '../../actions/peopleAction';
+import { getPeople, deletePeople, checkStatus } from '../../actions/peopleAction';
 
 class People extends Component {
+    constructor() {
+        super();
+        this.state = {
+            success: null,
+            error: null
+        }
+  
+    }
+
     componentDidMount() {
         this.props.getPeople();
     }
@@ -21,7 +30,35 @@ class People extends Component {
         });
     } 
 
+    checkStatus(email, e) {
+        e.preventDefault();
+       
+        let data = {query : {email: email}, update: {isVerified: true}}
+
+        console.log(data);
+        this.props.checkStatus(data).then(res => {
+            console.log(res)
+            if (res.status === 200) {
+                this.setState({
+                    success: res.data.message
+                })
+            }
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }
+
     render() {
+        let notification = "";
+        if (this.state.success != null) {
+            notification = (
+                <div className="alert alert-success text-center" role="alert" >
+                    { this.state.success }
+                </div>
+            );
+        }
+    
         return (
             <React.Fragment>
             <div className="loader-bg">
@@ -89,27 +126,34 @@ class People extends Component {
                                                                 </div>
                                                             </div>
                                                             <div className="card-block">
+                                                            { notification }
                                                             <div className="table-responsive">
                                                                     <table className="table table-xs table-hover table-outline card-table table-striped">
                                                                     <thead>
                                                                         <tr>
                                                                       
-                                                                        {/* <th>Profile Id</th> */}
+                                                                        <th>S/N</th>
                                                                         <th>Full Name</th>
-                                                                        <th>Phone</th>
+                                                                        {/* <th>Phone</th> */}
                                                                         <th>Email</th>
+                                                                        <th></th>
                                                                         <th></th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
                                                                     {this.props.peopleProfile.peoples.map((data, i) => 
+                                                                    // console.log(data)
                                                                                   <tr key={i}>
-                                                                                    {/* <td>{i += 1}</td> */}
-                                                                                    {/* <td>{data._id}</td> */}
+                                                                                  
+                                                                                    <td>{i+1}</td>
                                                                                     <td><b>{data.title} {data.name}</b></td>
-                                                                                    <td>{data.phone}</td>
+                                                                                    {/* <td>{data.phone}</td> */}
                                                                                     <td>{data.email}</td>
+                                                                                    <td></td>
                                                                                     <td className="text-right">
+                                                                                            <button onClick={this.checkStatus.bind(this, data.email)} className="btn btn-warning btn-sm">
+                                                                                                <span className="glyphicon glyphicon-user"></span> Verify User
+                                                                                            </button>
                                                                                         <a href={`/people-edit/${data._id}`}>
                                                                                             <button className="btn btn-info btn-sm">
                                                                                                 <span className="glyphicon glyphicon-edit"></span> Edit
@@ -153,4 +197,4 @@ const mapStateToProps = (state) => ({
     peopleProfile: state.peopleProfile
 });
 
-export default connect(mapStateToProps, { getPeople, deletePeople })(People);
+export default connect(mapStateToProps, { getPeople, deletePeople, checkStatus })(People);

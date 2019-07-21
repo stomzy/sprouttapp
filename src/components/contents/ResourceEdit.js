@@ -19,7 +19,8 @@ class ResourceEdit extends Component {
           description: "",
           urls: "",
           resource: "",
-          success: null
+          success: null,
+          error: null
         }
   
         this.handleChange = this.handleChange.bind(this);
@@ -30,7 +31,15 @@ class ResourceEdit extends Component {
         const { id } = this.props.match.params;
         let query = {query:{"_id": id}}; 
 
-        this.props.findResources(query);  
+        this.props.findResources(query).then(res => {
+            let data = res.data.data[0];
+            this.setState({
+                title: data.title, description: data.description, urls: data.url, eventid: data.eventid,
+                programid: data.programid
+            })
+        }).catch(err => {
+            console.log(err)
+        });  
         this.props.getEvents();
         this.props.getPrograms();
     }
@@ -39,17 +48,6 @@ class ResourceEdit extends Component {
         this.setState({
           [event.target.name]: event.target.value
         });
-    }
-
-    componentWillReceiveProps(NextProps) {
-      
-        let data = NextProps.resources.resource;
-        console.log(data);
- 
-        this.setState({
-            title: data.title, description: data.description, urls: data.url, eventid: data.eventid,
-            programid: data.programid
-        })
     }
 
     handleSubmit(event) {
@@ -85,17 +83,59 @@ class ResourceEdit extends Component {
     
     }
 
+         // check file type
+         checkMimeType = event => {
+            let files = event.target.files;
+            let err = '';
+            const types = ['application/pdf'];
+    
+            for (let x = 0; x < files.length; x++) {
+                if (types.every(type => files[x].type !== type)) {
+                    err += files[x].type+' is not a supported format\n'
+                    this.setState({error: err})
+                }
+            }
+    
+            if (err !== ''){
+                event.target.value = null;
+                console.log(err)
+                    return false;
+            }
+            return true;
+        }
+    
+        checkFileSize = event => {
+            let files = event.target.files;
+            let size = 2048576;
+            let err = "";
+    
+            for (let x = 0; x < files.length; x++) {
+                if (files[x].size > size ) {
+                    err += files[x].type+' is too large, Please pick a small file\n';
+                    this.setState({error: err})
+                }
+            }
+    
+            if (err !== ''){
+                event.target.value = null;
+                console.log(err)
+                    return false;
+            }
+            return true;
+        }
+
     fileChangedHandler = event => {
         let self = this;
         let reader = new FileReader();
         const file = event.target.files[0];
-        
-        reader.onload = function(upload) {
-            // console.log(upload.target);
-            self.setState({ resource: upload.target.result });
-        };
+        if (this.checkMimeType(event) && this.checkFileSize(event)) {
+            reader.onload = function(upload) {
+                // console.log(upload.target);
+                self.setState({ resource: upload.target.result });
+            };
 
-        reader.readAsDataURL(file);  
+            reader.readAsDataURL(file);  
+        }
     }
 
     render() {
@@ -104,6 +144,13 @@ class ResourceEdit extends Component {
             notification = (
                 <div className="alert alert-success" role="alert">
                     { this.state.success }
+                </div>
+            );
+        }
+        else if (this.state.error != null) {
+            notification = (
+                <div className="alert alert-danger" role="alert">
+                    { this.state.error }
                 </div>
             );
         }

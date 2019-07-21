@@ -1,0 +1,12 @@
+.color-picker-palette {
+    position: absolute;
+    z-index: 100;
+}
+
+.color-picker-cover {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+}

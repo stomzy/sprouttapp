@@ -30,7 +30,8 @@ class CompanyEdit extends Component {
           instagram_visible: false,
           email: "",
           success: null,
-          photoUrl: ""
+          photoUrl: "",
+          error: null
         }
   
         this.handleChange = this.handleChange.bind(this);
@@ -43,7 +44,7 @@ class CompanyEdit extends Component {
 
         this.props.findCompany(query).then(res => {
             let data = res.data.data[0];
-            console.log(data);
+            // console.log(data);
             this.setState({
                 industry: data.industry, name: data.name, phone: data.phone, address: data.address, email: data.email,
                 website: data.website, short_bio: data.short_bio, country: data.country, facebook: data.facebook, facebook_visible: data.facebook_visible,
@@ -70,6 +71,7 @@ class CompanyEdit extends Component {
 
             let type = photo.slice(5, 14);
             let photoData = photo.slice(22, photo.length);
+            let countryName = country.slice(3, country.length)
     
             const dataImage = {
                 name: name,
@@ -89,7 +91,7 @@ class CompanyEdit extends Component {
                 const { urls } = this.state;
 
                 const data = { industry, email, name, phone, address, short_bio,
-                    website, country, facebook, facebook_visible, logo: urls,
+                    website, country: countryName, facebook, facebook_visible, logo: urls,
                     twitter, twitter_visible, linkedin, linkedin_visible, instagram, instagram_visible }
 
                     const { id } = this.props.match.params;
@@ -113,26 +115,77 @@ class CompanyEdit extends Component {
     
     }
 
+    // check file type
+    checkMimeType = event => {
+        let files = event.target.files;
+        let err = '';
+        const types = ['image/png', 'image/jpeg', 'image/gif'];
+
+        for (let x = 0; x < files.length; x++) {
+            if (types.every(type => files[x].type !== type)) {
+                err += files[x].type+' is not a supported format\n'
+                this.setState({error: err})
+            }
+        }
+
+        if (err !== ''){
+            event.target.value = null;
+            console.log(err)
+                return false;
+        }
+        return true;
+    }
+
+    checkFileSize = event => {
+        let files = event.target.files;
+        let size = 1048576;
+        let err = "";
+
+        for (let x = 0; x < files.length; x++) {
+            if (files[x].size > size ) {
+                err += files[x].type+' is too large, Please pick a small file\n';
+                this.setState({error: err})
+            }
+        }
+
+        if (err !== ''){
+            event.target.value = null;
+            console.log(err)
+                return false;
+        }
+        return true;
+    }
+
     imageChangedHandler = event => {
         let self = this;
         let reader = new FileReader();
         const file = event.target.files[0];
-        
-        reader.onload = function(upload) {
-            self.setState({ photo: upload.target.result });
-        };
+        if (this.checkMimeType(event) && this.checkFileSize(event)) {
+            reader.onload = function(upload) {
+                console.log(upload.target.result);
+                // self.setState({ photo: upload.target.result });
+            };
 
-        reader.readAsDataURL(file); 
+            reader.readAsDataURL(file); 
+        }
+       
     }
 
     render() {
         let notification = "";
         if (this.state.success != null) {
-        notification = (
-            <div className="alert alert-success" role="alert">
-                { this.state.success }
-            </div>
-        );
+            notification = (
+                <div className="alert alert-success" role="alert">
+                    { this.state.success }
+                </div>
+            );
+        }
+        else if (this.state.error != null) {
+            notification = (
+                <div className="alert alert-danger" role="alert">
+                    { this.state.error }
+                </div>
+            );
         }
         let countryArray = Object.keys(countries);   
         return (
@@ -261,22 +314,22 @@ class CompanyEdit extends Component {
                                                                 </div>
                                                                 <div className="row">
                                                             
-                                                                    <div className="col-md-4">
+                                                                    {/* <div className="col-md-4">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Address</label>
                                                                         <input type="text" name="address" placeholder="Enter Address" 
                                                                         onChange={this.handleChange} value={this.state.address} className="form-control" />
                                                                     </div>
-                                                                    </div> 
+                                                                    </div>  */}
 
-                                                                    <div className="col-md-4">
+                                                                    <div className="col-md-6">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Email</label>
                                                                         <input type="text" name="email" placeholder="Enter Company Email"
                                                                          onChange={this.handleChange} value={this.state.email} className="form-control" required/>
                                                                     </div>
                                                                     </div>
-                                                                    <div className="col-md-4">
+                                                                    <div className="col-md-6">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Website</label>
                                                                         <input type="text" name="website" placeholder="Enter Website" 
@@ -284,6 +337,19 @@ class CompanyEdit extends Component {
                                                                     </div>
                                                                     </div> 
                                                                     
+                                                                </div>
+
+                                                                <div className="row">
+                                                                   <div className="col-md-12">
+                                                                    <div className="form-group">
+                                                                        <label className="form-label">Address</label>
+                                                                        {/* <input type="text" name="address" placeholder="Enter Address" 
+                                                                        onChange={this.handleChange} value={this.state.address} className="form-control" /> */}
+                                                                        <textarea name="address" rows="2" maxLength={500} value={this.state.address} onChange={this.handleChange}
+                                                                        className="form-control" placeholder="Company Address">
+                                                                        </textarea>
+                                                                    </div>
+                                                                    </div>    
                                                                 </div>
 
                                                                 <div className="row">
@@ -309,7 +375,7 @@ class CompanyEdit extends Component {
                                                                             <select name="country" className="form-control" onChange={this.handleChange} value={this.state.country}>
                                                                                 <option value="">Select your country
                                                                                 </option>
-                                                                                { countryArray.map((data, i) => <option key={i} value={data}>{countries[data]}</option>)}
+                                                                                { countryArray.map((data, i) => <option key={i} value={`${data}${countries[data]}`}>{countries[data]}</option>)}
                                                                             </select>
                                                                     </div>
                                                                     </div> 

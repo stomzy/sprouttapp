@@ -10,13 +10,15 @@ class AddParticipant extends Component {
         super();
         this.state = {
           eventid: "",
-          participantid: "",
+          participantid: [],
+          multiple: '',
           verified: false,
-          as: ""
+          as: "attendee"
         }
   
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleMultiple = this.handleMultiple.bind(this);
     }
 
     componentDidMount() {
@@ -34,18 +36,30 @@ class AddParticipant extends Component {
         });
     }
 
+    getMultipleValues(value) {
+        this.state.participantid.push(value);
+    }
+
+    handleMultiple(event) {
+        [...event.target.options].filter(({selected}) => selected).map(({value}) => this.getMultipleValues(value));
+        
+    }
+
     handleSubmit(event) {
         event.preventDefault();
         const { participantid, eventid, verified, as } = this.state;
     
         const data = { participantid, eventid, verified, as }
-
-        this.props.addParticipant(data);
-        this.props.verifyParticipant(data);
-        // this.props.history.push('/events-list');
-
-        this.setState({ success: "Participants added and verified"})
-    
+        console.log(data);
+        this.props.addParticipant(data).then(res => {
+            console.log(res)
+            this.setState({ success: "Participants added and verified"})
+            this.props.verifyParticipant(data);
+            this.props.history.push('/events-list');
+            window.location.reload();
+        }).catch(err => {
+            console.log(err)
+        })
     }
 
     render() {
@@ -154,7 +168,7 @@ class AddParticipant extends Component {
                                                                         {/* <input type="text" name="participantid" placeholder="Enter your participant Id" 
                                                                         onChange={this.handleChange} value={this.state.participantid} className="form-control" 
                                                                         required/> */}
-                                                                        <select name="participantid" className="form-control" onChange={this.handleChange} value={this.state.participantid} required>
+                                                                        <select name="participantid" className="form-control" multiple={true} onChange={this.handleMultiple} value={[this.state.multiple]} required>
                                                                             <option value="">Select Participants
                                                                             </option>
                                                                             {this.props.peopleProfile.peoples.map((data, i) => <option key={i} value={data._id}>{data.name}</option> )}
@@ -179,7 +193,7 @@ class AddParticipant extends Component {
                                                                     <div className="form-group">
                                                                         <label className="form-label">Role</label>
                                                                          <select name="as" className="form-control" onChange={this.handleChange} value={this.state.as}>
-                                                                                {/* <option value="attendees">Attendees</option> */}
+                                                                                <option value="attendees">Attendees</option>
                                                                                 <option value="sponsors">Sponsors</option>
                                                                                 <option value="speakers">Speakers</option>
                                                                                 {/* <option value="organisers">Organisers</option> */}

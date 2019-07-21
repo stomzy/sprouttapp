@@ -3,6 +3,8 @@ import Sidebar from '../Sidebar';
 import Navbar from '../Navbar';
 import { connect } from 'react-redux';
 import { findPrograms, updateProgram } from '../../actions/programAction';
+import { getPeople } from '../../actions/peopleAction';
+import { getEvents } from '../../actions/eventsAction';
 
 class ProgramEdit extends Component {
     constructor() {
@@ -39,7 +41,10 @@ class ProgramEdit extends Component {
         })
         .catch(err => {
             console.log(err);
-        });    
+        }); 
+        
+        this.props.getPeople();
+        this.props.getEvents();
     }
 
     handleChange(event) {
@@ -183,17 +188,24 @@ class ProgramEdit extends Component {
                                                                 
                                                                     <div className="col-md-4">
                                                                     <div className="form-group">
-                                                                        <label className="form-label">Event Id</label>
-                                                                        <input type="text" name="eventid" placeholder="Enter Event Id" 
-                                                                        onChange={this.handleChange} value={this.state.eventid} className="form-control" required/>
+                                                                        <label className="form-label">Event</label>
+                                                                        <select name="eventid" className="form-control" onChange={this.handleChange} value={this.state.eventid} required>
+                                                                            <option value="">Select Event
+                                                                            </option>
+                                                                            {this.props.events.events.map((data, i) => <option key={i} value={data._id}>{data.title}</option> )}
+                                                                        </select>
                                                                     </div>
                                                                     </div> 
 
                                                                     <div className="col-md-4">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Speakers</label>
-                                                                        <input type="text" name="speakers" placeholder="Enter Event Speakers" 
-                                                                        onChange={this.handleChange} value={this.state.speakers} className="form-control" />
+                                                                
+                                                                        <select name="speakers" className="form-control" onChange={this.handleMultiple} value={this.state.speakers} required>
+                                                                            <option value="">Select Speakers
+                                                                            </option>
+                                                                            {this.props.peopleProfile.peoples.map((data, i) => <option key={i} value={data._id}>{data.name}</option> )}
+                                                                        </select>
                                                                     </div>
                                                                     </div> 
                                                                     
@@ -225,7 +237,7 @@ class ProgramEdit extends Component {
                                                                 </div>
                                                              
                                                                 <div className="row">
-                                                                    <div className="col-md-3">
+                                                                    <div className="col-md-4">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Type</label>
                                                                         <input type="text" name="type" placeholder="Enter Program Type"
@@ -233,21 +245,21 @@ class ProgramEdit extends Component {
                                                                     </div>
                                                                     </div> 
 
-                                                                    <div className="col-md-3">
+                                                                    <div className="col-md-4">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Start Time</label>
                                                                         <input type="time" name="start_time" placeholder="Enter Event Start Time"
                                                                          onChange={this.handleChange} value={this.state.start_time} className="form-control" required/>
                                                                     </div>
                                                                     </div>  
-                                                                    <div className="col-md-3">
+                                                                    <div className="col-md-4">
                                                                     <div className="form-group">
                                                                         <label className="form-label">End Time</label>
                                                                         <input type="time" name="end_time" placeholder="Enter Event end Time"
                                                                          onChange={this.handleChange} value={this.state.end_time} className="form-control" required/>
                                                                     </div>
                                                                     </div>  
-                                                                    <div className="col-md-3">
+                                                                    {/* <div className="col-md-3">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Time Zone</label>
                                                                         <select name="time_zone" className="form-control" onChange={this.handleChange} value={this.state.time_zone} required>
@@ -279,7 +291,7 @@ class ProgramEdit extends Component {
                                                                                 <option value="GMT+12">GMT+12</option>
                                                                         </select>
                                                                     </div>
-                                                                    </div> 
+                                                                    </div>  */}
                                                                 </div>
                                                                 <div className="row">
                                                                     <div className="col-md-12">
@@ -324,8 +336,10 @@ class ProgramEdit extends Component {
 const mapStateToProps = (state) => ({
     auth: state.auth,
     errors: state.errors,
-    programs: state.programs
+    events: state.events,
+    programs: state.programs,
+    peopleProfile: state.peopleProfile,
 });
 
-export default connect(mapStateToProps, { findPrograms, updateProgram })(ProgramEdit);
+export default connect(mapStateToProps, { findPrograms, updateProgram, getPeople, getEvents })(ProgramEdit);
 

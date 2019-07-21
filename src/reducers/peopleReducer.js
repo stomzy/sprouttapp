@@ -1,4 +1,4 @@
-import { CREATE_PEOPLE, GET_PEOPLE, FIND_PEOPLE, UPDATE_PEOPLE } from '../actions/types';
+import { CREATE_PEOPLE, GET_PEOPLE, FIND_PEOPLE, UPDATE_PEOPLE, CHECK_STATUS, REGISTER_USER } from '../actions/types';
 
 const initialState = {
     people: {},
@@ -8,6 +8,11 @@ const initialState = {
 export default function(state = initialState, action) {
     switch(action.type) {
         case CREATE_PEOPLE:
+            return {
+                ...state,
+                people: action.payload,
+            }
+        case REGISTER_USER:
             return {
                 ...state,
                 people: action.payload,
@@ -23,6 +28,11 @@ export default function(state = initialState, action) {
                 people: action.payload,
             }
         case UPDATE_PEOPLE:
+            return {
+                ...state,
+                people: action.payload,
+            }
+        case CHECK_STATUS:
             return {
                 ...state,
                 people: action.payload,

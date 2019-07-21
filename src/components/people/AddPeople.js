@@ -3,7 +3,7 @@ import Sidebar from '../Sidebar';
 import Navbar from '../Navbar';
 import {countries} from '../../common/country';
 import { connect } from 'react-redux';
-import { createPeople } from '../../actions/peopleAction';
+import { createPeople, registerUser } from '../../actions/peopleAction';
 import axios from 'axios';
 import { headers } from '../../utils/headerJWT';
 import { url } from '../../config/config';
@@ -34,7 +34,8 @@ class AddPeople extends Component {
             instagram_visible: false,
             role: "",
             success: null,
-            photourl: ""
+            photourl: "",
+            error: null
         }
   
         this.handleChange = this.handleChange.bind(this);
@@ -47,16 +48,59 @@ class AddPeople extends Component {
         });
     }
 
+        // check file type
+    checkMimeType = event => {
+        let files = event.target.files;
+        let err = '';
+        const types = ['image/png', 'image/jpeg', 'image/gif'];
+
+        for (let x = 0; x < files.length; x++) {
+            if (types.every(type => files[x].type !== type)) {
+                err += files[x].type+' is not a supported format\n'
+                this.setState({error: err})
+            }
+        }
+
+        if (err !== ''){
+            event.target.value = null;
+            console.log(err)
+                return false;
+        }
+        return true;
+    }
+
+    checkFileSize = event => {
+        let files = event.target.files;
+        let size = 1048576;
+        let err = "";
+
+        for (let x = 0; x < files.length; x++) {
+            if (files[x].size > size ) {
+                err += files[x].type+' is too large, Please pick a small file\n';
+                this.setState({error: err})
+            }
+        }
+
+        if (err !== ''){
+            event.target.value = null;
+            console.log(err)
+                return false;
+        }
+        return true;
+    }
+
     fileChangedHandler = event => {
         let self = this;
         let reader = new FileReader();
         const file = event.target.files[0];
-        
-        reader.onload = function(upload) {
-            self.setState({ photo: upload.target.result });
-        };
+        if (this.checkMimeType(event) && this.checkFileSize(event)) {
+            reader.onload = function(upload) {
+                   
+                self.setState({ photo: upload.target.result });
+            };
 
-        reader.readAsDataURL(file); 
+            reader.readAsDataURL(file); 
+        }
     }
 
     handleSubmit(e) {
@@ -91,11 +135,17 @@ class AddPeople extends Component {
                     }
                 }
 
-                let data = { interest, email, company_name, name, phone, address, job_title, short_bio, website, country, facebook, facebook_visible,
-                            photo: urls, twitter, twitter_visible, linkedin, linkedin_visible, instagram, instagram_visible, event }
+                let data = { interest, email, password: "mynewuser", company_name, name, phone, address, job_title, short_bio, website, country, facebook, facebook_visible,
+                            photo: urls, twitter, twitter_visible, linkedin, linkedin_visible, instagram, instagram_visible, event, verified: true }
 
                         this.props.createPeople(data)
                         .then(res => {
+                            this.props.registerUser(data).then(res => {
+                                console.log(res)
+                            })
+                            .catch(err => {
+                                console.log(err);
+                            })
                             this.setState({
                                 interest: "", email: "", company_name: "", name: "", phone: "", address: "", job_title: "", short_bio: "", website: "", country: "", facebook: "", facebook_visible: "",
                                 photo: "", twitter: "", twitter_visible: "", linkedin: "", linkedin_visible: "", instagram: "", instagram_visible: "", success: `${name} added successfully...`
@@ -117,6 +167,12 @@ class AddPeople extends Component {
             notification = (
                 <div className="alert alert-success" role="alert">
                     { this.state.success }
+                </div>
+            );
+        } else if (this.state.error != null) {
+            notification = (
+                <div className="alert alert-danger" role="alert">
+                    { this.state.error }
                 </div>
             );
         }
@@ -239,23 +295,23 @@ class AddPeople extends Component {
                                                                     
                                                                 </div>
                                                                 <div className="row">
-                                                            
+{/*                                                             
                                                                     <div className="col-md-4">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Address</label>
                                                                         <input type="text" name="address" placeholder="Enter Address" 
                                                                         onChange={this.handleChange} value={this.state.address} className="form-control" />
                                                                     </div>
-                                                                    </div> 
+                                                                    </div>  */}
 
-                                                                    <div className="col-md-4">
+                                                                    <div className="col-md-6">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Email</label>
                                                                         <input type="text" name="email" placeholder="Enter Company Email"
                                                                          onChange={this.handleChange} value={this.state.email} className="form-control" required/>
                                                                     </div>
                                                                     </div>
-                                                                    <div className="col-md-4">
+                                                                    <div className="col-md-6">
                                                                     <div className="form-group">
                                                                         <label className="form-label">Website</label>
                                                                         <input type="text" name="website" placeholder="Enter Website" 
@@ -414,6 +470,8 @@ class AddPeople extends Component {
                                                                                 <option value="sponsors">Sponsors</option>
                                                                                 <option value="speakers">Speakers</option>
                                                                                 <option value="organisers">Organisers</option>
+                                                                                <option value="organisers">superadmin</option>
+                                                                                <option value="organisers">attendee</option>
                                                                         </select>
                                                                     </div>
                                                                     </div>
@@ -453,4 +511,4 @@ const mapStateToProps = (state) => ({
     events: state.events
 });
 
-export default connect(mapStateToProps, { createPeople })(AddPeople);
+export default connect(mapStateToProps, { createPeople, registerUser })(AddPeople);

@@ -7,6 +7,8 @@ import { getEvents, eventSetUp } from '../../actions/eventsAction';
 import axios from 'axios';
 import { headers } from '../../utils/headerJWT';
 import { url } from '../../config/config';
+import "./appDesign.css";
+import Spinner from '../../common/Spinner';
 
 class AppDesign extends Component {
     constructor() {
@@ -27,7 +29,9 @@ class AppDesign extends Component {
           header_image1_Url: '',
           header_image2_Url: '',
           header_image3_Url: '',
-          eventid: ''
+          eventid: '',
+          error: null,
+          loading: false
         }
   
         this.handleChange = this.handleChange.bind(this);
@@ -44,6 +48,7 @@ class AppDesign extends Component {
     }
 
     onHandleCloseColorPicker = () => {
+        // console.log('close');
         this.setState({displayColorPicker: false});
     }
 
@@ -104,7 +109,7 @@ class AppDesign extends Component {
         .then( res => {
             let urls = res.data.Location;
                 this.setState({
-                    logoUrl: urls
+                    logoUrl: urls, loading: true
                 })
             }
         )
@@ -113,7 +118,7 @@ class AppDesign extends Component {
             .then(resp => {
                 let urls = resp.data.Location;
                 this.setState({
-                    header_image1_Url: urls
+                    header_image1_Url: urls, loading: true
                 })
             })
             .then(res => {
@@ -121,7 +126,7 @@ class AppDesign extends Component {
                 .then(resp => {
                     let urls = resp.data.Location;
                     this.setState({
-                        header_image2_Url: urls
+                        header_image2_Url: urls, loading: true
                     })
                 })
                 .then(res => {
@@ -129,7 +134,7 @@ class AppDesign extends Component {
                         .then(resp => {
                             let urls = resp.data.Location;
                             this.setState({
-                                header_image3_Url: urls
+                                header_image3_Url: urls, loaded: true
                             })
                         })
                         .then(res => {
@@ -144,8 +149,9 @@ class AppDesign extends Component {
 
                             this.props.eventSetUp(query)
                             .then(res => {
-                                this.setState({ theme: "", color: "", success: `App setup Completed..`});
-                                this.props.history.push('/events-list')
+                                this.setState({ theme: "", color: "", loading: false, success: `App setup Completed..`});
+                                this.props.history.push('/events-list');
+                                window.location.reload();
                             })
                             .catch(err => {
                                 console.log(err);
@@ -161,54 +167,103 @@ class AppDesign extends Component {
         .catch(err => console.log(err));
     
     }
+    // check file type
+    checkMimeType = event => {
+        let files = event.target.files;
+        let err = '';
+        const types = ['image/png', 'image/jpeg', 'image/gif'];
+
+        for (let x = 0; x < files.length; x++) {
+            if (types.every(type => files[x].type !== type)) {
+                err += files[x].type+' is not a supported format\n'
+                this.setState({error: err})
+            }
+        }
+
+        if (err !== ''){
+            event.target.value = null;
+            console.log(err)
+                return false;
+        }
+        return true;
+    }
+
+    checkFileSize = event => {
+        let files = event.target.files;
+        let size = 1048576;
+        let err = "";
+
+        for (let x = 0; x < files.length; x++) {
+            if (files[x].size > size ) {
+                err += files[x].type+' is too large, Please pick a small file\n';
+                this.setState({error: err})
+            }
+        }
+
+        if (err !== ''){
+            event.target.value = null;
+            console.log(err)
+                return false;
+        }
+        return true;
+    }
 
     fileChangedHandler = event => {
         let self = this;
         let reader = new FileReader();
         const file = event.target.files[0];
         
-        reader.onload = function(upload) {
-            // console.log(upload.target);
-            self.setState({ logo: upload.target.result });
-        };
-
-        reader.readAsDataURL(file);  
+        if (this.checkMimeType(event) && this.checkFileSize(event)) {
+            reader.onload = function(upload) {
+                // console.log(upload.target.result);
+                self.setState({ logo: upload.target.result });
+            };
+    
+            reader.readAsDataURL(file); 
+        }
+         
     }
 
     imageChangedHandler1 = event => {
         let self = this;
         let reader = new FileReader();
         const file = event.target.files[0];
-        
-        reader.onload = function(upload) {
-            self.setState({ header_image1: upload.target.result });
-        };
+        if (this.checkMimeType(event) && this.checkFileSize(event)) {
+            reader.onload = function(upload) {
+                // console.log(upload.target.result);
+                self.setState({ header_image1: upload.target.result });
+            };
 
-        reader.readAsDataURL(file); 
+            reader.readAsDataURL(file); 
+        }
     }
 
     imageChangedHandler2 = event => {
         let self = this;
         let reader = new FileReader();
         const file = event.target.files[0];
-        
-        reader.onload = function(upload) {
-            self.setState({ header_image2: upload.target.result });
-        };
+        if (this.checkMimeType(event) && this.checkFileSize(event)) {
+            reader.onload = function(upload) {
+                // console.log(upload.target.result);
+                self.setState({ header_image2: upload.target.result });
+            };
 
-        reader.readAsDataURL(file); 
+            reader.readAsDataURL(file); 
+        }
     }
 
     imageChangedHandler3 = event => {
         let self = this;
         let reader = new FileReader();
         const file = event.target.files[0];
-        
-        reader.onload = function(upload) {
-            self.setState({ header_image3: upload.target.result });
-        };
+        if (this.checkMimeType(event) && this.checkFileSize(event)) {
+            reader.onload = function(upload) {
+                // console.log(upload.target.result);
+                self.setState({ header_image3: upload.target.result });
+            };
 
-        reader.readAsDataURL(file); 
+            reader.readAsDataURL(file); 
+        }
     }
 
     render() {
@@ -219,6 +274,19 @@ class AppDesign extends Component {
                     { this.state.success }
                 </div>
             );
+        }
+        else if (this.state.error != null) {
+            notification = (
+                <div className="alert alert-danger" role="alert">
+                    { this.state.error }
+                </div>
+            );
+        }
+
+        let loader;
+
+        if (this.state.loading === true) {
+            loader = <Spinner />;
         }
 
         return (
@@ -279,6 +347,7 @@ class AppDesign extends Component {
                                                         <div className="card">
                                                             <div className="card-header">
                                                                 <h5>Add App Design</h5>
+                                                                <em style={{ color: 'red' }}>Wait a minute+ for image uploads</em>
                                                                 <div className="card-header-right">
                                                                     <ul className="list-unstyled card-option">
                                                                         <li className="first-opt"><i
@@ -324,6 +393,7 @@ class AppDesign extends Component {
                                                                     </div>
                                                                     </div> 
                                                                 </div>
+                                                                {loader}
                                                                 <div className="row">
                                                               
                                                                     <div className="col-md-6">
@@ -361,23 +431,14 @@ class AppDesign extends Component {
                                                                 <div className="row">
                                                                     <div className="col-md-4">
                                                                     <div className="form-group">
-                                                                    {/* {this.state.logo === null ? null : (
-                                                                            <div className="card" style={{width: '20rem', height: '20rem'}}>
-                                                                                 <img src={this.state.logo}/>
-                                                                             </div>
-                                                                    )} */}
-                                                                       
+                                                            
                                                                         <label className="form-label">Logo</label>
                                                                         <input type="file" className="form-control"  onChange={this.fileChangedHandler}/>
                                                                     </div>
                                                                     </div>
                                                                     <div className="col-md-4">
                                                                     <div className="form-group">
-                                                                        {/* {this.state.header_image === null ? null : (
-                                                                                <div class="card" style={{width: '20rem', height: '20rem'}}>
-                                                                                    <img src={this.state.header_image1} />
-                                                                                </div>
-                                                                        )} */}
+                                                                        
                                                                             <label className="form-label">Homepage Image 1</label>
                                                                         <input type="file" className="form-control" onChange={this.imageChangedHandler1}/>
                                                                     </div>
@@ -394,11 +455,7 @@ class AppDesign extends Component {
                                                                 <div className="row">
                                                                 <div className="col-md-3">
                                                                     <div className="form-group">
-                                                                        {/* {this.state.header_image === null ? null : (
-                                                                                <div class="card" style={{width: '20rem', height: '20rem'}}>
-                                                                                    <img src={this.state.header_image2}/>
-                                                                                </div>
-                                                                        )} */}
+                                                                       
                                                                             <label className="form-label">Homepage Image 2</label>
                                                                         <input type="file" className="form-control" onChange={this.imageChangedHandler2}/>
                                                                     </div>
@@ -463,6 +520,7 @@ class AppDesign extends Component {
 const mapStateToProps = (state) => ({
     auth: state.auth,
     events: state.events,
+    uploads: state.uploads
 });
 
 // export default Event;

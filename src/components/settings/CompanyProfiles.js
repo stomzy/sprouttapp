@@ -2,12 +2,25 @@ import React, { Component } from 'react';
 import Sidebar from '../Sidebar';
 import Navbar from '../Navbar';
 import { connect } from 'react-redux';
-import { getCompanyProfiles } from '../../actions/companyProfileAction';
+import { getCompanyProfiles, deleteCompany } from '../../actions/companyProfileAction';
 
 class CompanyProfiles extends Component {
     componentDidMount() {
         this.props.getCompanyProfiles();
     }
+
+    handleDelete(id, e) {
+        e.preventDefault();
+    
+        let data = {id: id};
+        this.props.deleteCompany(data).then(res => {
+            this.setState({ success: `Company deleted Successfully`})
+            window.location.reload();
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    }   
 
     render() {
         return (
@@ -108,7 +121,7 @@ class CompanyProfiles extends Component {
                                                                                                 <span className="glyphicon glyphicon-edit"></span> Edit
                                                                                             </button>
                                                                                         </a>
-                                                                                    <button className="btn btn-danger btn-sm">
+                                                                                    <button onClick={this.handleDelete.bind(this, data._id)}  className="btn btn-danger btn-sm">
                                                                                         <span className="glyphicon glyphicon-trash"></span> Delete
                                                                                     </button>
                                                                                 </td>
@@ -147,4 +160,4 @@ const mapStateToProps = (state) => ({
     companyProfiles: state.companyProfiles
 });
 
-export default connect(mapStateToProps, { getCompanyProfiles })(CompanyProfiles);
+export default connect(mapStateToProps, { getCompanyProfiles, deleteCompany })(CompanyProfiles);

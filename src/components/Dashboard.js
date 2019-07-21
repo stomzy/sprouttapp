@@ -8,6 +8,7 @@ import { getEvents } from '../actions/eventsAction';
 import { getPrograms } from '../actions/programAction';
 import { getPeople } from '../actions/peopleAction';
 import { getResources } from '../actions/resourceActions';
+import { getCompanyProfiles } from '../actions/companyProfileAction';
 
 class Dashboard extends Component {
     componentDidMount() {
@@ -16,6 +17,7 @@ class Dashboard extends Component {
         this.props.getPrograms();
         this.props.getPeople();
         this.props.getResources();
+        this.props.getCompanyProfiles();
     }
 
     render() {
@@ -139,24 +141,24 @@ class Dashboard extends Component {
                                                                         <div className="col-xl-3 col-md-6">
                                                                             <h6>Resources</h6>
                                                                             <h5 className="m-b-30 f-w-700">Total:<span
-                                                                                    className="text-c-green m-l-10">+{this.props.resources.resources.length}%</span></h5>
+                                                                                    className="text-c-green m-l-10">+{this.props.resources.resources.length}</span></h5>
                                                                             <div className="progress">
                                                                                 <div className="progress-bar bg-c-red"
                                                                                     style={{width:"25%"}}></div>
                                                                             </div>
                                                                         </div>
                                                                         <div className="col-xl-3 col-md-6">
-                                                                            <h6>Completed Task</h6>
-                                                                            <h5 className="m-b-30 f-w-700">4,569<span
-                                                                                    className="text-c-red m-l-10">-0.5%</span></h5>
+                                                                            <h6>Companies</h6>
+                                                                            <h5 className="m-b-30 f-w-700">Total:<span
+                                                                                    className="text-c-red m-l-10">+{this.props.companyProfiles.companyProfiles.length}</span></h5>
                                                                             <div className="progress">
                                                                                 <div className="progress-bar bg-c-blue"
                                                                                     style={{width:"65%"}}></div>
                                                                             </div>
                                                                         </div>
                                                                         <div className="col-xl-3 col-md-6">
-                                                                            <h6>Successfull Task</h6>
-                                                                            <h5 className="m-b-30 f-w-700">89%<span
+                                                                            <h6>Sponsors</h6>
+                                                                            <h5 className="m-b-30 f-w-700">Total:<span
                                                                                     className="text-c-green m-l-10">+0.99%</span></h5>
                                                                             <div className="progress">
                                                                                 <div className="progress-bar bg-c-green"
@@ -164,9 +166,9 @@ class Dashboard extends Component {
                                                                             </div>
                                                                         </div>
                                                                         <div className="col-xl-3 col-md-6">
-                                                                            <h6>Ongoing Project</h6>
-                                                                            <h5 className="m-b-30 f-w-700">365<span
-                                                                                    className="text-c-green m-l-10">+0.35%</span></h5>
+                                                                            <h6>Attendees</h6>
+                                                                            <h5 className="m-b-30 f-w-700">Total:<span
+                                                                                    className="text-c-green m-l-10">+{this.props.peopleProfile.peoples.length}</span></h5>
                                                                             <div className="progress">
                                                                                 <div className="progress-bar bg-c-yellow"
                                                                                     style={{width:"45%"}}></div>
@@ -209,8 +211,9 @@ const mapStateToProps = state => ({
     peopleProfile: state.peopleProfile,
     programs: state.programs,
     events: state.events,
-    resources: state.resources
+    resources: state.resources,
+    companyProfiles: state.companyProfiles
 })
 
 // export default Dashboard;
-export default connect(mapStateToProps, { getCurrentProfile, getEvents, getPrograms, getPeople, getResources })(Dashboard);
+export default connect(mapStateToProps, { getCompanyProfiles, getCurrentProfile, getEvents, getPrograms, getPeople, getResources })(Dashboard);

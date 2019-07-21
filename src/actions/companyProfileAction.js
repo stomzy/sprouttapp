@@ -98,3 +98,23 @@ export const updateCompany = (query) => dispatch => {
         });
     });
 }
+
+export const deleteCompany = (id) => dispatch => {
+    return new Promise((resolve, reject) => {
+        axios.post(`${url}/company/delete/`, id, { headers: headers })
+        .then( res => {
+            dispatch({
+                type: CREATE_COMPANY_PROFILE,
+                payload: "Company deleted Successfully.."
+            })
+            resolve(res)
+        })
+        .catch(err => { 
+            dispatch({
+                type: GET_ERRORS,
+                payload: err
+            })
+            reject(err)
+        }); 
+    });
+}

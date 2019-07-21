@@ -65,7 +65,7 @@ class Event extends Component {
         const data = { title, tags: tagArray, description, venue, type, eventCode, facebook, twitter, instagram, linkedin,
             location: {address, postcode, state, country: countryName, name: location_name, description: location_description}, map, company,
             start_date, end_date, start_time, end_time, time_zone, website}
-
+        // console.log('data', data);
         this.props.createEvent(data).then(res => {
             this.setState({ title: "", tags: "", description: "",  venue: "", time_zone: "", website: "", location_name: "", location_description: "",
             type: "", facebook: "", twitter: "", instagram: "", linkedin: "", start_date: "", end_date: "", start_time: "", end_time: "", 
@@ -75,12 +75,6 @@ class Event extends Component {
             console.log(err);
         }) 
     }
-
-    fileChangedHandler = event => {
-        const file = event.target.files[0];
-        this.setState({ logo: file });
-    }
-
 
     componentDidMount() {
         this.props.getCompanyProfiles();

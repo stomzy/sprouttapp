@@ -12,11 +12,13 @@ class AddOrganizers extends Component {
         this.state = {
           email: "",
           eventid: "",
-          participantid: ""
+          multiple: '',
+          participantid: []
         }
   
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleMultiple = this.handleMultiple.bind(this);
     }
 
     componentDidMount() {
@@ -35,6 +37,14 @@ class AddOrganizers extends Component {
         });
     }
 
+    getMultipleValues(value) {
+        this.state.participantid.push(value);
+    }
+
+    handleMultiple(event) {
+        [...event.target.options].filter(({selected}) => selected).map(({value}) => this.getMultipleValues(value));
+    }
+
     handleSubmit(event) {
         event.preventDefault();
         const { email, participantid, eventid } = this.state;
@@ -48,16 +58,14 @@ class AddOrganizers extends Component {
 
         this.props.addOrganizer(query)
             .then(res => {
+                // console.log(res);
                 this.setState({ success: "Organizer added to Company"})
+                this.props.history.push('/company-list');
+                window.location.reload();
             })
             .catch(err => {
                 console.log(err)
             })
-
-        // this.props.history.push('/events-list');
-
-     
-    
     }
 
     render() {
@@ -165,7 +173,7 @@ class AddOrganizers extends Component {
                                                                     <div className="form-group">
                                                                         <label className="form-label">Participants </label>
                                                                         
-                                                                        <select name="participantid" className="form-control" onChange={this.handleChange} value={this.state.participantid} required>
+                                                                        <select name="participantid" className="form-control" multiple={true} onChange={this.handleMultiple} value={[this.state.multiple]} required>
                                                                             <option value="">Select Organiser
                                                                             </option>
                                                                             {this.props.peopleProfile.peoples.map((data, i) => <option key={i} value={data._id}>{data.name}</option> )}
