@@ -53,7 +53,7 @@ class Dashboard extends Component {
                                                     <i className="feather icon-home bg-c-blue"></i>
                                                     <div className="d-inline">
                                                         <h5>Dashboard</h5>
-                                                        <span>Welcome to sprout conference app.</span>
+                                                        <span>Welcome to ignite conference app.</span>
                                                     </div>
                                                 </div>
                                             </div>

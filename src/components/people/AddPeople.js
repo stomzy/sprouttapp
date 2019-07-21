@@ -111,6 +111,16 @@ class AddPeople extends Component {
         let type = photo.slice(5, 14);
         let photoData = photo.slice(22, photo.length);
 
+        let site = '';
+
+        if (website.includes('http')) {
+            site = website;
+        }
+        else {
+            site = `http://${website}`;
+        }
+        
+
         const dataImage = {
             name: name,
             photo: photoData,
@@ -135,7 +145,7 @@ class AddPeople extends Component {
                     }
                 }
 
-                let data = { interest, email, password: "mynewuser", company_name, name, phone, address, job_title, short_bio, website, country, facebook, facebook_visible,
+                let data = { interest, email, password: "mynewuser", company_name, name, phone, address, job_title, short_bio, website: site, country, facebook, facebook_visible,
                             photo: urls, twitter, twitter_visible, linkedin, linkedin_visible, instagram, instagram_visible, event, verified: true }
 
                         this.props.createPeople(data)

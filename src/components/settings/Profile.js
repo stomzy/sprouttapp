@@ -49,6 +49,16 @@ class Profile extends Component {
             website, country, facebook, facebook_visible,
             twitter, twitter_visible, linkedin, linkedin_visible, instagram, instagram_visible } = this.state;
 
+            let site = '';
+
+            if (website.includes('http')) {
+                site = website;
+            }
+            else {
+                site = `http://${website}`;
+            }
+            
+
             let type = photo.slice(5, 14);
             let photoData = photo.slice(22, photo.length);
             let countryName = country.slice(3, country.length)
@@ -71,9 +81,9 @@ class Profile extends Component {
                 const { urls } = this.state;
 
                 const data = { industry, email, name, phone, address, short_bio,
-                    website, country: countryName, facebook, facebook_visible, logo: urls,
+                    website: site, country: countryName, facebook, facebook_visible, logo: urls,
                     twitter, twitter_visible, linkedin, linkedin_visible, instagram, instagram_visible }
-
+                    //  console.log('data', data);
                     this.props.createCompanyProfile(data)
                         .then(res => {
                             this.setState({ industry: "", email: "", name: "", phone: "", address: "", short_bio: "", 

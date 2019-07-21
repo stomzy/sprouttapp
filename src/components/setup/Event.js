@@ -61,10 +61,18 @@ class Event extends Component {
         let rand =  Math.floor(100000 + Math.random() * 900000);
         let eventCode = (title.slice(0, 5) + rand + conutryCode).replace(' ', '');
         let tagArray = tags.split(',');
+        let site = '';
+
+        if (website.includes('http')) {
+            site = website;
+        }
+        else {
+            site = `http://${website}`;
+        }
         
         const data = { title, tags: tagArray, description, venue, type, eventCode, facebook, twitter, instagram, linkedin,
             location: {address, postcode, state, country: countryName, name: location_name, description: location_description}, map, company,
-            start_date, end_date, start_time, end_time, time_zone, website}
+            start_date, end_date, start_time, end_time, time_zone, website: site}
         // console.log('data', data);
         this.props.createEvent(data).then(res => {
             this.setState({ title: "", tags: "", description: "",  venue: "", time_zone: "", website: "", location_name: "", location_description: "",
