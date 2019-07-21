@@ -13,7 +13,7 @@ class AddParticipant extends Component {
           participantid: [],
           multiple: '',
           verified: false,
-          as: ""
+          as: "attendees"
         }
   
         this.handleChange = this.handleChange.bind(this);
@@ -52,9 +52,9 @@ class AddParticipant extends Component {
         participantid.forEach((value) =>{
           
             const data = { participantid: value, eventid, verified, as }
-        
+            // console.log(data)
             this.props.addParticipant(data).then(res => {
-              
+                // console.log(res)
                 this.setState({ success: "Participants added and verified"})
                 this.props.verifyParticipant(data);
                 
@@ -62,7 +62,7 @@ class AddParticipant extends Component {
                 console.log(err)
             })
         }) 
-
+        this.setState({ participantid: []})
         // this.props.history.push('/events-list');
         // window.location.reload();
     
