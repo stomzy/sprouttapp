@@ -10,11 +10,11 @@ import ErrorHandler from './components/ErrorHandler';
 
 ReactDOM.render(
 <Provider store = {store}>
-<ErrorHandler>
+{/* <ErrorHandler> */}
     <Router>
         <App />
     </Router>
-</ErrorHandler>
+{/* </ErrorHandler> */}
 </Provider>
 
 , document.getElementById('root'));
