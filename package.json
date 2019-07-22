@@ -1,6 +1,5 @@
 {
   "name": "ignite",
-  "homepage": "http://ignite.sprout.ng/public_html/build",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
