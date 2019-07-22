@@ -65,7 +65,7 @@ class AppDesign extends Component {
     handleSubmit(event) {
         event.preventDefault();
         
-        let { logo, header_image1, header_image2, header_image3, caption1, caption2, caption3, theme, background, appName, eventid } = this.state;
+        let { logo, header_image1, header_image2, header_image3, caption1, caption2, caption3, theme, background, eventid } = this.state;
         
         let type = logo.slice(5, 14);
         let photo = logo.slice(22, logo.length);
