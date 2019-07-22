@@ -1,5 +1,6 @@
 import React from 'react';
 import Login from './components/auth/Login';
+import NoMatch from './components/NoMatch';
 import Dashboard from './components/Dashboard';
 import SetupEvent from './components/setup/Event';
 import EventList from './components/setup/EventList';
@@ -51,7 +52,7 @@ if (localStorage.jwtToken) {
     // clear current user
     store.dispatch(clearCurrentProfile());
     // redirect to login
-    window.location.href = '/login';
+    window.location.href = '/';
   }
 
 }
@@ -92,7 +93,7 @@ function App() {
       <PrivateRoute exact path="/floor-plan" component={floorplan}/>
       <PrivateRoute exact path="/floor-plan-list" component={floorplanList}/>
       {/* <Route exact path="/table" component={Table}/> */}
-      {/* <Route component={NoMatch} /> */}
+      <Route exact path="*" component={NoMatch} />
     </Switch>
   );
 }

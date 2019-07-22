@@ -81,7 +81,7 @@ class Login extends Component {
                 <form className="md-float-material form-material" onSubmit={this.handleSubmit}>
                     <div className="text-center">
                     { alert }
-                        {/* <img src="../files/assets/images/logo.png" alt="logo.png" /> */}
+                        <img src="../files/assets/images/logo.png" alt="logo.png" style={{width: '150px', height: '150px' }}/>
                     </div>
                     <br />
                     <div className="auth-box card">
@@ -142,10 +142,10 @@ class Login extends Component {
                                             <span className="text-inverse">Remember me</span>
                                         </label>
                                     </div> */}
-                                    <div className="forgot-phone text-right float-right">
+                                    {/* <div className="forgot-phone text-right float-right">
                                         <a href="auth-reset-password.html" className="text-right f-w-600"> Forgot
                                             Password?</a>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                             <div className="row m-t-30">

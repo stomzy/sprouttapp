@@ -13,6 +13,35 @@ export default function Sidebar() {
                             <span className="pcoded-mtext">DASHBOARD</span>
                         </a>
                     </li>
+   
+                    <li className="pcoded-hasmenu">
+                        <a href="#" className="waves-effect waves-dark">
+                            <span className="pcoded-micon"><i className="feather icon-sidebar"></i></span>
+                            <span className="pcoded-mtext">COMPANIES</span>
+                            <span className="pcoded-badge label label-primary">1 items</span>
+                        </a>
+                        <ul className="pcoded-submenu">
+                            <li className=" pcoded-hasmenu">
+                                <a href="/company-list" className="waves-effect waves-dark">
+                                    <span className="pcoded-mtext">companies</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li className="pcoded-hasmenu">
+                        <a href="#" className="waves-effect waves-dark">
+                            <span className="pcoded-micon"><i className="feather icon-sidebar"></i></span>
+                            <span className="pcoded-mtext">EVENTS</span>
+                            <span className="pcoded-badge label label-danger">1 items</span>
+                        </a>
+                        <ul className="pcoded-submenu">
+                            <li className=" pcoded-hasmenu">
+                                <a href="/events-list" className="waves-effect waves-dark">
+                                    <span className="pcoded-mtext">Events Info</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                     <li className="pcoded-hasmenu">
                         <a href="#" className="waves-effect waves-dark">
                             <span className="pcoded-micon"><i className="feather icon-sidebar"></i></span>
@@ -20,22 +49,17 @@ export default function Sidebar() {
                             <span className="pcoded-badge label label-warning">1 items</span>
                         </a>
                         <ul className="pcoded-submenu">
-                            <li className=" pcoded-hasmenu">
-                                <a href="/events-list" className="waves-effect waves-dark">
-                                    <span className="pcoded-mtext">Events Info</span>
-                                </a>
-                
-                            </li>
-                            <li className=" pcoded-hasmenu">
+                        <li className=" pcoded-hasmenu">
                                 <a href="/app-design" className="waves-effect waves-dark">
                                     <span className="pcoded-mtext">App Design</span>
                                 </a>
                     
                             </li>
+                         
                         </ul>
                     </li>
                     <li className="pcoded-hasmenu">
-                        <a href="/people-list" className="waves-effect waves-dark">
+                        <a href="#" className="waves-effect waves-dark">
                             <span className="pcoded-micon"><i className="feather icon-sidebar"></i></span>
                             <span className="pcoded-mtext">PEOPLE</span>
                             <span className="pcoded-badge label label-info">1 items</span>
@@ -89,20 +113,7 @@ export default function Sidebar() {
                             </li> */}
                         </ul>
                     </li>
-                    <li className="pcoded-hasmenu">
-                        <a href="/company-list" className="waves-effect waves-dark">
-                            <span className="pcoded-micon"><i className="feather icon-sidebar"></i></span>
-                            <span className="pcoded-mtext">COMPANIES</span>
-                            <span className="pcoded-badge label label-danger">1 items</span>
-                        </a>
-                        <ul className="pcoded-submenu">
-                            <li className=" pcoded-hasmenu">
-                                <a href="/company-list" className="waves-effect waves-dark">
-                                    <span className="pcoded-mtext">companies</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+                    
                     {/* <li className="pcoded-hasmenu">
                         <a href="#" className="waves-effect waves-dark">
                             <span className="pcoded-micon"><i className="feather icon-sidebar"></i></span>

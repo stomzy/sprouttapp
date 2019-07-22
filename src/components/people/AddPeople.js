@@ -3,7 +3,7 @@ import Sidebar from '../Sidebar';
 import Navbar from '../Navbar';
 import {countries} from '../../common/country';
 import { connect } from 'react-redux';
-import { createPeople, registerUser } from '../../actions/peopleAction';
+import { updatePeople, registerUser } from '../../actions/peopleAction';
 import axios from 'axios';
 import { headers } from '../../utils/headerJWT';
 import { url } from '../../config/config';
@@ -146,24 +146,47 @@ class AddPeople extends Component {
                 }
 
                 let data = { interest, email, password: "mynewuser", company_name, name, phone, address, job_title, short_bio, website: site, country, facebook, facebook_visible,
-                            photo: urls, twitter, twitter_visible, linkedin, linkedin_visible, instagram, instagram_visible, event, verified: true }
+                            photo: urls, twitter, twitter_visible, linkedin, linkedin_visible, instagram, instagram_visible, event, isVerified: true }
 
-                        this.props.createPeople(data)
-                        .then(res => {
-                            this.props.registerUser(data).then(res => {
-                                console.log(res)
-                            })
-                            .catch(err => {
-                                console.log(err);
-                            })
-                            this.setState({
-                                interest: "", email: "", company_name: "", name: "", phone: "", address: "", job_title: "", short_bio: "", website: "", country: "", facebook: "", facebook_visible: "",
-                                photo: "", twitter: "", twitter_visible: "", linkedin: "", linkedin_visible: "", instagram: "", instagram_visible: "", success: `${name} added successfully...`
-                            })
-                        })
-                        .catch(err => {
-                            console.log(err);
-                        });
+                    this.props.registerUser(data).then(res => {
+                        console.log(res)
+                        this.props.history.push('/people-list');
+                        window.location.reload();
+
+                        // let query = { 
+                        //     query: {"email": email},
+                        //     update: data
+                        // }
+    
+                        // this.props.updatePeople(query).then(res => {
+                        //     console.log(res)
+                        //     // this.props.history.push('/people-list');
+                        //     //  window.location.reload();
+                        // })
+                        // .catch(err => {
+                        //     console.log(err);
+                        // });
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    })
+                       
+                        // this.props.createPeople(data)
+                        // .then(res => {
+                        //     this.props.registerUser(data).then(res => {
+                        //         console.log(res)
+                        //     })
+                        //     .catch(err => {
+                        //         console.log(err);
+                        //     })
+                        //     this.setState({
+                        //         interest: "", email: "", company_name: "", name: "", phone: "", address: "", job_title: "", short_bio: "", website: "", country: "", facebook: "", facebook_visible: "",
+                        //         photo: "", twitter: "", twitter_visible: "", linkedin: "", linkedin_visible: "", instagram: "", instagram_visible: "", success: `${name} added successfully...`
+                        //     })
+                        // })
+                        // .catch(err => {
+                        //     console.log(err);
+                        // });
 
                
             })
@@ -521,4 +544,4 @@ const mapStateToProps = (state) => ({
     events: state.events
 });
 
-export default connect(mapStateToProps, { createPeople, registerUser })(AddPeople);
+export default connect(mapStateToProps, { updatePeople, registerUser })(AddPeople);

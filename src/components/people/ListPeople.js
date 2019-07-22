@@ -161,7 +161,7 @@ class People extends Component {
                                                                     </thead>
                                                                     <tbody>
                                                                     
-                                                                    {currentPosts.map((data, i) => 
+                                                                    {currentPosts.sort((a, b) => { return a._id < b._id}).map((data, i) => 
                                                                     
                                                                                   <tr key={i}>
                                                                                   

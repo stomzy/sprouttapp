@@ -347,7 +347,7 @@ class AppDesign extends Component {
                                                         <div className="card">
                                                             <div className="card-header">
                                                                 <h5>Add App Design</h5>
-                                                                <em style={{ color: 'red' }}>Wait a minute+ for image uploads</em>
+                                                                <em style={{ color: 'blue' }}>Image size: max 1mb  <br style= {{ color: 'red' }}/> Wait a minute+ for image uploads</em>
                                                                 <div className="card-header-right">
                                                                     <ul className="list-unstyled card-option">
                                                                         <li className="first-opt"><i

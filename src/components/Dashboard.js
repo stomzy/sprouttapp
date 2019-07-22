@@ -95,7 +95,7 @@ class Dashboard extends Component {
                                                                         <div className="col">
                                                                             <h6 className="m-b-25">Events</h6>
                                                                             <h3 className="f-w-700 text-c-blue">{this.props.events.events.length}</h3>
-                                                                            {/* <p className="m-b-0">{new Date().getFullYear()}</p> */}
+                                                                            <p className="m-b-0">All lined up for {new Date().getFullYear()}</p>
                                                                         </div>
                                                                         <div className="col-auto">
                                                                             <i className="fas fa-eye bg-c-blue"></i>
@@ -109,7 +109,7 @@ class Dashboard extends Component {
                                                                         <div className="col">
                                                                             <h6 className="m-b-25">Programs</h6>
                                                                             <h3 className="f-w-700 text-c-green">{this.props.programs.programs.length}</h3>
-                                                                            {/* <p className="m-b-0">{new Date().getDate()}</p> */}
+                                                                            <p className="m-b-0">All expected for {new Date().getFullYear()}</p>
                                                                         </div>
                                                                         <div className="col-auto">
                                                                             <i className="fas fa-bullseye bg-c-green"></i>
@@ -121,9 +121,9 @@ class Dashboard extends Component {
                                                                 <div className="card-body">
                                                                     <div className="row align-items-center">
                                                                         <div className="col">
-                                                                            <h6 className="m-b-25">Users</h6>
+                                                                            <h6 className="m-b-25">Peoples</h6>
                                                                             <h3 className="f-w-700 text-c-yellow">{this.props.peopleProfile.peoples.length}</h3>
-                                                                            {/* <p className="m-b-0">{ new Date().getHours()}</p> */}
+                                                                            <p className="m-b-0">All registered for { new Date().getFullYear()}</p>
                                                                         </div>
                                                                         <div className="col-auto">
                                                                             <i className="fas fa-hand-paper bg-c-yellow"></i>

@@ -10,11 +10,11 @@ import ErrorHandler from './components/ErrorHandler';
 
 ReactDOM.render(
 <Provider store = {store}>
-{/* <ErrorHandler> */}
     <Router>
-        <App />
+        <ErrorHandler render={() => <div className="alert alert-danger">Oops!!</div>}>
+           <App />
+        </ErrorHandler>
     </Router>
-{/* </ErrorHandler> */}
 </Provider>
 
 , document.getElementById('root'));
