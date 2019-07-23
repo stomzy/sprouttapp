@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Sidebar from '../Sidebar';
 import Navbar from '../Navbar';
 import { connect } from 'react-redux';
-import { addParticipant, verifyParticipant } from '../../actions/participantAction';
+import { addParticipant, verifyParticipant, getSponsors } from '../../actions/participantAction';
 import { getPeople } from '../../actions/peopleAction';
 
 class AddParticipant extends Component {
@@ -13,7 +13,11 @@ class AddParticipant extends Component {
           participantid: [],
           multiple: '',
           verified: false,
-          as: "attendees"
+          as: "attendees",
+          currentPage: 1,
+          postsPerPage: 5,
+          sponsors: null,
+          participantAdded: null
         }
   
         this.handleChange = this.handleChange.bind(this);
@@ -27,6 +31,17 @@ class AddParticipant extends Component {
             eventid: id
         })
 
+        let query = {query:{"_id": id}}; 
+
+        this.props.getSponsors(query).then(res => {
+            let data = res.data.data[0];
+
+            this.setState({sponsors: data})
+        })
+        .catch(err=> {
+            console.log(err);
+        });
+
         this.props.getPeople();
     }
 
@@ -37,6 +52,7 @@ class AddParticipant extends Component {
     }
 
     getMultipleValues(value) {
+        this.setState({participantAdded: `participant with id: ${value} selected.`})
         this.state.participantid.push(value);
     }
 
@@ -52,15 +68,15 @@ class AddParticipant extends Component {
         participantid.forEach((value) =>{
           
             const data = { participantid: value, eventid, verified, as }
-            // console.log(data)
-            this.props.addParticipant(data).then(res => {
-                // console.log(res)
-                this.setState({ success: "Participants added and verified"})
-                this.props.verifyParticipant(data);
+            console.log(data)
+            // this.props.addParticipant(data).then(res => {
+            //     console.log(res)
+            //     this.setState({ success: "Participants added and verified"})
+            //     this.props.verifyParticipant(data);
                 
-            }).catch(err => {
-                console.log(err)
-            })
+            // }).catch(err => {
+            //     console.log(err)
+            // })
         }) 
         this.setState({ participantid: []})
         // this.props.history.push('/events-list');
@@ -70,6 +86,8 @@ class AddParticipant extends Component {
 
     render() {
         let notification = "";
+        let notify = "";
+
         if (this.state.success != null) {
             notification = (
                 <div className="alert alert-success" role="alert">
@@ -77,6 +95,23 @@ class AddParticipant extends Component {
                 </div>
             );
         }
+
+        if (this.state.participantAdded != null) {
+            notify = (
+                <span className="label label-danger"><b>{ this.state.participantAdded }</b></span>
+            );
+        }
+        // console.log(typeof this.state.sponsors)
+
+        let sponsors = []
+
+        // pagination
+        const indexOfLastPost = this.state.currentPage * this.state.postsPerPage;
+        const indexOfFirstPost = indexOfLastPost - this.state.postsPerPage;
+        const currentPosts = sponsors.slice(indexOfFirstPost, indexOfLastPost);
+
+        const paginate = (pageNumber) => this.setState({currentPage: pageNumber});
+
         return (
             <React.Fragment>
             <div className="loader-bg">
@@ -169,8 +204,9 @@ class AddParticipant extends Component {
                                                                     </div>
                                                                     </div> 
                                                                     <div className="col-md-6">
+                                                                    {notify}
                                                                     <div className="form-group">
-                                                                        <label className="form-label">Participant Id</label>
+                                                                        <label className="form-label">Participant</label>
                                                                         {/* <input type="text" name="participantid" placeholder="Enter your participant Id" 
                                                                         onChange={this.handleChange} value={this.state.participantid} className="form-control" 
                                                                         required/> */}
@@ -212,6 +248,39 @@ class AddParticipant extends Component {
                                                                 <button type="submit" className="btn btn-primary">Submit</button>
                                                                 </div>
                                                             </form>
+                                                            {/* table */}
+                                                            {/* <div className="card-block">
+                                                                    <div className="table-responsive">
+                                                                   
+                                                                        <table className="table table-xs table-hover table-outline card-table table-striped">
+                                                                        <thead>
+                                                                            <tr>
+                                                                            <th>S/N</th>
+                                                                            <th>Event Id</th>
+                                                                            <th>Sponsors</th>
+                                                                            <th></th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            
+                                                                            {currentPosts.map((data, i) => 
+                                                                                  <tr key={i}>
+                                                                                    <td>{i += 1}</td>
+                                                                                    <td>{data._id}</td>
+                                                                                    <td><span className="alert-danger">{data.start_time}</span></td>
+                                                                                    <td className="text-right">
+                                                                                        <button className="btn btn-danger btn-sm">
+                                                                                                <span className="glyphicon glyphicon-trash"></span> Delete
+                                                                                        </button>
+                                                                                    </td>
+                                                                               </tr>
+                                                                            )}
+                                                                        </tbody>
+                                                                        </table>
+                                                                        <Pagination postsPerPage={this.state.postsPerPage} totalPosts={sponsors.length} paginate={paginate} />
+                                                                    </div>
+                                                                                                     
+                                                                </div> */}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -243,4 +312,4 @@ const mapStateToProps = (state) => ({
 });
 
 // export default Event;
-export default connect(mapStateToProps, { addParticipant, verifyParticipant, getPeople })(AddParticipant);
+export default connect(mapStateToProps, { addParticipant, verifyParticipant, getPeople, getSponsors })(AddParticipant);

@@ -45,6 +45,7 @@ class EventList extends Component {
         const indexOfLastPost = this.state.currentPage * this.state.postsPerPage;
         const indexOfFirstPost = indexOfLastPost - this.state.postsPerPage;
         const currentPosts = events.slice(indexOfFirstPost, indexOfLastPost);
+        console.log(currentPosts)
 
         const paginate = (pageNumber) => this.setState({currentPage: pageNumber});
 

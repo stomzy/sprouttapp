@@ -33,6 +33,7 @@ import {setCurrentUser, logoutUser} from './actions/authActions';
 import store from './store/Store';
 import { clearCurrentProfile } from './actions/profileActions';
 import PrivateRoute from './common/PrivateRoute';
+// import Notifications from './notification';
 
 
 // check for token
@@ -67,6 +68,7 @@ function App() {
   return (
     <Switch>
       <Route exact path="/" component={Login}/>
+      {/* <Route exact path="/notification" component={Notifications}/> */}
       <PrivateRoute exact path="/dashboard" component={Dashboard}/>
       <PrivateRoute exact path="/events-info" component={SetupEvent}/>
       <PrivateRoute exact path="/events-list" component={EventList}/>

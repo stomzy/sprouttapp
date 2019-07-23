@@ -1,4 +1,4 @@
-import { ADD_PARTICIPANT, VERIFY_PARTICIPANT } from '../actions/types';
+import { ADD_PARTICIPANT, VERIFY_PARTICIPANT, FIND_EVENT } from '../actions/types';
 
 const initialState = {
     participant: {},
@@ -16,6 +16,11 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 participant: action.payload,
+            }
+        case FIND_EVENT:
+            return {
+                ...state,
+                event: action.payload,
             }
         default:
             return state;
